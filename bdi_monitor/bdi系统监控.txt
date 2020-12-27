@@ -1,0 +1,19 @@
+2020/3/24 14:18:26
+
+81
+crontab -l
+*/20 * * * *  sh /home/ocdp/JK_top.sh /hdfs/data02/oc_tools/ocsp_jk/ocsp_jk.sh >>/hdfs/data02/oc_tools/ocsp_jk/ocsp_jk.log
+30 * * * * sh /hdfs/data02/oc_tools/disk_monitor_90/disk_monitor_90.sh
+30 * * * * sh /hdfs/data02/oc_tools/hdfs_monitor/hdfs_monitor.sh >>/hdfs/data02/oc_tools/hdfs_monitor/hdfs_monitor.log
+00 13 * * * sh /hdfs/data02/oc_tools/Nyedate1.sh
+30 12 * * * /hdfs/data02/oc_tools/xinling_clear.sh
+10 17 * * *  sh /hdfs/data02/oc_tools/auto_drop_partition_90/start_drop_90.sh >>/hdfs/data02/oc_tools/auto_drop_partition_90/start_drop_90.log
+50 08 * * *  sh /hdfs/data02/oc_tools/auto_drop_partition_50/start_drop_50.sh >>/hdfs/data02/oc_tools/auto_drop_partition_50/start_drop_50.log
+20 11 26 * *  sh /hdfs/data02/oc_tools/drop_kf_table/drop_kf_table.sh  
+*/10 * * * *  sh /home/ocdp/JK_top.sh >/dev/null
+10 15 * * *  sh /var/log/hive/drop_hivelog.sh 
+
+2020/3/31 10:39:01
+告警
+
+产生短信日志，短信发送之后放到备份文件夹里

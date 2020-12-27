@@ -1,0 +1,2949 @@
+
+DROP TABLE IF EXISTS `ai_api_group_binding`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_api_group_binding` (
+  `API_ID` varchar(100) NOT NULL COMMENT 'OpenAPI编码',
+  `GROUP_ID` varchar(50) NOT NULL COMMENT 'API开放分组编码',
+  `VALID_FLAG` smallint(255) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='API与开放分组之间的映射关系';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_enum_dic`
+--
+
+DROP TABLE IF EXISTS `ai_enum_dic`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_enum_dic` (
+  `PK_ID` varchar(30) NOT NULL,
+  `ENUM_CODE` varchar(30) DEFAULT NULL COMMENT '如任务状态分组包含：TASK_EXEC_SUCCESS、TASK_EXEC_FAIL',
+  `ENUM_GROUP` varchar(30) DEFAULT NULL COMMENT '如任务状态分组：TASK_STATUS',
+  `ENUM_VALUE` varchar(30) DEFAULT NULL COMMENT '如任务状态值：TASK_EXEC_SUCCESS 对应值为1、TASK_EXEC_FAIL对应值为 -1',
+  `ENUM_TXT` varchar(50) DEFAULT NULL,
+  `ENUM_DESC` varchar(100) DEFAULT NULL,
+  `SORT_INDEX` smallint(6) DEFAULT NULL COMMENT '用于枚举值在页面下拉框展示排序',
+  `IS_CACHE` smallint(6) DEFAULT NULL COMMENT '是否缓存该枚举类数据',
+  `IS_VALID` smallint(6) DEFAULT NULL COMMENT '1 : 有效 -1：无效  默认为1',
+  `CREATE_USER` varchar(30) DEFAULT NULL,
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `MODIFY_USER` varchar(30) DEFAULT NULL,
+  `MODIFY_TIME` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `DEFAULT_FLAG` int(11) DEFAULT NULL,
+  PRIMARY KEY (`PK_ID`) USING BTREE,
+  KEY `IDXENUMDIC` (`ENUM_CODE`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_feature`
+--
+
+DROP TABLE IF EXISTS `ai_feature`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_feature` (
+  `id` varchar(32) NOT NULL COMMENT 'id',
+  `icon` varchar(50) DEFAULT NULL COMMENT '图标',
+  `title` varchar(100) DEFAULT NULL COMMENT '标题',
+  `description` varchar(1000) DEFAULT NULL COMMENT '描述',
+  `link` varchar(100) DEFAULT NULL COMMENT '链接',
+  `component` text COMMENT '组件json',
+  `pid` varchar(32) DEFAULT NULL COMMENT '父id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台特征数据表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_group_res_scope_permit`
+--
+
+DROP TABLE IF EXISTS `ai_group_res_scope_permit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_group_res_scope_permit` (
+  `GROUP_ID` varchar(32) NOT NULL COMMENT '用户组编码',
+  `RES_DOMAIN` varchar(32) NOT NULL DEFAULT 'ALL' COMMENT '资源分类，值为ALL时，为全局设置',
+  `AUTH_SCOPE` smallint(6) NOT NULL DEFAULT '1' COMMENT '授权范围-1: 无权限，1: 仅查看，2：可操作 ',
+  `GROUP_SCOPE` smallint(6) NOT NULL DEFAULT '-1' COMMENT '用户组范围-1: 无权限，1: 仅查看，2：可操作 ',
+  `TENANT_SCOPE` smallint(6) NOT NULL DEFAULT '-1' COMMENT '租户范围-1: 无权限，1: 仅查看，2：可操作 ',
+  `PLATFORM_SCOPE` smallint(6) NOT NULL DEFAULT '-1' COMMENT '平台范围-1: 无权限，1: 仅查看，2：可操作 ',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `UPDATE_BY` varchar(32) NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
+  PRIMARY KEY (`GROUP_ID`,`RES_DOMAIN`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户组资源范围权限';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_group_role_binding`
+--
+
+DROP TABLE IF EXISTS `ai_group_role_binding`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_group_role_binding` (
+  `GROUP_ID` varchar(32) NOT NULL COMMENT '用户组编码',
+  `ROLE_ID` varchar(32) NOT NULL COMMENT '角色编码',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `UPDATE_BY` varchar(32) NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
+  PRIMARY KEY (`GROUP_ID`,`ROLE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户与服务资源租户绑定表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_group_user_binding`
+--
+
+DROP TABLE IF EXISTS `ai_group_user_binding`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_group_user_binding` (
+  `USER_ID` varchar(32) NOT NULL COMMENT '用户编码',
+  `GROUP_ID` varchar(32) NOT NULL COMMENT '用户组编码',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `UPDATE_BY` varchar(32) NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
+  PRIMARY KEY (`USER_ID`,`GROUP_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户与用户组绑定表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_group_user_binding_20200818`
+--
+
+DROP TABLE IF EXISTS `ai_group_user_binding_20200818`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_group_user_binding_20200818` (
+  `USER_ID` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户编码',
+  `GROUP_ID` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户组编码',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `UPDATE_BY` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_group_user_binding_bak20200908`
+--
+
+DROP TABLE IF EXISTS `ai_group_user_binding_bak20200908`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_group_user_binding_bak20200908` (
+  `USER_ID` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户编码',
+  `GROUP_ID` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户组编码',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `UPDATE_BY` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_group_user_binding_tmp`
+--
+
+DROP TABLE IF EXISTS `ai_group_user_binding_tmp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_group_user_binding_tmp` (
+  `USER_ID` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户编码',
+  `GROUP_ID` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户组编码',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `UPDATE_BY` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_group_user_binding_tmp_20200818`
+--
+
+DROP TABLE IF EXISTS `ai_group_user_binding_tmp_20200818`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_group_user_binding_tmp_20200818` (
+  `USER_ID` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户编码',
+  `GROUP_ID` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户组编码',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `UPDATE_BY` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_group_user_binding_tmp_20201014`
+--
+
+DROP TABLE IF EXISTS `ai_group_user_binding_tmp_20201014`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_group_user_binding_tmp_20201014` (
+  `USER_ID` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户编码',
+  `GROUP_ID` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户组编码',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `UPDATE_BY` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_group_user_binding_tmp_20201014_bak`
+--
+
+DROP TABLE IF EXISTS `ai_group_user_binding_tmp_20201014_bak`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_group_user_binding_tmp_20201014_bak` (
+  `USER_ID` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户编码',
+  `GROUP_ID` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户组编码',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `UPDATE_BY` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_module`
+--
+
+DROP TABLE IF EXISTS `ai_module`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_module` (
+  `MODULE_ID` varchar(32) NOT NULL COMMENT '模块编码',
+  `MODULE_NAME` varchar(50) NOT NULL COMMENT '模块名称',
+  `MODULE_DESC` varchar(45) DEFAULT NULL COMMENT '模块描述',
+  `ENDPOINT` varchar(200) NOT NULL COMMENT '模块访问路径端点',
+  `MODULE_PID` varchar(32) NOT NULL DEFAULT 'ROOT' COMMENT '父模块编码，根节点为ROOT',
+  `SORT_IDX` smallint(6) DEFAULT NULL COMMENT '排序索引',
+  `FULL_PATH` varchar(100) DEFAULT NULL COMMENT '模块全路径',
+  `VALID_FLAG` smallint(6) DEFAULT NULL COMMENT '有效标记,1有效，非1无效',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '操作人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`MODULE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统模块表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_open_api`
+--
+
+DROP TABLE IF EXISTS `ai_open_api`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_open_api` (
+  `API_ID` varchar(100) NOT NULL COMMENT 'OpenAPI编码',
+  `API_NAME` varchar(100) NOT NULL COMMENT 'OpenAPI名称',
+  `API_DESC` text COMMENT 'OpenAPI描述',
+  `GROUP_ID` varchar(50) NOT NULL COMMENT 'API分组编码',
+  `ENDPOINT` varchar(100) NOT NULL COMMENT '请求端点',
+  `HTTP_METHOD` varchar(10) NOT NULL COMMENT 'HTTP请求方法：GET、POST、DELETE、PATCH、PUT',
+  `VERSION` varchar(10) DEFAULT NULL COMMENT 'API 服务版本',
+  `CONTENT_TYPE` varchar(50) NOT NULL DEFAULT '1' COMMENT '请求内容类型',
+  `STATUS` smallint(6) NOT NULL DEFAULT '1' COMMENT 'API状态：1: 编辑、2: 测试中、3: 已发布、4:已下线',
+  `EXT_DOC` text COMMENT '扩展文档',
+  `SERVICE_ID` varchar(32) NOT NULL COMMENT 'API所属服务',
+  `OAS_YAML` text COMMENT '符合OPEN API 文档规范的定义YAML内容',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `RESP_CONTENT_TYPE` varchar(50) DEFAULT '*/*' COMMENT '响应内容类型',
+  `IS_OPEN` smallint(6) DEFAULT '0' COMMENT '是否开放api',
+  PRIMARY KEY (`API_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='开发平台API信息表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_open_api_group`
+--
+
+DROP TABLE IF EXISTS `ai_open_api_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_open_api_group` (
+  `GROUP_ID` varchar(32) NOT NULL COMMENT 'API分组编码',
+  `GROUP_NAME` varchar(50) DEFAULT NULL COMMENT 'API分组名称',
+  `GROUP_DESC` varchar(300) DEFAULT NULL COMMENT 'API分组描述',
+  `GROUP_PID` varchar(32) DEFAULT NULL COMMENT 'API分组父级编码',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `IS_OPEN` smallint(6) DEFAULT '0' COMMENT '是否开放api分组，0为否，1为是',
+  PRIMARY KEY (`GROUP_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='开放平台API分组表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_open_api_setting`
+--
+
+DROP TABLE IF EXISTS `ai_open_api_setting`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_open_api_setting` (
+  `API_ID` varchar(50) NOT NULL DEFAULT '',
+  `RES_DOMAIN` varchar(32) DEFAULT NULL COMMENT '资源领域类型',
+  `TIMEOUT` int(11) DEFAULT NULL COMMENT '请求超时设定',
+  `AUTH_TYPE` smallint(6) NOT NULL DEFAULT '1' COMMENT 'API请求鉴权类型 1: PERMIT 授权许可后可访问 2: AUTHC 认证后可访问 3: ANON 可以匿名访问',
+  `VALIDATE_PARAM_FLAG` smallint(6) NOT NULL DEFAULT '-1' COMMENT '是否验证请求参数',
+  `RES_AUTH_FLAG` smallint(6) NOT NULL DEFAULT '-1' COMMENT '是否做资源鉴权',
+  `RES_PARSE_RULE` varchar(200) DEFAULT NULL COMMENT '资源解析规则JSON',
+  `LIMIT_SETTING` text COMMENT '流控参数设定，JSON格式',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `RES_OPERATE_TYPE` smallint(6) DEFAULT NULL COMMENT '对资源的操作类型：1，资源访问，2: 资源操作',
+  PRIMARY KEY (`API_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='开发平台API 参数设置表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_open_clientapp`
+--
+
+DROP TABLE IF EXISTS `ai_open_clientapp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_open_clientapp` (
+  `CLIENTAPP_ID` varchar(32) NOT NULL COMMENT '客户端应用编码',
+  `CLIENTAPP_NAME` varchar(45) NOT NULL COMMENT '客户端应用名称',
+  `CLIENTAPP_DESC` varchar(45) DEFAULT NULL COMMENT '客户端应用描述',
+  `CLIENTAPP_TYPE` smallint(6) DEFAULT NULL COMMENT '客户端应用类型, 1:内部调用',
+  `SERVICE_URL` varchar(50) DEFAULT NULL COMMENT '客户端应用地址',
+  `AUTH_GRANT_TYPE` smallint(6) DEFAULT NULL COMMENT '认证类型:1. 授权码模式,2. 密码模式,3. 客户端模式,4. Basic认证',
+  `STATUS` smallint(6) DEFAULT NULL COMMENT '应用接入状态',
+  `CREATE_BY` varchar(45) DEFAULT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(45) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `SERVICE_ACCOUNT` varchar(32) DEFAULT NULL COMMENT '服务账号',
+  PRIMARY KEY (`CLIENTAPP_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='开发平台第三方应用表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_open_clientapp_permit`
+--
+
+DROP TABLE IF EXISTS `ai_open_clientapp_permit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_open_clientapp_permit` (
+  `CLIENTAPP_ID` varchar(32) NOT NULL COMMENT '客户端应用编码',
+  `API_ID` varchar(50) NOT NULL DEFAULT '',
+  `LIMIT_SETTING` varchar(45) DEFAULT NULL COMMENT '流控设置参数配置，JSON串结构',
+  `UPDATE_BY` varchar(45) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`CLIENTAPP_ID`,`API_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='开放平台客户端授权许可表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_open_service`
+--
+
+DROP TABLE IF EXISTS `ai_open_service`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_open_service` (
+  `SERVICE_ID` varchar(32) NOT NULL COMMENT '服务编码',
+  `SERVICE_NAME` varchar(50) DEFAULT NULL COMMENT '服务名称',
+  `SERVICE_DESC` varchar(300) DEFAULT NULL COMMENT '服务描述',
+  `URL` varchar(50) DEFAULT NULL COMMENT '服务IP地址或域名',
+  `PORT` int(11) DEFAULT NULL COMMENT '服务端口',
+  `PROTOCOL` varchar(10) DEFAULT NULL COMMENT 'HTTP协议：HTTP、HTTPS，默认HTTP',
+  `BASE_PATH` varchar(20) DEFAULT NULL COMMENT '服务默认根路径端点',
+  `CONTEXT_PATH` varchar(255) DEFAULT NULL COMMENT '应用上下文',
+  `API_DOC_URL` varchar(200) DEFAULT NULL COMMENT 'API文档swagger URL',
+  `CREATE_BY` varchar(32) DEFAULT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `PUBLIC_FLAG` smallint(255) DEFAULT NULL COMMENT '是否公共服务，不区分租户',
+  PRIMARY KEY (`SERVICE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='开发平台API服务表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_open_token_mapper`
+--
+
+DROP TABLE IF EXISTS `ai_open_token_mapper`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_open_token_mapper` (
+  `MAPPER_ID` varchar(128) NOT NULL,
+  `TOKEN` text COMMENT '原始token',
+  `EXP_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '过期时间',
+  `JWT_TOKEN` text NOT NULL COMMENT '转换后的jwttoken',
+  PRIMARY KEY (`MAPPER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='token和jwttoken映射表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_permission`
+--
+
+DROP TABLE IF EXISTS `ai_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_permission` (
+  `PERMISSION_ID` varchar(32) NOT NULL COMMENT '权限点编码',
+  `PERMISSION_NAME` varchar(50) NOT NULL COMMENT '权限点名称',
+  `PERMISSION_DESC` varchar(200) DEFAULT NULL COMMENT '权限点描述',
+  `PERMISSION_TYPE` smallint(6) DEFAULT NULL COMMENT '权限点类型 -1: 模块全部权限  1: 具体权限',
+  `MODULE_ID` varchar(32) DEFAULT NULL COMMENT '所属模块编码',
+  `SORT_INDEX` int(255) DEFAULT NULL COMMENT '排序',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`PERMISSION_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_quota_tenant`
+--
+
+DROP TABLE IF EXISTS `ai_quota_tenant`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_quota_tenant` (
+  `QUOTA_TENANT_ID` varchar(32) NOT NULL COMMENT '计算资源配额租户编码，每个租户有一条默认的资源租户，为DEFAULT',
+  `QUOTA_TENANT_NAME` varchar(50) NOT NULL COMMENT '计算资源配额租户名称',
+  `QUOTA_TENANT_DESC` varchar(200) DEFAULT NULL COMMENT '计算资源配额租户描述',
+  `QUOTA_TENANT_STATUS` smallint(6) NOT NULL DEFAULT '1' COMMENT '配额租户状态1：待创建，2：创建中，3: 运行中，-1: 运行出错',
+  `SHARE_DATA_PATH` varchar(200) DEFAULT NULL COMMENT '共享存储路径',
+  `TENANT_ID` varchar(32) NOT NULL COMMENT '租户编码',
+  `RES_QUOTA` text NOT NULL COMMENT '资源配额JSON',
+  `ERR_MSG` varchar(500) DEFAULT NULL COMMENT '服务创建错误信息',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`QUOTA_TENANT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源配额租户';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_quota_tenant_services`
+--
+
+DROP TABLE IF EXISTS `ai_quota_tenant_services`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_quota_tenant_services` (
+  `QUOTA_TENANT_ID` varchar(32) NOT NULL COMMENT '配额租户编码',
+  `SERVICE_ID` varchar(32) NOT NULL COMMENT '服务编码',
+  `ENGINE` varchar(20) NOT NULL DEFAULT 'default' COMMENT '服务计算引擎( cpu、gpu、spark)，如无计算引擎，默认值为default',
+  `RES_QUOTA` text COMMENT '服务资源配额JSON',
+  `DEPLOY_INFO` text COMMENT '服务部署信息JSON',
+  `SERVICE_ADDR` varchar(100) DEFAULT '1' COMMENT '服务地址 （IP地址:端口 / 主机名: 端口）',
+  `SERVICE_URL` varchar(200) DEFAULT NULL COMMENT '服务路由(域名)地址',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`SERVICE_ID`,`QUOTA_TENANT_ID`,`ENGINE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='配额租户部署服务信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_quota_tenant_srv_containers`
+--
+
+DROP TABLE IF EXISTS `ai_quota_tenant_srv_containers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_quota_tenant_srv_containers` (
+  `QUOTA_TENANT_ID` varchar(32) DEFAULT NULL COMMENT '配额租户编码',
+  `SERVICE_ID` varchar(32) DEFAULT NULL COMMENT '服务编码',
+  `ENGINE` varchar(20) DEFAULT 'default' COMMENT '服务计算引擎( cpu、gpu、spark)，如无计算引擎，默认值为default',
+  `SUB_SERVICE` varchar(32) DEFAULT NULL COMMENT '子服务',
+  `CONTAINER_ID` varchar(50) DEFAULT NULL COMMENT '容器编码',
+  `CONTAINER_IP` varchar(30) DEFAULT '1' COMMENT '容器IP',
+  `HOST_IP` varchar(30) DEFAULT NULL COMMENT 's宿主机IP地址',
+  `RES_QUOTA` text COMMENT '资源配额信息',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='配额租户部署服务容器信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_quota_tenant_srv_hosts`
+--
+
+DROP TABLE IF EXISTS `ai_quota_tenant_srv_hosts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_quota_tenant_srv_hosts` (
+  `QUOTA_TENANT_ID` varchar(32) NOT NULL COMMENT '配额租户编码',
+  `HOST_IP` varchar(30) NOT NULL COMMENT '主机IP地址',
+  `FTP_PORT` int(11) DEFAULT NULL COMMENT 'FTP服务端口',
+  `FTP_USER` varchar(30) DEFAULT NULL COMMENT 'FTP登录用户',
+  `FTP_PASSWORD` varchar(100) DEFAULT '1' COMMENT 'FTP登录密码',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `FTP_PATH` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`HOST_IP`,`QUOTA_TENANT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='配额租户服务部署主机节点信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_quota_tenant_srv_platform_env`
+--
+
+DROP TABLE IF EXISTS `ai_quota_tenant_srv_platform_env`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_quota_tenant_srv_platform_env` (
+  `QUOTA_TENANT_ID` varchar(32) NOT NULL COMMENT '配额租户ID',
+  `PLATFORM_ID` varchar(32) NOT NULL COMMENT '平台编码',
+  `PLATFORM_NAME` varchar(30) NOT NULL DEFAULT 'sftp' COMMENT '平台名称',
+  `PLATFORM_DESC` varchar(100) DEFAULT NULL COMMENT '平台描述',
+  `HOSTS` varchar(300) DEFAULT NULL COMMENT '集群节点Host映射，逗号分隔存放',
+  `HADOOP_QUEUE` varchar(100) DEFAULT '' COMMENT 'hadoop列表',
+  `HDFS_PATH` varchar(100) DEFAULT '' COMMENT 'hdfs路径',
+  `MASTER_ADDR` varchar(100) DEFAULT '1' COMMENT '集群主节点地址  IP地址:端口  或 主机名:端口 , 多个节点逗号分隔存放',
+  `KERBEROS_INFO` text COMMENT 'kerberos认证信息，JSON格式存放',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`PLATFORM_ID`,`QUOTA_TENANT_ID`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='配额租户服务依赖平台环境信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_quota_tenant_user_binding`
+--
+
+DROP TABLE IF EXISTS `ai_quota_tenant_user_binding`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_quota_tenant_user_binding` (
+  `QUOTA_TENANT_ID` varchar(32) NOT NULL COMMENT '计算资源租户',
+  `USER_ID` varchar(32) NOT NULL COMMENT '用户编码',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `UPDATE_BY` varchar(32) NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
+  PRIMARY KEY (`QUOTA_TENANT_ID`,`USER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源配合租户用户绑定';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_res_define`
+--
+
+DROP TABLE IF EXISTS `ai_res_define`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_res_define` (
+  `RES_OPERATE_ID` varchar(50) NOT NULL COMMENT '资源操作编码',
+  `RES_DOMAIN` varchar(32) NOT NULL COMMENT '资源类型编码',
+  `RES_OPERATE_NAME` varchar(50) NOT NULL COMMENT '资源操作名称',
+  `RES_OPERATE_DESC` varchar(200) DEFAULT NULL COMMENT '资源操作描述',
+  `RES_OPERATE_TYPE` smallint(6) NOT NULL COMMENT '操作类型：1，资源访问，2: 资源操作',
+  `ENDPOINT` varchar(100) NOT NULL COMMENT '资源访问端点',
+  `HTTP_METHOD` varchar(6) NOT NULL COMMENT 'HTTP请求方式，枚举值：GET、POST、DELETE、PATCH、PUT',
+  `RES_PARSE_RULE` varchar(200) DEFAULT NULL COMMENT '资源解析规则',
+  `AUTH_TYPE` smallint(6) NOT NULL DEFAULT '2' COMMENT '鉴权方式 1:ANON 2:AUTHC 3:PERMIT',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `CLAZZ` varchar(200) DEFAULT NULL COMMENT '来源Controller类',
+  PRIMARY KEY (`RES_OPERATE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源操作url定义表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_res_domain`
+--
+
+DROP TABLE IF EXISTS `ai_res_domain`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_res_domain` (
+  `DOMAIN_ID` varchar(32) NOT NULL COMMENT '资源类型编码',
+  `DOMAIN_NAME` varchar(50) NOT NULL COMMENT '资源类型名称',
+  `DOMAIN_DESC` varchar(200) DEFAULT NULL COMMENT '资源类型描述',
+  `DATA_SQL` text COMMENT '资源数据SQL',
+  `NEED_AUTH` smallint(6) DEFAULT '1' COMMENT '资源是否需要授权',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`DOMAIN_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源领域表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_res_domain_label`
+--
+
+DROP TABLE IF EXISTS `ai_res_domain_label`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_res_domain_label` (
+  `LABEL_ID` varchar(32) NOT NULL COMMENT 'label编码',
+  `DOMAIN_ID` varchar(32) NOT NULL COMMENT '资源类型编码',
+  `LABEL_NAME` varchar(45) NOT NULL COMMENT 'label名称',
+  `LABEL_DESC` varchar(100) DEFAULT NULL COMMENT 'label描述',
+  `DATA_SQL` varchar(200) NOT NULL COMMENT 'label取数SQL',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`LABEL_ID`,`DOMAIN_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源领域表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_res_permission_binding`
+--
+
+DROP TABLE IF EXISTS `ai_res_permission_binding`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_res_permission_binding` (
+  `PERMISSION_ID` varchar(32) NOT NULL COMMENT '权限点编码',
+  `RES_OPERATE_ID` varchar(50) NOT NULL COMMENT '资源操作编码',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `VALID_FLAG` smallint(255) NOT NULL DEFAULT '1',
+  `CLAZZ` varchar(200) DEFAULT NULL COMMENT '来源Controller类'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源URL与权限点绑定表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_role`
+--
+
+DROP TABLE IF EXISTS `ai_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_role` (
+  `ROLE_ID` varchar(32) NOT NULL COMMENT '角色编码',
+  `ROLE_NAME` varchar(50) NOT NULL COMMENT '角色名称',
+  `ROLE_DESC` varchar(200) DEFAULT NULL COMMENT '角色描述',
+  `TENANT_ID` varchar(32) NOT NULL COMMENT '租户编码（如果为平台用户创建，值为PLATFORM）',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`ROLE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_role_operate_permit`
+--
+
+DROP TABLE IF EXISTS `ai_role_operate_permit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_role_operate_permit` (
+  `ROLE_ID` varchar(32) NOT NULL COMMENT '角色编码',
+  `OPERATE_ID` varchar(32) NOT NULL COMMENT '资源动作编码, 如果为所有权限，值为ALL',
+  `MODULE_ID` varchar(32) NOT NULL,
+  `PERMIT_TYPE` smallint(6) NOT NULL DEFAULT '1' COMMENT '许可方式：（1为黑名单，2为白名单）',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效（1:是，-1:否）',
+  `UPDATE_BY` varchar(32) NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
+  PRIMARY KEY (`ROLE_ID`,`OPERATE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色功能权限表（资源操作许可）';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_role_permission`
+--
+
+DROP TABLE IF EXISTS `ai_role_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_role_permission` (
+  `ROLE_ID` varchar(32) NOT NULL COMMENT '角色编码',
+  `PERMISSION_ID` varchar(32) NOT NULL COMMENT '权限编码',
+  `VALID_FLAG` varchar(6) NOT NULL DEFAULT '1' COMMENT '是否有效（1:是，-1:否）',
+  `UPDATE_BY` varchar(32) NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
+  PRIMARY KEY (`ROLE_ID`,`PERMISSION_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色权限表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_role_user_binding`
+--
+
+DROP TABLE IF EXISTS `ai_role_user_binding`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_role_user_binding` (
+  `USER_ID` varchar(32) NOT NULL COMMENT '用户编码',
+  `ROLE_ID` varchar(32) NOT NULL COMMENT '角色编码',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效（1:是，-1:否）',
+  `UPDATE_BY` varchar(32) NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
+  PRIMARY KEY (`USER_ID`,`ROLE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户与角色绑定表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_solution`
+--
+
+DROP TABLE IF EXISTS `ai_solution`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_solution` (
+  `id` varchar(32) NOT NULL COMMENT 'id',
+  `icon` varchar(50) DEFAULT NULL COMMENT '图标',
+  `title` varchar(100) DEFAULT NULL COMMENT '标题',
+  `description` varchar(1000) DEFAULT NULL COMMENT '描述',
+  `link` varchar(100) DEFAULT NULL COMMENT '链接',
+  `bgPic` varchar(100) DEFAULT NULL COMMENT '图片',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台解决方案表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_subject_res_permit`
+--
+
+DROP TABLE IF EXISTS `ai_subject_res_permit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_subject_res_permit` (
+  `SUBJECT_ID` varchar(32) NOT NULL COMMENT '授权主体编码',
+  `SUBJECT_TYPE` smallint(6) NOT NULL COMMENT '授权主体类型1：用户，2：用户组，3：服务账号',
+  `RES_DOMAIN` varchar(32) NOT NULL COMMENT '资源领域编码',
+  `RES_ID` varchar(32) NOT NULL COMMENT '授权资源编码,根据RES_DOMAIN不同，存储不同的资源编码',
+  `LABEL_ID` varchar(32) DEFAULT NULL COMMENT '资源Label编码',
+  `LABEL_VALUE` varchar(32) DEFAULT NULL COMMENT '资源label值',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '有效标记',
+  `UPDATE_BY` varchar(32) NOT NULL COMMENT '操作人',
+  `UPDATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
+  `TRANSFER_FLAG` smallint(6) NOT NULL DEFAULT '-1' COMMENT '转交标记，1: 转交，-1: 授权'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源授权表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_tenant`
+--
+
+DROP TABLE IF EXISTS `ai_tenant`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_tenant` (
+  `TENANT_ID` varchar(32) NOT NULL COMMENT '租户编码',
+  `TENANT_NAME` varchar(50) NOT NULL COMMENT '租户名称',
+  `TENANT_DESC` varchar(200) DEFAULT NULL COMMENT '租户描述',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`TENANT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='租户表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ai_user`
+--
+
+DROP TABLE IF EXISTS `ai_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_user` (
+  `USER_ID` varchar(64) NOT NULL COMMENT '用户编码',
+  `MAIN_ACCOUNT` varchar(45) DEFAULT NULL COMMENT '用于4A集成，记录主账号',
+  `USER_NAME` varchar(50) DEFAULT NULL COMMENT '租户名称',
+  `TENANT_ID` varchar(32) NOT NULL COMMENT '租户编码，平台用户为PLATFORM',
+  `USER_TYPE` smallint(6) NOT NULL DEFAULT '1' COMMENT '用户类型 1: 租户用户，2: 平台用户, 3: 服务账号 ',
+  `PASSWORD` varchar(100) DEFAULT NULL COMMENT '密码',
+  `GENDER` smallint(6) DEFAULT NULL COMMENT '性别1:男，2：女，-1：未知',
+  `HEAD_PORTRAIT` longtext COMMENT '头像',
+  `EMAIL` varchar(50) DEFAULT NULL COMMENT '邮件地址',
+  `PHONE` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `DEPT_ID` varchar(32) DEFAULT NULL COMMENT '部门编码',
+  `POSITION_ID` varchar(32) DEFAULT NULL COMMENT '职位',
+  `REGION_ID` varchar(32) DEFAULT NULL COMMENT '所在区域',
+  `WECHAT_CODE` varchar(50) DEFAULT NULL COMMENT '微信号',
+  `QQ` varchar(50) DEFAULT NULL COMMENT 'QQ',
+  `STATUS` smallint(6) DEFAULT NULL COMMENT '用户状态',
+  `EXTRA_INFO` text COMMENT '额外的信息，json结构',
+  `MEMO` varchar(45) DEFAULT NULL COMMENT '备注',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `ERROR_COUNTS` smallint(6) DEFAULT '0',
+  PRIMARY KEY (`USER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`mlp_mdp`@`%`*/ /*!50003 TRIGGER `T_USERINSERT_AFTER_BASE_USER` AFTER INSERT ON `ai_user` FOR EACH ROW BEGIN
+     insert into user_info(USER_ID,USER_NAME,PASSWORD) values(NEW.user_id,NEW.user_id,NEW.password);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`mlp_mdp`@`%`*/ /*!50003 TRIGGER `T_USERUPDATE_AFTER_BASE_USER` AFTER UPDATE ON `ai_user` FOR EACH ROW BEGIN
+     update user_info set password=new.password where user_id=new.user_id;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`mlp_mdp`@`%`*/ /*!50003 TRIGGER `T_USERDELETE_AFTER_BASE_USER` AFTER DELETE ON `ai_user` FOR EACH ROW BEGIN
+     delete from user_info where user_id=old.user_id;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `ai_user_group`
+--
+
+DROP TABLE IF EXISTS `ai_user_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ai_user_group` (
+  `GROUP_ID` varchar(32) NOT NULL COMMENT '租户编码',
+  `GROUP_NAME` varchar(50) NOT NULL COMMENT '租户名称',
+  `TENANT_ID` varchar(32) NOT NULL COMMENT '租户编码 如果为平台用户创建，值为PLATFORM',
+  `VALID_FLAG` smallint(6) NOT NULL DEFAULT '1' COMMENT '是否有效',
+  `CREATE_BY` varchar(32) NOT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATE_BY` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `GROUP_DESC` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`GROUP_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户组表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `app_info`
+--
+
+DROP TABLE IF EXISTS `app_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_info` (
+  `APP_ID` varchar(36) NOT NULL DEFAULT '',
+  `APP_NAME` varchar(255) NOT NULL DEFAULT '',
+  `USER_NAME` varchar(32) DEFAULT NULL,
+  `NOTEBOOK_PATH` varchar(32) NOT NULL DEFAULT '',
+  PRIMARY KEY (`APP_ID`),
+  UNIQUE KEY `UNIQUE` (`APP_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `app_makefile`
+--
+
+DROP TABLE IF EXISTS `app_makefile`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_makefile` (
+  `ID` varchar(32) NOT NULL DEFAULT '',
+  `MAKEFILE_ID` int(11) DEFAULT NULL,
+  `USER_NAME` varchar(32) DEFAULT NULL,
+  `APP_ID` varchar(255) DEFAULT NULL,
+  `TARGET` varchar(64) DEFAULT NULL,
+  `PREREQUISITES` varchar(255) DEFAULT NULL,
+  `FLAG` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_APP_NAME_idx` (`APP_ID`),
+  KEY `FK1_MODELS` (`TARGET`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `app_results`
+--
+
+DROP TABLE IF EXISTS `app_results`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_results` (
+  `ID` varchar(64) NOT NULL,
+  `SCHEDULE_NAME` varchar(32) NOT NULL,
+  `APP_NAME` varchar(32) NOT NULL DEFAULT '',
+  `EXECUTE_TIME` varchar(32) NOT NULL,
+  `SCHEDULE_TARGET` varchar(32) DEFAULT NULL,
+  `EXECUTE_STATUS` varchar(32) DEFAULT NULL,
+  `RESULTS_LIST` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `app_schedule`
+--
+
+DROP TABLE IF EXISTS `app_schedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_schedule` (
+  `id` varchar(11) NOT NULL,
+  `app_id` varchar(255) NOT NULL DEFAULT '',
+  `schedule_name` varchar(255) NOT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `command` varchar(255) DEFAULT NULL,
+  `second` int(11) DEFAULT NULL,
+  `minute` int(11) DEFAULT NULL,
+  `hour` int(11) DEFAULT NULL,
+  `date` int(11) DEFAULT NULL,
+  `month` int(11) DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
+  `dayOfWeek` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_schedule` (`app_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `base_group_info`
+--
+
+DROP TABLE IF EXISTS `base_group_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `base_group_info` (
+  `GROUP_ID` varchar(30) NOT NULL,
+  `GROUP_NAME` varchar(50) DEFAULT NULL,
+  `GROUP_NAME_SPELL` varchar(100) DEFAULT NULL,
+  `GROUP_DESC` varchar(200) DEFAULT NULL,
+  `GROUP_PID` varchar(32) DEFAULT NULL,
+  `VALID_BEGIN_DATE` date DEFAULT NULL,
+  `VALID_END_DATE` date DEFAULT NULL,
+  `SORT_INDEX` smallint(6) DEFAULT NULL,
+  `IS_VALID` smallint(6) DEFAULT NULL,
+  `CREATE_USER` varchar(255) DEFAULT NULL,
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `MODIFY_USER` varchar(30) DEFAULT NULL,
+  `MODIFY_TIME` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `SERVICE` varchar(255) DEFAULT NULL,
+  `TENANT` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`GROUP_ID`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `base_user_group_map`
+--
+
+DROP TABLE IF EXISTS `base_user_group_map`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `base_user_group_map` (
+  `USER_ID` varchar(30) DEFAULT NULL,
+  `GROUP_ID` varchar(30) DEFAULT NULL,
+  `IS_VALID` smallint(6) DEFAULT NULL,
+  `CREATE_USER` varchar(255) DEFAULT NULL,
+  `CREATE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `MODIFY_USER` varchar(30) DEFAULT NULL,
+  `MODIFY_TIME` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `base_user_info`
+--
+
+DROP TABLE IF EXISTS `base_user_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `base_user_info` (
+  `USER_ID` varchar(32) NOT NULL,
+  `USER_NAME` varchar(30) DEFAULT NULL,
+  `USER_NAME_SPELL` varchar(50) DEFAULT NULL,
+  `SEX` varchar(6) DEFAULT NULL,
+  `PWD` varchar(200) DEFAULT NULL,
+  `DEPT_ID` varchar(30) DEFAULT NULL,
+  `JOB_ID` varchar(30) DEFAULT NULL,
+  `EMAIL` varchar(30) DEFAULT NULL,
+  `EMAIL2` varchar(30) DEFAULT NULL,
+  `PHONE` varchar(15) DEFAULT NULL,
+  `PHONE2` varchar(15) DEFAULT NULL,
+  `TELPHONE` varchar(15) DEFAULT NULL,
+  `ADDRESS` varchar(50) DEFAULT NULL,
+  `POSTCODE` varchar(10) DEFAULT NULL,
+  `CITY_ID` varchar(10) DEFAULT NULL,
+  `COUNTY_ID` varchar(10) DEFAULT NULL,
+  `REMARK` varchar(255) DEFAULT NULL,
+  `VALID_BEGIN_DATE` date DEFAULT NULL,
+  `VALID_END_DATE` date DEFAULT NULL,
+  `BIRTHDAY` date DEFAULT NULL,
+  `USER_TYPE` smallint(6) DEFAULT NULL,
+  `USER_STATUS` smallint(6) DEFAULT NULL,
+  `AUTH_TYPE` smallint(6) DEFAULT NULL,
+  `CREATE_USER` varchar(30) DEFAULT NULL,
+  `CREATE_TIME` timestamp NULL DEFAULT NULL,
+  `MODIFY_USER` varchar(30) DEFAULT NULL,
+  `MODIFY_TIME` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`USER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `dsem_api_model_register`
+--
+
+DROP TABLE IF EXISTS `dsem_api_model_register`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dsem_api_model_register` (
+  `id` varchar(32) NOT NULL COMMENT '主键',
+  `model_Id` varchar(32) NOT NULL COMMENT '模型ID',
+  `task_id` varchar(32) DEFAULT NULL COMMENT '模型任务ID',
+  `reg_host` varchar(32) DEFAULT NULL COMMENT 'Miner服务IP',
+  `reg_port` varchar(10) DEFAULT NULL COMMENT 'Miner服务端口',
+  `bus_type` varchar(32) DEFAULT NULL COMMENT 'REG、LOAD',
+  `status` varchar(10) DEFAULT NULL COMMENT '状态：0失败 1成功',
+  `message` varchar(500) DEFAULT NULL COMMENT '描述信息',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '操作时间',
+  `param_json` longtext,
+  `server_id` varchar(32) DEFAULT NULL COMMENT 'MachineLearingServer表ID',
+  `app_id` varchar(32) DEFAULT NULL COMMENT '应用ID',
+  `app_task_id` varchar(32) DEFAULT NULL COMMENT '应用TaskId',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `dsem_clean_task`
+--
+
+DROP TABLE IF EXISTS `dsem_clean_task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dsem_clean_task` (
+  `task_id` varchar(32) NOT NULL COMMENT '主键',
+  `task_name` varchar(100) DEFAULT NULL COMMENT '任务名称',
+  `bus_id` varchar(32) NOT NULL COMMENT '业主对象主键ID',
+  `bus_type` varchar(40) DEFAULT NULL COMMENT '业务类型，数据源datasource，模型model，应用apptopic',
+  `clean_type` varchar(10) DEFAULT NULL COMMENT '清理类型，0仅清理数据文件，1彻底删除',
+  `status` varchar(10) DEFAULT NULL COMMENT '状态，0等待 1执行中 9失败 10成功',
+  `message` text COMMENT '日志信息',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_user` varchar(32) DEFAULT NULL COMMENT '创建人ID',
+  `cron_trigger` varchar(32) DEFAULT NULL COMMENT '创建人ID',
+  `start_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '任务启动时间',
+  `end_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '任务结束时间',
+  PRIMARY KEY (`task_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `dsem_unfinish_instance`
+--
+
+DROP TABLE IF EXISTS `dsem_unfinish_instance`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dsem_unfinish_instance` (
+  `id` varchar(64) NOT NULL COMMENT '主键ID',
+  `instance_id` varchar(64) DEFAULT NULL COMMENT '对应type的任务ID',
+  `instance_type` varchar(64) DEFAULT NULL COMMENT '任务类型,模型:model,应用:apptopic,数据抽取:DataAcquisition,数据探索:dataexplore,数据预处理:datapre,数据清理:dataclean',
+  `intance_belong` varchar(64) DEFAULT NULL,
+  `create_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `engine_config`
+--
+
+DROP TABLE IF EXISTS `engine_config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `engine_config` (
+  `KERNEL` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `HADOOP_USER_NAME` char(64) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `DOCKER_CODE` longtext COLLATE utf8_unicode_ci,
+  `SPARK_CODE` longtext COLLATE utf8_unicode_ci,
+  `GPU_CODE` longtext COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`KERNEL`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `masking_4g_lost_user_pred1k`
+--
+
+DROP TABLE IF EXISTS `masking_4g_lost_user_pred1k`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `masking_4g_lost_user_pred1k` (
+  `product_no` varchar(20) DEFAULT NULL,
+  `is_student` varchar(20) DEFAULT NULL,
+  `is_village` varchar(20) DEFAULT NULL,
+  `is_family` varchar(20) DEFAULT NULL,
+  `pu_credit_class` varchar(20) DEFAULT NULL,
+  `net_month` int(11) DEFAULT NULL,
+  `iden_cnts` int(11) DEFAULT NULL,
+  `userstatus_name` varchar(20) DEFAULT NULL,
+  `d_stop_cnt` int(11) DEFAULT NULL,
+  `s_stop_cnt` int(11) DEFAULT NULL,
+  `is_zd_heyue` varchar(20) DEFAULT NULL,
+  `is_skj` varchar(20) DEFAULT NULL,
+  `netstyle_flag` varchar(10) DEFAULT NULL,
+  `imei_commu_hms` int(11) DEFAULT NULL,
+  `is_quanwt` varchar(20) DEFAULT NULL,
+  `home_change3m_flag` varchar(20) DEFAULT NULL,
+  `home_work_flag` varchar(20) DEFAULT NULL,
+  `COMMU_DAYS` int(11) DEFAULT NULL,
+  `arpu` decimal(20,5) DEFAULT NULL,
+  `call_counts_yw` int(11) DEFAULT NULL,
+  `call_counts_10086` int(11) DEFAULT NULL,
+  `dou` int(11) DEFAULT NULL,
+  `should_fee` decimal(20,5) DEFAULT NULL,
+  `fth_ftc_fee` decimal(20,5) DEFAULT NULL,
+  `gprs_days` int(11) DEFAULT NULL,
+  `flow_4g_rate` decimal(20,5) DEFAULT NULL,
+  `FLOW_ROAM` decimal(20,5) DEFAULT NULL,
+  `X10086_cnt` int(11) DEFAULT NULL,
+  `bhd_rate` decimal(20,5) DEFAULT NULL,
+  `is_chenkong_ys` varchar(20) DEFAULT NULL,
+  `call_jwq_ys` decimal(20,5) DEFAULT NULL,
+  `pay_cnt_fee_ys` decimal(20,5) DEFAULT NULL,
+  `COMMU_DAYS_YS` decimal(20,5) DEFAULT NULL,
+  `call_counts_z_b_ys` decimal(20,5) DEFAULT NULL,
+  `call_counts_roam_ys` decimal(20,5) DEFAULT NULL,
+  `call_counts_high_ys` decimal(20,5) DEFAULT NULL,
+  `arpu_ys` decimal(20,5) DEFAULT NULL,
+  `unpay_fee_ys` decimal(20,5) DEFAULT NULL,
+  `call_counts_yw_ys` decimal(20,5) DEFAULT NULL,
+  `call_counts_10086_ys` decimal(20,5) DEFAULT NULL,
+  `dou_ys` decimal(20,5) DEFAULT NULL,
+  `should_fee_ys` decimal(20,5) DEFAULT NULL,
+  `fth_ftc_fee_ys` decimal(20,5) DEFAULT NULL,
+  `gprs_days_ys` decimal(20,5) DEFAULT NULL,
+  `flow_4g_rate_ys` decimal(20,5) DEFAULT NULL,
+  `FLOW_ROAM_YS` decimal(20,5) DEFAULT NULL,
+  `X10086_cnt_ys` decimal(20,5) DEFAULT NULL,
+  `comp_user_pers_ys` decimal(20,5) DEFAULT NULL,
+  `call_counts_hz_ys` decimal(20,5) DEFAULT NULL,
+  `bhd_rate_ys` decimal(20,5) DEFAULT NULL,
+  `flag` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_affiche`
+--
+
+DROP TABLE IF EXISTS `mdp_affiche`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_affiche` (
+  `affiche_id` varchar(30) NOT NULL COMMENT '公告编号',
+  `affiche_title` varchar(50) DEFAULT NULL COMMENT '公告标题',
+  `affiche_summary` varchar(500) DEFAULT NULL,
+  `affiche_content` text COMMENT '公告内容',
+  `affiche_level` smallint(6) NOT NULL COMMENT '公告重要级别。低：1，中：2，高：3',
+  `affiche_type` smallint(6) NOT NULL DEFAULT '1' COMMENT '公告类型（预留字段）',
+  `receive_scope` smallint(6) NOT NULL COMMENT '公告接收范围。全部用户：-1，用户组：1，角色：2，用户：3',
+  `effect_time` timestamp NULL DEFAULT NULL COMMENT '生效时间',
+  `expiration_time` timestamp NULL DEFAULT NULL COMMENT '失效时间',
+  `publisher` varchar(32) NOT NULL COMMENT '发布人',
+  `publish_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发布时间',
+  `modifier` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `modify_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`affiche_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公告表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_affiche_receiver`
+--
+
+DROP TABLE IF EXISTS `mdp_affiche_receiver`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_affiche_receiver` (
+  `affiche_id` varchar(30) NOT NULL COMMENT '公告编号',
+  `receiver_type` smallint(6) NOT NULL COMMENT '接收人类型。用户组：1，角色：2，用户：3',
+  `receiver` varchar(32) NOT NULL COMMENT '接收人',
+  PRIMARY KEY (`affiche_id`,`receiver_type`,`receiver`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='公告通知人关系表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_apptopic`
+--
+
+DROP TABLE IF EXISTS `mdp_apptopic`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_apptopic` (
+  `id` varchar(32) NOT NULL COMMENT '应用id',
+  `name` varchar(64) DEFAULT NULL COMMENT '应用名称',
+  `type_id` varchar(32) DEFAULT NULL COMMENT '应用类型id',
+  `type_name` varchar(64) DEFAULT NULL COMMENT '应用类型名称',
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型id',
+  `buss_conn_type` int(11) DEFAULT NULL COMMENT '业务对接方式,1为提供结果,2为提供模型,3为api访问方式',
+  `ds_id` varchar(1024) DEFAULT NULL COMMENT '数据源id',
+  `ds_cycle` varchar(1024) DEFAULT NULL COMMENT '数据源周期',
+  `cron_type` varchar(64) DEFAULT NULL COMMENT '应用周期类型，day,month,weekday等',
+  `cron_trigger` varchar(255) DEFAULT NULL COMMENT '应用周期触发器,格式:秒 分 时 日 月 周',
+  `ftp_id` varchar(32) DEFAULT NULL COMMENT '文件输出ftpid',
+  `out_filename_rule` varchar(255) DEFAULT NULL COMMENT '输出文件名规则',
+  `status` int(11) DEFAULT NULL COMMENT '状态',
+  `message` text COMMENT '消息',
+  `create_user` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `out_data_id` varchar(255) DEFAULT NULL,
+  `out_data_type` varchar(255) DEFAULT NULL,
+  `out_fileName` varchar(255) DEFAULT NULL,
+  `out_filePath` varchar(255) DEFAULT NULL,
+  `writingMode` int(11) DEFAULT NULL,
+  `tenant` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='应用信息表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_apptopic_buss_type`
+--
+
+DROP TABLE IF EXISTS `mdp_apptopic_buss_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_apptopic_buss_type` (
+  `id` int(11) NOT NULL,
+  `buss_type_name` varchar(100) DEFAULT NULL,
+  `buss_type_icon` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_apptopic_child_task`
+--
+
+DROP TABLE IF EXISTS `mdp_apptopic_child_task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_apptopic_child_task` (
+  `task_id` varchar(32) NOT NULL COMMENT '应用子任务id',
+  `parent_task_id` varchar(32) DEFAULT NULL COMMENT '应用任务id',
+  `status` int(11) DEFAULT NULL COMMENT '状态',
+  `param_json` longtext COMMENT '参数json串',
+  `create_time` datetime DEFAULT NULL COMMENT '开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+  PRIMARY KEY (`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型应用拆分子任务信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_apptopic_task`
+--
+
+DROP TABLE IF EXISTS `mdp_apptopic_task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_apptopic_task` (
+  `task_id` varchar(32) NOT NULL COMMENT '任务id',
+  `app_id` varchar(32) DEFAULT NULL COMMENT '应用id',
+  `status` int(11) DEFAULT NULL COMMENT '状态',
+  `param_json` longtext COMMENT '参数json串',
+  `create_time` datetime DEFAULT NULL COMMENT '开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型id',
+  `buss_conn_type` int(11) DEFAULT NULL COMMENT '业务对接方式;1为提供结果;2为提供模型;3为api访问方式',
+  `ds_id` varchar(1024) DEFAULT NULL COMMENT '数据源id',
+  `ds_cycle` varchar(1024) DEFAULT NULL COMMENT '数据源周期',
+  `out_filename_rule` varchar(255) DEFAULT NULL COMMENT '输出文件名规则',
+  `message` text COMMENT '消息',
+  `out_data_id` varchar(32) DEFAULT NULL,
+  `out_data_type` varchar(32) DEFAULT NULL,
+  `writingMode` int(11) DEFAULT NULL,
+  PRIMARY KEY (`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='应用预测任务信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_apptopic_type`
+--
+
+DROP TABLE IF EXISTS `mdp_apptopic_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_apptopic_type` (
+  `id` varchar(32) NOT NULL COMMENT '应用分类编号',
+  `name` varchar(64) DEFAULT NULL COMMENT '应用分类名称',
+  `sort_index` int(11) DEFAULT NULL COMMENT '分类序号',
+  `icon` varchar(255) DEFAULT NULL COMMENT '图标',
+  `pid` varchar(32) DEFAULT NULL COMMENT '父分类编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='应用分类表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_arithmetic`
+--
+
+DROP TABLE IF EXISTS `mdp_arithmetic`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_arithmetic` (
+  `arithmetic_id` varchar(32) NOT NULL COMMENT '算法编码',
+  `arithmetic_name` varchar(64) DEFAULT NULL COMMENT '算法名称',
+  `arithmetic_en_name` varchar(64) DEFAULT NULL COMMENT '算法英文名称',
+  `arithmetic_desc` varchar(256) DEFAULT NULL COMMENT '算法描述',
+  `model_type_id` varchar(32) DEFAULT NULL COMMENT '所属类型，对应mdp_arithmetic表arithmetic_id字段',
+  `engine` varchar(2) DEFAULT NULL,
+  `airth_pid` varchar(32) DEFAULT NULL,
+  `apply_framework` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`arithmetic_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='算法表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_arithmetic_params`
+--
+
+DROP TABLE IF EXISTS `mdp_arithmetic_params`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_arithmetic_params` (
+  `param_id` varchar(32) NOT NULL COMMENT '参数id',
+  `param_key` varchar(64) DEFAULT NULL COMMENT '参数key',
+  `def_value` varchar(256) DEFAULT NULL COMMENT '参数默认值',
+  `valid_value` varchar(256) DEFAULT NULL COMMENT '参数值有效性',
+  `param_desc` varchar(256) DEFAULT NULL COMMENT '参数描述',
+  `is_update` smallint(6) DEFAULT NULL COMMENT '是否可修改,0不可修改，1可修改',
+  `arithmetic_id` varchar(32) DEFAULT NULL COMMENT '算法编码，对应mdp_arithmetic表arithmetic_id字段',
+  PRIMARY KEY (`param_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型算法默认参数表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_business_stage_trace`
+--
+
+DROP TABLE IF EXISTS `mdp_business_stage_trace`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_business_stage_trace` (
+  `id` varchar(32) DEFAULT NULL,
+  `class_id` varchar(32) DEFAULT NULL COMMENT '业务分类id',
+  `business_id` varchar(32) DEFAULT NULL COMMENT '业务id',
+  `task_id` varchar(32) DEFAULT NULL COMMENT '任务ID',
+  `parent_id` varchar(32) DEFAULT NULL COMMENT '父步骤ID',
+  `stage_id` varchar(32) DEFAULT NULL COMMENT '模型步骤id',
+  `stage_bar` float(3,2) DEFAULT NULL COMMENT '模型进度',
+  `message` longtext COMMENT '处理消息',
+  `result` text COMMENT '处理过程重要数据json串',
+  `status` int(11) DEFAULT NULL COMMENT '状态:1正常,0失败',
+  `start_time` datetime DEFAULT NULL COMMENT '结束时间',
+  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+  `err_info` text,
+  `operate_type` varchar(30) DEFAULT NULL COMMENT '交互类型'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='业务模块任务追溯表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_db`
+--
+
+DROP TABLE IF EXISTS `mdp_db`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_db` (
+  `db_id` varchar(32) NOT NULL COMMENT '外部数据库id',
+  `db_name` varchar(256) NOT NULL COMMENT '外部数据库name',
+  `db_host` varchar(256) NOT NULL COMMENT '外部数据库主机名或ip',
+  `db_port` int(11) NOT NULL COMMENT '外部数据库端口',
+  `db_username` varchar(64) NOT NULL COMMENT '外部数据库用户名',
+  `db_password` varchar(64) NOT NULL COMMENT '外部数据库密码',
+  `db_ds_schema` varchar(256) NOT NULL COMMENT '外部数据库schema',
+  `db_type` varchar(64) NOT NULL COMMENT '外部数据库类型，如MySQL，Apache Hive等，名称必须为jdbc驱动返回的名称',
+  `create_user` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `keytab_path` varchar(200) DEFAULT NULL COMMENT 'keytab路径',
+  `krd_path` varchar(200) DEFAULT NULL COMMENT 'krd目录',
+  `principal` varchar(200) DEFAULT NULL COMMENT 'jdbc参数',
+  `site_path` varchar(255) DEFAULT NULL,
+  `hdfs_path` varchar(255) DEFAULT NULL,
+  `tenant` varchar(32) DEFAULT NULL,
+  `db_schema` varchar(64) DEFAULT NULL,
+  `db_param` text,
+  PRIMARY KEY (`db_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='外部数据库信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_ds`
+--
+
+DROP TABLE IF EXISTS `mdp_ds`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_ds` (
+  `ds_id` varchar(32) NOT NULL COMMENT '数据源id',
+  `name` varchar(256) NOT NULL COMMENT '数据源名称',
+  `ds_type` varchar(256) DEFAULT NULL COMMENT '数据源类型,train或者forecast',
+  `data_type` varchar(64) NOT NULL COMMENT '数据源类型:db,file,ftp等',
+  `data_source_id` varchar(32) DEFAULT NULL COMMENT '数据源type为db时外部数据库id，为ftp时外部ftp服务器id',
+  `data_source_name` varchar(512) DEFAULT NULL COMMENT '数据源表名或文件路径',
+  `target_table_name` varchar(64) DEFAULT NULL COMMENT '数据源导入系统表名，按照规则自动生成',
+  `ds_size` int(11) DEFAULT NULL COMMENT '数据源数据条数',
+  `ds_field_size` int(11) DEFAULT NULL COMMENT '数据源字段个数',
+  `ds_template_file_path` varchar(512) DEFAULT NULL COMMENT '上传描述模版文件全路径',
+  `data_local_file_path` varchar(512) DEFAULT NULL COMMENT '数据文件导入mdp存放路径',
+  `file_split_char` varchar(32) DEFAULT NULL COMMENT '文件内容分割字符',
+  `status` int(11) DEFAULT NULL COMMENT '1为可用，0为不可用',
+  `loadmessage` text COMMENT '导入信息',
+  `cron_type` varchar(32) DEFAULT NULL COMMENT '周期类型，day,month,weekday等',
+  `cron_trigger` varchar(32) DEFAULT NULL COMMENT 'quartz周期触发器,格式:秒 分 时 日 月 周',
+  `create_user` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `fileheader_flag` varchar(10) DEFAULT NULL,
+  `descmatch_flag` varchar(10) DEFAULT NULL,
+  `desc_flag` varchar(10) DEFAULT NULL,
+  `ds_templatefile_sort` varchar(10) DEFAULT NULL COMMENT '模板文件排序',
+  `site_path` varchar(200) DEFAULT NULL COMMENT '文件路径',
+  `meta_data_type` varchar(10) DEFAULT NULL COMMENT '数据模板类型',
+  `identify_field` varchar(64) DEFAULT NULL COMMENT '唯一标识字段',
+  `data_save_cycle` varchar(32) DEFAULT NULL COMMENT '数据保存周期',
+  `ds_class` varchar(32) DEFAULT NULL,
+  `sql_sentence` varchar(4000) DEFAULT NULL COMMENT 'SQL语句',
+  `start_cycle` varchar(32) DEFAULT NULL COMMENT '起始周期，当表名包含周期变量时，需要指定该属性',
+  `extract_type` varchar(10) DEFAULT NULL COMMENT '抽取方式。0默认  1随机抽样',
+  `extract_rows` int(11) DEFAULT NULL COMMENT '限制抽取条数',
+  `ds_if_delete` int(20) DEFAULT NULL,
+  `if_cycle` int(20) DEFAULT NULL,
+  `param_json` longtext,
+  `froms` varchar(10) DEFAULT NULL,
+  `review_flag` varchar(10) DEFAULT NULL,
+  `online_flag` varchar(10) DEFAULT NULL COMMENT '0离线 1在线',
+  `structured_flag` varchar(255) DEFAULT NULL COMMENT '0结构化 1非结构化',
+  `tenant` varchar(32) DEFAULT NULL,
+  `admin_role_flag` int(11) DEFAULT NULL COMMENT '管理员用户标识',
+  PRIMARY KEY (`ds_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据源信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_ds_acquisition_task`
+--
+
+DROP TABLE IF EXISTS `mdp_ds_acquisition_task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_ds_acquisition_task` (
+  `task_id` varchar(32) NOT NULL COMMENT '抽取任务id',
+  `ds_id` varchar(32) DEFAULT NULL COMMENT '数据源id',
+  `ds_cycle` varchar(32) DEFAULT NULL COMMENT '数据源周期id',
+  `status` int(11) DEFAULT NULL COMMENT '状态id',
+  `oper_flag` varchar(32) DEFAULT NULL COMMENT '操作标识,增量更新or覆盖,默认覆盖',
+  `message` text COMMENT '操作信息',
+  `create_time` datetime DEFAULT NULL,
+  `start_time` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
+  `create_user` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_ds_cycle`
+--
+
+DROP TABLE IF EXISTS `mdp_ds_cycle`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_ds_cycle` (
+  `id` varchar(32) NOT NULL COMMENT 'id',
+  `ds_id` varchar(32) DEFAULT NULL COMMENT '数据源id',
+  `ds_cycle` varchar(32) DEFAULT NULL COMMENT '数据源已抽取周期',
+  `ds_cycle_display` varchar(32) DEFAULT NULL COMMENT '周期值，用于前端展示',
+  `ds_datasize` bigint(15) DEFAULT NULL COMMENT '数据源周期条目数',
+  `ds_datasize_before_clean` bigint(15) DEFAULT NULL COMMENT '数据源周期清洗前条目数',
+  `ds_type` varchar(256) DEFAULT NULL COMMENT '数据源类型,train或者forecast',
+  `data_type` varchar(64) DEFAULT NULL COMMENT '数据源类型:db,file,ftp等',
+  `data_source_id` varchar(32) DEFAULT NULL COMMENT '数据源type为db时外部数据库id，为ftp时外部ftp服务器id',
+  `data_source_name` varchar(512) DEFAULT NULL COMMENT '数据源表名或文件路径',
+  `target_table_name` varchar(64) DEFAULT NULL COMMENT '数据源导入系统表名，按照规则自动生成',
+  `ds_size` int(11) DEFAULT NULL COMMENT '数据源数据条数',
+  `ds_field_size` int(11) DEFAULT NULL COMMENT '数据源字段个数',
+  `ds_template_file_path` varchar(512) DEFAULT NULL COMMENT '上传描述模版文件全路径',
+  `data_local_file_path` varchar(512) DEFAULT NULL COMMENT '数据文件导入mdp存放路径',
+  `file_split_char` varchar(32) DEFAULT NULL COMMENT '文件内容分割字符',
+  `status` int(11) DEFAULT NULL COMMENT '1为可用，0为不可用',
+  `loadmessage` text COMMENT '导入信息',
+  `review_status` int(11) DEFAULT NULL COMMENT '审查状态，-1等待执行，0执行中，9失败，10完成',
+  `review_message` text COMMENT '审查信息',
+  `ds_class` varchar(32) CHARACTER SET swe7 DEFAULT NULL,
+  `review_flag` varchar(10) DEFAULT NULL COMMENT '是否执行审查，1审查，0不审查',
+  `param_json` longtext,
+  `froms` varchar(10) DEFAULT NULL,
+  `sql_sentence` varchar(4000) DEFAULT NULL COMMENT 'sql语句',
+  `if_cycle` varchar(10) DEFAULT NULL COMMENT '是否是周期表',
+  `online_flag` varchar(10) DEFAULT NULL COMMENT '0离线1在线',
+  `clean_flag` varchar(10) DEFAULT NULL COMMENT '是否清理，0未清理 1已清理',
+  `identify_field` varchar(64) DEFAULT NULL COMMENT '唯一标识列',
+  `admin_role_flag` int(11) DEFAULT NULL COMMENT '管理员用户标识',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_ds_data_review`
+--
+
+DROP TABLE IF EXISTS `mdp_ds_data_review`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_ds_data_review` (
+  `review_id` varchar(32) NOT NULL COMMENT 'id',
+  `ds_id` varchar(32) DEFAULT NULL COMMENT '数据源id,对应mdp_ds表ds_id字段',
+  `ds_cycle` varchar(32) DEFAULT NULL COMMENT '数据源周期',
+  `field_id` varchar(32) DEFAULT NULL COMMENT '字段id,对应mdp_ds_field表field_id字段',
+  `field_cn_name` varchar(64) DEFAULT NULL COMMENT '字段中文名',
+  `field_en_name` varchar(64) DEFAULT NULL COMMENT '字段英文名',
+  `field_unit` varchar(64) DEFAULT NULL COMMENT '字段单位',
+  `field_data_feature` varchar(64) DEFAULT NULL COMMENT '数据特征',
+  `field_simple` text COMMENT '值域/样例',
+  `mean_value` varchar(64) DEFAULT NULL COMMENT '平均值',
+  `outlier_value` varchar(64) DEFAULT NULL COMMENT '离群值',
+  `lost_value` bigint(20) DEFAULT NULL COMMENT '缺失值',
+  `field_class_cn_name` varchar(256) DEFAULT NULL COMMENT '字段类型中文名',
+  `field_class_en_name` varchar(256) DEFAULT NULL COMMENT '字段类型英文名',
+  `field_index` int(11) DEFAULT NULL COMMENT '字段顺序',
+  `field_desc` varchar(256) DEFAULT NULL COMMENT '字段描述',
+  `field_caliber` varchar(512) DEFAULT NULL COMMENT '统计口径',
+  `variance_value` varchar(64) DEFAULT NULL COMMENT '方差',
+  `standard_value` varchar(64) DEFAULT NULL COMMENT '标准差',
+  `median_value` varchar(64) DEFAULT NULL COMMENT '中位数',
+  `mode_value` varchar(512) DEFAULT NULL COMMENT '众数',
+  `outlier_count` int(11) DEFAULT NULL COMMENT '离群值个数',
+  PRIMARY KEY (`review_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据源数据审查信息表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_ds_field`
+--
+
+DROP TABLE IF EXISTS `mdp_ds_field`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_ds_field` (
+  `field_id` varchar(32) NOT NULL COMMENT '字段id',
+  `field_cn_name` varchar(64) NOT NULL COMMENT '字段中文名称',
+  `field_en_name` varchar(64) DEFAULT NULL COMMENT '字段英文名称',
+  `field_desc` varchar(256) DEFAULT NULL COMMENT '字段描述',
+  `field_caliber` varchar(512) DEFAULT NULL COMMENT '数据统计口径',
+  `field_unit` varchar(64) DEFAULT NULL COMMENT '单位',
+  `field_data_type` varchar(64) DEFAULT NULL COMMENT '字段数据类型',
+  `field_data_feature` varchar(64) DEFAULT NULL COMMENT '字段特征类型,1是枚举类型',
+  `field_index` int(11) DEFAULT NULL COMMENT '字段顺序',
+  `field_class_cn_name` varchar(64) DEFAULT NULL COMMENT '指标类型中文名称',
+  `field_class_en_name` varchar(64) DEFAULT NULL COMMENT '指标类型英文名称',
+  `ds_id` varchar(32) DEFAULT NULL COMMENT '数据源id，对应mdp_ds表id字段',
+  `ds_cycle` varchar(32) DEFAULT NULL COMMENT '数据源周期ID，每次修改后重新生成一个批次',
+  `field_template` int(255) DEFAULT NULL COMMENT '是否已匹配模板，0否 1是',
+  PRIMARY KEY (`field_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据源字段信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_ds_field_rule`
+--
+
+DROP TABLE IF EXISTS `mdp_ds_field_rule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_ds_field_rule` (
+  `id` varchar(32) NOT NULL COMMENT '编号',
+  `ds_id` varchar(32) NOT NULL COMMENT '数据源id',
+  `field_id` varchar(32) DEFAULT NULL COMMENT '字段id',
+  `field_cn_name` varchar(64) DEFAULT NULL COMMENT '字段中文名称',
+  `field_en_name` varchar(64) DEFAULT NULL COMMENT '字段英文名称',
+  `field_filter_rule` text COMMENT '字段过滤规则',
+  `rule_index` int(11) DEFAULT NULL COMMENT '规则序号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据源过滤规则';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_ds_field_task`
+--
+
+DROP TABLE IF EXISTS `mdp_ds_field_task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_ds_field_task` (
+  `task_id` varchar(32) NOT NULL COMMENT '任务ID，主键',
+  `task_name` varchar(200) DEFAULT NULL COMMENT '任务名称',
+  `call_type` int(11) DEFAULT NULL COMMENT '调度类型，0只执行一次，1自动对新周期执行',
+  `ds_id` varchar(32) DEFAULT NULL COMMENT '数据源ID',
+  `ds_cycle` varchar(32) DEFAULT NULL COMMENT '数据源周期',
+  `status` int(11) DEFAULT NULL COMMENT '0待执行，7执行中，9失败，10成功',
+  `message` varchar(5000) DEFAULT NULL COMMENT '执行结果信息',
+  `task_bar` float DEFAULT NULL COMMENT '进度(0到1)',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `start_time` datetime DEFAULT NULL COMMENT '开始执行时间',
+  `end_time` datetime DEFAULT NULL COMMENT '执行结束时间',
+  `create_user` varchar(100) DEFAULT NULL COMMENT '创建人',
+  PRIMARY KEY (`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_ds_field_task_rewrite`
+--
+
+DROP TABLE IF EXISTS `mdp_ds_field_task_rewrite`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_ds_field_task_rewrite` (
+  `id` varchar(32) NOT NULL COMMENT 'ID，主键',
+  `task_id` varchar(32) DEFAULT NULL COMMENT '任务ID',
+  `rewrite_field_id` varchar(32) DEFAULT NULL COMMENT '回填字段ID，即mdp_ds_field.id',
+  `rewrite_type` int(11) DEFAULT NULL COMMENT '重写方式，0回填，1删除',
+  `rewrite_alg` int(11) DEFAULT NULL COMMENT '取值算法：0指定值，1众数，2中位数，3均值',
+  `rewrite_value` varchar(255) DEFAULT NULL COMMENT '回填值（只有rewrite_alg=0才有此值）',
+  `filter_json` varchar(2000) DEFAULT NULL COMMENT '过滤条件json',
+  `field_index` int(11) DEFAULT NULL COMMENT '字段排序号',
+  `field_group` varchar(32) DEFAULT NULL COMMENT '字段分组标识',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_ds_review_task`
+--
+
+DROP TABLE IF EXISTS `mdp_ds_review_task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_ds_review_task` (
+  `task_id` varchar(32) NOT NULL,
+  `task_name` varchar(100) DEFAULT NULL,
+  `ds_id` varchar(32) DEFAULT NULL,
+  `ds_cycle` varchar(32) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `message` varchar(2000) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `start_time` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
+  `create_user` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_ds_review_task_field`
+--
+
+DROP TABLE IF EXISTS `mdp_ds_review_task_field`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_ds_review_task_field` (
+  `id` varchar(32) NOT NULL,
+  `task_Id` varchar(32) DEFAULT NULL,
+  `ds_id` varchar(32) DEFAULT NULL,
+  `ds_cycle` varchar(32) DEFAULT NULL,
+  `field_Id` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_ds_review_task_result`
+--
+
+DROP TABLE IF EXISTS `mdp_ds_review_task_result`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_ds_review_task_result` (
+  `review_id` varchar(32) NOT NULL COMMENT 'id',
+  `task_Id` varchar(32) DEFAULT NULL,
+  `ds_id` varchar(32) DEFAULT NULL COMMENT '数据源id,对应mdp_ds表ds_id字段',
+  `ds_cycle` varchar(32) DEFAULT NULL COMMENT '数据源周期',
+  `field_id` varchar(32) DEFAULT NULL COMMENT '字段id,对应mdp_ds_field表field_id字段',
+  `field_cn_name` varchar(64) DEFAULT NULL COMMENT '字段中文名',
+  `field_en_name` varchar(64) DEFAULT NULL COMMENT '字段英文名',
+  `field_unit` varchar(64) DEFAULT NULL COMMENT '字段单位',
+  `field_data_feature` varchar(64) DEFAULT NULL COMMENT '数据特征',
+  `field_simple` text COMMENT '值域/样例',
+  `mean_value` varchar(64) DEFAULT NULL COMMENT '平均值',
+  `outlier_value` varchar(64) DEFAULT NULL COMMENT '离群值',
+  `lost_value` bigint(20) DEFAULT NULL COMMENT '缺失值',
+  `field_class_cn_name` varchar(256) DEFAULT NULL COMMENT '字段类型中文名',
+  `field_class_en_name` varchar(256) DEFAULT NULL COMMENT '字段类型英文名',
+  `field_index` int(11) DEFAULT NULL COMMENT '字段顺序',
+  `field_desc` varchar(256) DEFAULT NULL COMMENT '字段描述',
+  `field_caliber` varchar(512) DEFAULT NULL COMMENT '统计口径',
+  `variance_value` varchar(64) DEFAULT NULL COMMENT '方差',
+  `standard_value` varchar(64) DEFAULT NULL COMMENT '标准差',
+  `median_value` varchar(64) DEFAULT NULL COMMENT '中位数',
+  `mode_value` varchar(512) DEFAULT NULL COMMENT '众数',
+  `outlier_count` int(11) DEFAULT NULL COMMENT '离群值个数',
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`review_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_dsem_log`
+--
+
+DROP TABLE IF EXISTS `mdp_dsem_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_dsem_log` (
+  `id` int(20) NOT NULL AUTO_INCREMENT COMMENT '操作日志id',
+  `username` varchar(20) DEFAULT NULL COMMENT '操作人',
+  `module` varchar(30) DEFAULT NULL COMMENT '执行模块',
+  `methods` varchar(50) DEFAULT NULL COMMENT '执行方法',
+  `content` varchar(255) DEFAULT NULL COMMENT '操作内容',
+  `actionurl` varchar(50) DEFAULT NULL COMMENT '请求路径',
+  `ip` varchar(50) DEFAULT NULL COMMENT 'IP地址',
+  `date` datetime DEFAULT NULL COMMENT '操作时间',
+  `commite` tinyint(2) DEFAULT NULL COMMENT '执行描述（1:执行成功、2:执行失败）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_expert_model`
+--
+
+DROP TABLE IF EXISTS `mdp_expert_model`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_expert_model` (
+  `MODEL_ID` varchar(100) NOT NULL,
+  `USER_NAME` varchar(30) DEFAULT NULL,
+  `VIEW_MENU_ID` varchar(30) DEFAULT NULL,
+  `TYPE_MENU_ID` varchar(30) DEFAULT NULL,
+  `MODEL_NAME` varchar(200) DEFAULT NULL,
+  `NOTEBOOK_PATH` varchar(200) DEFAULT NULL,
+  `MODEL_INFO` varchar(1000) DEFAULT NULL,
+  `APP_ID` varchar(100) DEFAULT NULL,
+  `UPDATED_TIME` varchar(30) DEFAULT NULL,
+  `COMMENT` varchar(2000) DEFAULT NULL,
+  `FILE_PATH` varchar(200) DEFAULT NULL,
+  `KERNEL` varchar(30) DEFAULT NULL,
+  `PUBLISH_MODEL_NAME` varchar(200) DEFAULT NULL,
+  `STATUS` varchar(30) DEFAULT NULL,
+  `PUBLISH_TYPE` varchar(10) DEFAULT NULL,
+  `PUBLISH_FILE_NAME` varchar(200) DEFAULT NULL,
+  `ENGINE` varchar(10) DEFAULT NULL,
+  `DS_ID` varchar(32) DEFAULT NULL,
+  `DS_CYCLE` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`MODEL_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_external_models`
+--
+
+DROP TABLE IF EXISTS `mdp_external_models`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_external_models` (
+  `MODEL_ID` varchar(30) NOT NULL COMMENT '模型编码',
+  `MODEL_NAME` varchar(100) NOT NULL COMMENT '模型名称',
+  `MODEL_DESC` varchar(500) DEFAULT NULL COMMENT '模型描述',
+  `STATUS` smallint(255) NOT NULL COMMENT '模型发布状态',
+  `UPLOAD_PATH` text COMMENT '上传路径',
+  `DEPLOY_FTP` varchar(30) DEFAULT NULL COMMENT '部署FTP编码',
+  `DEPLOY_PATH` varchar(255) DEFAULT NULL COMMENT '部署路径',
+  `CREATE_BY` varchar(255) DEFAULT NULL COMMENT '创建人',
+  `CREATE_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `UPDATE_BY` varchar(30) DEFAULT NULL COMMENT '更新人',
+  `UPDATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `SHELL_FTP` varchar(30) DEFAULT NULL COMMENT '脚本FTP编码',
+  `SHELL_PATH` varchar(255) DEFAULT NULL COMMENT '脚本路径',
+  `SHELL_COMMAND` varchar(255) DEFAULT NULL COMMENT '脚本命令',
+  PRIMARY KEY (`MODEL_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='第三方模型管理表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_external_models_tasks`
+--
+
+DROP TABLE IF EXISTS `mdp_external_models_tasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_external_models_tasks` (
+  `MODEL_ID` varchar(30) NOT NULL COMMENT '模型编码',
+  `TASK_ID` varchar(30) NOT NULL COMMENT '任务编码(时间戳)',
+  `STATUS` smallint(11) NOT NULL COMMENT '模型运行状态',
+  `START_TIME` timestamp NULL DEFAULT NULL COMMENT '开始时间',
+  `END_TIME` timestamp NULL DEFAULT NULL COMMENT '结束时间',
+  PRIMARY KEY (`MODEL_ID`,`TASK_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='第三方模型任务表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_feature`
+--
+
+DROP TABLE IF EXISTS `mdp_feature`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_feature` (
+  `feature_id` varchar(32) NOT NULL COMMENT '特征id',
+  `feature_name` varchar(32) DEFAULT NULL COMMENT '特征名称',
+  `feature_icon` varchar(32) DEFAULT NULL COMMENT '特征图标',
+  `feature_url` varchar(100) DEFAULT NULL COMMENT '特征路径',
+  `detail` varchar(200) DEFAULT NULL COMMENT '描述',
+  PRIMARY KEY (`feature_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='特征表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_ftp`
+--
+
+DROP TABLE IF EXISTS `mdp_ftp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_ftp` (
+  `ftp_id` varchar(32) NOT NULL COMMENT 'id',
+  `ftp_name` varchar(256) DEFAULT NULL COMMENT 'ftp名称',
+  `ftp_host` varchar(256) DEFAULT NULL COMMENT '主机名或ip',
+  `ftp_port` int(11) DEFAULT NULL COMMENT '端口',
+  `ftp_username` varchar(64) DEFAULT NULL COMMENT '用户名',
+  `ftp_password` varchar(64) DEFAULT NULL COMMENT '密码',
+  `ftp_filepath` varchar(512) DEFAULT NULL COMMENT 'ftp_filepath数据路径',
+  `protocol` varchar(64) DEFAULT NULL COMMENT '传输协议:ftp,sftp',
+  `create_user` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `tenant` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`ftp_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ftp信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_kpiset`
+--
+
+DROP TABLE IF EXISTS `mdp_kpiset`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_kpiset` (
+  `kpiset_id` varchar(32) NOT NULL COMMENT '指标集id',
+  `kpiset_name` varchar(64) NOT NULL COMMENT '指标集名称',
+  `ds_id` varchar(32) DEFAULT NULL COMMENT '指标集对应的数据源id',
+  `type_id` varchar(32) DEFAULT NULL COMMENT '指标集所属类型，对应mdp_kpiset_type表id字段',
+  `create_user` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `ds_cycle` varchar(32) DEFAULT NULL COMMENT '数据周期',
+  `tenant` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`kpiset_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='指标集';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_kpiset_kpi`
+--
+
+DROP TABLE IF EXISTS `mdp_kpiset_kpi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_kpiset_kpi` (
+  `id` varchar(32) NOT NULL COMMENT '编码',
+  `kpiset_id` varchar(32) DEFAULT NULL COMMENT '指标集id',
+  `field_id` varchar(32) DEFAULT NULL COMMENT '指标id,对应mdp_ds_field字段',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='指标集所含指标';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_kpiset_type`
+--
+
+DROP TABLE IF EXISTS `mdp_kpiset_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_kpiset_type` (
+  `id` varchar(32) NOT NULL COMMENT '指标集类型id',
+  `name` varchar(64) NOT NULL COMMENT '指标集类型名称',
+  `pid` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='指标集类型';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model`
+--
+
+DROP TABLE IF EXISTS `mdp_model`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model` (
+  `model_id` varchar(32) NOT NULL COMMENT '模型id',
+  `model_type_id` varchar(32) DEFAULT NULL COMMENT '模型所属类型',
+  `model_name` varchar(64) DEFAULT NULL COMMENT '模型名称',
+  `ds_id` varchar(32) DEFAULT NULL COMMENT '模型所选数据源id',
+  `ds_cycle` varchar(32) DEFAULT NULL COMMENT '模型所选数据源周期',
+  `status` int(11) DEFAULT NULL COMMENT '状态',
+  `create_user` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `province_id` varchar(10) DEFAULT NULL,
+  `application_scene_id` varchar(10) DEFAULT NULL,
+  `tenant` varchar(32) DEFAULT 'SX',
+  `sub_frame` varchar(50) DEFAULT NULL,
+  `train_type` varchar(10) DEFAULT NULL,
+  `manner` int(11) DEFAULT NULL COMMENT '创建方式',
+  `engine` int(11) DEFAULT NULL COMMENT '引擎',
+  `business_type` varchar(32) DEFAULT NULL COMMENT '业务分类',
+  `dev_language` int(11) DEFAULT NULL COMMENT '开发语言',
+  PRIMARY KEY (`model_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_confparams`
+--
+
+DROP TABLE IF EXISTS `mdp_model_confparams`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_confparams` (
+  `param_id` varchar(32) NOT NULL COMMENT '参数id',
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型id',
+  `param_key` varchar(64) DEFAULT NULL COMMENT '参数key',
+  `param_value` varchar(256) DEFAULT NULL COMMENT '参数值',
+  PRIMARY KEY (`param_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='协同过滤评分模型参数表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_default_config`
+--
+
+DROP TABLE IF EXISTS `mdp_model_default_config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_default_config` (
+  `model_type_id` varchar(32) NOT NULL COMMENT '模型类型ID',
+  `model_type_name` varchar(64) DEFAULT NULL COMMENT '模型类型名称',
+  `module_id` varchar(32) NOT NULL COMMENT '模块ID',
+  `config_key` varchar(32) NOT NULL COMMENT '配置Key值',
+  `config_value` varchar(255) NOT NULL COMMENT '配置参数',
+  `config_desc` varchar(255) DEFAULT NULL COMMENT '配置描述',
+  `create_user` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态：1-生效，0-失效',
+  PRIMARY KEY (`model_type_id`,`module_id`,`config_key`),
+  KEY `def_config_index` (`model_type_id`,`module_id`,`config_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_kpi_rule`
+--
+
+DROP TABLE IF EXISTS `mdp_model_kpi_rule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_kpi_rule` (
+  `id` varchar(32) NOT NULL COMMENT 'id',
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型id，对应mdp_model表model_id字段',
+  `field_id` varchar(32) DEFAULT NULL COMMENT '指标id,对应mdp_ds_field表field_id字段',
+  `field_cn_name` varchar(64) DEFAULT NULL COMMENT '字段中文名称',
+  `field_en_name` varchar(64) DEFAULT NULL COMMENT '字段英文名称',
+  `field_filter_rule` varchar(256) DEFAULT NULL COMMENT '字段过滤规则',
+  `field_index` int(11) DEFAULT NULL COMMENT '过滤条件顺序',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型所选指标及指标过滤规则';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_kpiset`
+--
+
+DROP TABLE IF EXISTS `mdp_model_kpiset`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_kpiset` (
+  `id` varchar(32) NOT NULL COMMENT 'id编码',
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型id',
+  `kpiset_id` varchar(32) DEFAULT NULL COMMENT '指标集id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型对应的指标集';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_miner_kpi`
+--
+
+DROP TABLE IF EXISTS `mdp_model_miner_kpi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_miner_kpi` (
+  `id` varchar(32) NOT NULL,
+  `model_id` varchar(32) DEFAULT NULL,
+  `task_id` varchar(32) DEFAULT NULL,
+  `field_id` varchar(32) DEFAULT NULL,
+  `alg_name` varchar(32) DEFAULT NULL,
+  `field_en_name` varchar(64) DEFAULT NULL,
+  `field_cn_name` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_params`
+--
+
+DROP TABLE IF EXISTS `mdp_model_params`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_params` (
+  `param_id` varchar(32) NOT NULL COMMENT '参数id',
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型id',
+  `param_key` varchar(64) DEFAULT NULL COMMENT '参数key',
+  `param_value` varchar(256) DEFAULT NULL COMMENT '参数值',
+  PRIMARY KEY (`param_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型配置参数表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_simple`
+--
+
+DROP TABLE IF EXISTS `mdp_model_simple`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_simple` (
+  `id` varchar(32) NOT NULL,
+  `simple_size` bigint(20) DEFAULT NULL COMMENT '样本数量，-1为全部样本数据',
+  `pos_simple_percent` double(3,2) DEFAULT NULL COMMENT '正样本比率',
+  `train_set_percent` double(3,2) DEFAULT NULL COMMENT '训练集比率',
+  `pos_simple_type` int(11) DEFAULT NULL COMMENT '0为指标过滤，1为其他',
+  `neg_simple_type` int(11) DEFAULT NULL COMMENT '0为指标过滤，1为除正样本外的所有数据',
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型id',
+  `extract_type` varchar(10) DEFAULT NULL COMMENT '抽取方式。0默认  1随机抽样',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型正负样本配置信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_simple_feature_kpi`
+--
+
+DROP TABLE IF EXISTS `mdp_model_simple_feature_kpi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_simple_feature_kpi` (
+  `id` varchar(32) NOT NULL COMMENT '编码',
+  `field_id` varchar(32) DEFAULT NULL COMMENT '指标id',
+  `field_cn_name` varchar(64) DEFAULT NULL COMMENT '字段中文名称',
+  `field_en_name` varchar(64) DEFAULT NULL COMMENT '指标英文名称',
+  `ftp_id` varchar(32) DEFAULT NULL COMMENT 'ftpid',
+  `ftpfilepath` varchar(512) DEFAULT NULL COMMENT 'ftp文件路径',
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='正样本特征数据源';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_simple_kpi`
+--
+
+DROP TABLE IF EXISTS `mdp_model_simple_kpi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_simple_kpi` (
+  `id` varchar(32) NOT NULL COMMENT '编码',
+  `simple_type` int(11) DEFAULT NULL COMMENT '正负样本类型，1为正样本，0为负样本',
+  `field_id` varchar(32) DEFAULT NULL COMMENT '指标id',
+  `field_cn_name` varchar(64) DEFAULT NULL COMMENT '字段中文名称',
+  `field_en_name` varchar(64) DEFAULT NULL COMMENT '指标英文名称',
+  `field_filter_rule` text COMMENT '指标规则',
+  `field_index` int(11) DEFAULT NULL COMMENT '字段条件顺序',
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='正负样本指标信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_stage`
+--
+
+DROP TABLE IF EXISTS `mdp_model_stage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_stage` (
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型id',
+  `stage_id` varchar(32) DEFAULT NULL COMMENT '模型步骤id',
+  `stage_bar` float(3,2) DEFAULT NULL COMMENT '模型进度',
+  `message` longtext COMMENT '处理消息',
+  `result` text COMMENT '处理过程重要数据json串',
+  `status` int(11) DEFAULT NULL COMMENT '状态:1正常,0失败',
+  `start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
+  `end_time` timestamp NULL DEFAULT NULL COMMENT '结束时间',
+  `id` varchar(32) NOT NULL DEFAULT '' COMMENT 'id',
+  `parent_id` varchar(32) DEFAULT NULL COMMENT '父步骤ID',
+  `task_id` varchar(32) DEFAULT NULL COMMENT '任务ID',
+  `operate_type` varchar(100) DEFAULT NULL COMMENT '交互类型',
+  `err_info` text COMMENT '错误日志',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型步骤进度表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task` (
+  `task_id` varchar(32) NOT NULL COMMENT '任务id',
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型id',
+  `status` int(11) DEFAULT NULL COMMENT '状态',
+  `param_json` longtext COMMENT '参数json串',
+  `create_time` datetime DEFAULT NULL COMMENT '开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+  PRIMARY KEY (`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型训练任务信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_arithmetic`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_arithmetic`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_arithmetic` (
+  `model_id` varchar(32) NOT NULL COMMENT '模型id',
+  `task_id` varchar(32) NOT NULL COMMENT '任务id',
+  `arithmetic_id` varchar(32) NOT NULL COMMENT '算法id',
+  `work_mode` varchar(10) DEFAULT NULL COMMENT '工作模式'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型任务算法';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_classify_acc`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_classify_acc`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_classify_acc` (
+  `id` varchar(32) NOT NULL COMMENT '编号',
+  `task_id` varchar(32) DEFAULT NULL COMMENT '任务编号',
+  `access` varchar(255) DEFAULT NULL COMMENT 'access指标',
+  `train` varchar(255) DEFAULT NULL COMMENT '训练值',
+  `test` varchar(255) DEFAULT NULL COMMENT '校验值',
+  `row_index` int(11) DEFAULT NULL COMMENT '行号',
+  `alg_Name` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_classify_confusionmatrix`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_classify_confusionmatrix`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_classify_confusionmatrix` (
+  `id` varchar(32) NOT NULL COMMENT '编号',
+  `task_id` varchar(32) DEFAULT NULL COMMENT '模型任务task id',
+  `prediction` varchar(256) DEFAULT NULL COMMENT '预测值',
+  `reference` varchar(256) DEFAULT NULL COMMENT '实际值',
+  `freq` varchar(256) DEFAULT NULL COMMENT '频率',
+  `type` varchar(256) DEFAULT NULL,
+  `row_index` int(11) DEFAULT NULL COMMENT '行号',
+  `alg_Name` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_classify_imp`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_classify_imp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_classify_imp` (
+  `id` varchar(32) NOT NULL COMMENT '编号',
+  `task_id` varchar(32) DEFAULT NULL COMMENT '模型任务taskid',
+  `field_id` varchar(32) DEFAULT NULL COMMENT '指标id',
+  `field_cn_name` varchar(64) DEFAULT NULL COMMENT '指标中文名',
+  `field_en_name` varchar(64) DEFAULT NULL COMMENT '指标英文名',
+  `attribute` varchar(64) DEFAULT NULL COMMENT '重要程度',
+  `row_index` int(11) DEFAULT NULL COMMENT '行号',
+  `alg_Name` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_classify_rule`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_classify_rule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_classify_rule` (
+  `id` varchar(32) NOT NULL COMMENT '编号',
+  `task_id` varchar(32) DEFAULT NULL COMMENT '模型task id',
+  `rule_id` varchar(32) DEFAULT NULL COMMENT '规则id',
+  `rule_simple_total_size` int(1) DEFAULT NULL COMMENT '规则样本个数',
+  `rule_simple_error_size` int(1) DEFAULT NULL COMMENT '规则错误样本个数',
+  `rule_lift` varchar(255) DEFAULT NULL COMMENT 'lift字段',
+  `rule_classify` varchar(255) DEFAULT NULL COMMENT '规则结果类型',
+  `rule_accuracy` varchar(255) DEFAULT NULL COMMENT '规则准确性',
+  `rule_field_json` text COMMENT '规则字段信息',
+  `rule_sql` text COMMENT '规则构建的sql',
+  `alg_Name` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_cluster_count`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_cluster_count`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_cluster_count` (
+  `id` varchar(32) NOT NULL COMMENT '编号',
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型编号',
+  `task_id` varchar(32) DEFAULT NULL COMMENT '任务编号',
+  `category` varchar(32) DEFAULT NULL COMMENT '聚类类别',
+  `category_count` varchar(32) DEFAULT NULL COMMENT '每一类別的个数',
+  `alg_name` varchar(32) DEFAULT NULL COMMENT '算法名称',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_common_category`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_common_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_common_category` (
+  `id` varchar(32) NOT NULL,
+  `model_id` varchar(32) DEFAULT NULL,
+  `task_id` varchar(32) DEFAULT NULL,
+  `alg_name` varchar(32) DEFAULT NULL,
+  `category_key` varchar(64) DEFAULT NULL,
+  `category_value` varchar(64) DEFAULT NULL,
+  `category` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_dl_loss`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_dl_loss`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_dl_loss` (
+  `id` varchar(32) NOT NULL,
+  `model_id` varchar(32) DEFAULT NULL,
+  `task_id` varchar(32) DEFAULT NULL,
+  `alg_name` varchar(32) DEFAULT NULL,
+  `row_index` int(11) DEFAULT NULL,
+  `step` varchar(64) DEFAULT NULL,
+  `loss_train` varchar(64) DEFAULT NULL,
+  `loss_test` varchar(64) DEFAULT NULL,
+  `acc_test` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_kpi`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_kpi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_kpi` (
+  `task_id` varchar(32) NOT NULL DEFAULT '' COMMENT '模型id',
+  `field_id` varchar(32) NOT NULL DEFAULT '' COMMENT '字段id',
+  `field_cn_name` varchar(64) DEFAULT NULL COMMENT '字段中文名称',
+  `field_en_name` varchar(64) DEFAULT NULL COMMENT '字段英文名称',
+  `field_desc` varchar(256) DEFAULT NULL COMMENT '字段描述',
+  `field_caliber` varchar(512) DEFAULT NULL COMMENT '数据统计口径',
+  `field_unit` varchar(64) DEFAULT NULL COMMENT '单位',
+  `field_data_type` varchar(64) DEFAULT NULL COMMENT '字段数据类型',
+  `field_data_feature` varchar(64) DEFAULT NULL COMMENT '字段特征类型,1是枚举类型',
+  `field_index` int(11) DEFAULT NULL COMMENT '字段顺序',
+  `field_class_cn_name` varchar(64) DEFAULT NULL COMMENT '指标类型中文名称',
+  `field_class_en_name` varchar(64) DEFAULT NULL COMMENT '指标类型英文名称',
+  `ds_id` varchar(32) DEFAULT NULL COMMENT '数据源id，对应mdp_ds表id字段',
+  PRIMARY KEY (`task_id`,`field_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据源字段信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_kpi_rule`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_kpi_rule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_kpi_rule` (
+  `id` varchar(32) NOT NULL COMMENT 'id',
+  `model_id` varchar(32) NOT NULL COMMENT '模型id，对应mdp_model表model_id字段',
+  `field_id` varchar(32) DEFAULT NULL COMMENT '指标id,对应mdp_ds_field表field_id字段',
+  `field_cn_name` varchar(64) DEFAULT NULL COMMENT '字段中文名称',
+  `field_en_name` varchar(64) DEFAULT NULL COMMENT '字段英文名称',
+  `field_filter_rule` text COMMENT '字段过滤规则',
+  `field_index` int(11) DEFAULT NULL COMMENT '过滤条件顺序',
+  `task_id` varchar(32) NOT NULL COMMENT '任务id',
+  PRIMARY KEY (`id`,`model_id`,`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务所选指标及指标过滤规则';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_simple`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_simple`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_simple` (
+  `id` varchar(32) NOT NULL,
+  `simple_size` bigint(20) DEFAULT NULL COMMENT '样本数量，-1为全部样本数据',
+  `pos_simple_percent` double(3,2) DEFAULT NULL COMMENT '正样本比率',
+  `train_set_percent` double(3,2) DEFAULT NULL COMMENT '训练集比率',
+  `pos_simple_type` int(11) DEFAULT NULL COMMENT '0为指标过滤，1为其他',
+  `neg_simple_type` int(11) DEFAULT NULL COMMENT '0为指标过滤，1为除正样本外的所有数据',
+  `model_id` varchar(32) NOT NULL COMMENT '模型id',
+  `task_id` varchar(32) NOT NULL COMMENT '任务id',
+  PRIMARY KEY (`id`,`model_id`,`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务正负样本配置信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_simple_feature_kpi`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_simple_feature_kpi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_simple_feature_kpi` (
+  `id` varchar(32) NOT NULL COMMENT '编码',
+  `field_id` varchar(32) DEFAULT NULL COMMENT '指标id',
+  `field_cn_name` varchar(64) DEFAULT NULL COMMENT '字段中文名称',
+  `field_en_name` varchar(64) DEFAULT NULL COMMENT '指标英文名称',
+  `ftp_id` varchar(32) DEFAULT NULL COMMENT 'ftpid',
+  `ftpfilepath` varchar(512) DEFAULT NULL COMMENT 'ftp文件路径',
+  `model_id` varchar(32) NOT NULL COMMENT '模型id',
+  `task_id` varchar(32) NOT NULL COMMENT '任务id',
+  PRIMARY KEY (`id`,`model_id`,`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务正样本特征数据源';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_simple_kpi`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_simple_kpi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_simple_kpi` (
+  `id` varchar(32) NOT NULL COMMENT '编码',
+  `simple_type` int(11) DEFAULT NULL COMMENT '正负样本类型，1为正样本，0为负样本',
+  `field_id` varchar(32) DEFAULT NULL COMMENT '指标id',
+  `field_cn_name` varchar(64) DEFAULT NULL COMMENT '字段中文名称',
+  `field_en_name` varchar(64) DEFAULT NULL COMMENT '指标英文名称',
+  `field_filter_rule` text COMMENT '指标规则',
+  `field_index` int(11) DEFAULT NULL COMMENT '字段条件顺序',
+  `model_id` varchar(32) NOT NULL COMMENT '模型id',
+  `task_id` varchar(32) NOT NULL COMMENT '任务id',
+  PRIMARY KEY (`id`,`model_id`,`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务正负样本指标信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_task_timeserise_pred`
+--
+
+DROP TABLE IF EXISTS `mdp_model_task_timeserise_pred`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_task_timeserise_pred` (
+  `id` varchar(32) NOT NULL,
+  `model_id` varchar(32) DEFAULT NULL,
+  `task_id` varchar(32) DEFAULT NULL,
+  `alg_name` varchar(32) DEFAULT NULL,
+  `point_forecast` varchar(64) DEFAULT NULL,
+  `date_str` varchar(64) DEFAULT NULL,
+  `row_index` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_type`
+--
+
+DROP TABLE IF EXISTS `mdp_model_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_type` (
+  `model_type_id` varchar(32) NOT NULL COMMENT '场景类型id',
+  `model_type_name` varchar(64) DEFAULT NULL COMMENT '场景类型名称',
+  `model_type_desc` varchar(512) DEFAULT NULL COMMENT '场景描述',
+  `model_type_icon` varchar(64) DEFAULT NULL COMMENT '场景icon图标',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `is_valid` int(11) DEFAULT NULL COMMENT '是否有效',
+  `sort_index` int(11) DEFAULT NULL COMMENT '升序顺序',
+  PRIMARY KEY (`model_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='场景分类表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_type_params`
+--
+
+DROP TABLE IF EXISTS `mdp_model_type_params`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_type_params` (
+  `param_id` varchar(32) NOT NULL COMMENT '参数id',
+  `param_key` varchar(64) DEFAULT NULL COMMENT '参数key',
+  `def_value` varchar(256) DEFAULT NULL COMMENT '参数默认值',
+  `valid_value` varchar(256) DEFAULT NULL COMMENT '参数值有效性',
+  `param_desc` varchar(256) DEFAULT NULL COMMENT '参数描述',
+  `is_update` smallint(6) DEFAULT NULL COMMENT '是否可修改,0不可修改，1可修改',
+  `mode_type_id` varchar(32) DEFAULT NULL COMMENT '模型类别编码，对应mdp_model_type表model_type_id字段',
+  PRIMARY KEY (`param_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型类别默认参数表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_model_useritem`
+--
+
+DROP TABLE IF EXISTS `mdp_model_useritem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_model_useritem` (
+  `param_id` varchar(32) NOT NULL COMMENT '参数id',
+  `model_id` varchar(32) DEFAULT NULL COMMENT '模型id',
+  `user_kpi_id` varchar(64) DEFAULT NULL COMMENT '用户指标',
+  `item_kpi_id` varchar(64) DEFAULT NULL COMMENT '物品指标',
+  `user_kpi_en_name` varchar(64) DEFAULT NULL,
+  `user_kpi_cn_name` varchar(64) DEFAULT NULL,
+  `item_kpi_en_name` varchar(64) DEFAULT NULL,
+  `item_kpi_cn_name` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`param_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='协同过滤用户物品参数表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_modelstage_map`
+--
+
+DROP TABLE IF EXISTS `mdp_modelstage_map`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_modelstage_map` (
+  `id` varchar(32) NOT NULL COMMENT '编码',
+  `status` varchar(32) DEFAULT NULL COMMENT '状态 对应mdp_model status',
+  `stage_id` varchar(32) DEFAULT NULL COMMENT '步骤id,对应mdp_statge字段',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='状态跟步骤对应';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_notice_record`
+--
+
+DROP TABLE IF EXISTS `mdp_notice_record`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_notice_record` (
+  `affiche_id` varchar(30) NOT NULL COMMENT '公告编号',
+  `reader` varchar(32) NOT NULL COMMENT '阅读人',
+  `read_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '阅读时间',
+  `read_times` int(11) NOT NULL COMMENT '阅读次数',
+  PRIMARY KEY (`affiche_id`,`reader`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='公告阅读记录表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_stage`
+--
+
+DROP TABLE IF EXISTS `mdp_stage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_stage` (
+  `stage_id` varchar(32) NOT NULL COMMENT '场景步骤id',
+  `stage_name` varchar(64) DEFAULT NULL COMMENT '场景步骤名称',
+  `stage_desc` varchar(512) DEFAULT NULL COMMENT '场景步骤描述',
+  `stage_icon` varchar(64) DEFAULT NULL COMMENT '场景步骤icon图标',
+  PRIMARY KEY (`stage_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型运行步骤维表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_sys_support`
+--
+
+DROP TABLE IF EXISTS `mdp_sys_support`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_sys_support` (
+  `conf_code` varchar(32) NOT NULL COMMENT '配置项编码',
+  `conf_title` varchar(32) DEFAULT NULL COMMENT '配置项标题',
+  `conf_desc` varchar(500) DEFAULT NULL COMMENT '配置项描述',
+  `sort_index` int(11) DEFAULT NULL COMMENT '排序索引',
+  `conf_json` longtext COMMENT '配置JSON',
+  `tenant` varchar(64) NOT NULL COMMENT '租户',
+  `is_valid` int(11) DEFAULT NULL COMMENT '是否可用',
+  `creator` varchar(32) DEFAULT NULL COMMENT '创建人',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `modifier` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `modify_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`conf_code`,`tenant`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统支持配置信息';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_tenant_instance`
+--
+
+DROP TABLE IF EXISTS `mdp_tenant_instance`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_tenant_instance` (
+  `instance_id` varchar(64) NOT NULL DEFAULT '' COMMENT '租户应用实例编码',
+  `tenant` varchar(64) DEFAULT NULL COMMENT '租户编码',
+  `tenant_name` varchar(64) DEFAULT NULL COMMENT '租户名称',
+  `tenant_desc` varchar(255) DEFAULT NULL COMMENT '租户描述',
+  `parameters` varchar(500) DEFAULT NULL COMMENT '租户应用创建参数',
+  `arrange_setting` varchar(500) DEFAULT NULL COMMENT '服务编排部署设置',
+  `mdpserver_route` varchar(100) DEFAULT NULL,
+  `mdpserver_svc` varchar(50) DEFAULT NULL,
+  `miner_route` varchar(100) DEFAULT NULL,
+  `miner_svc` varchar(50) DEFAULT NULL,
+  `notebook_route` varchar(100) DEFAULT NULL,
+  `notebook_svc` varchar(50) DEFAULT NULL,
+  `ui_route` varchar(100) DEFAULT NULL,
+  `ui_svc` varchar(50) DEFAULT NULL,
+  `service_id` varchar(64) DEFAULT NULL COMMENT '服务编码',
+  `plan_id` varchar(64) DEFAULT NULL COMMENT '服务计划编码',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`instance_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_token_conf`
+--
+
+DROP TABLE IF EXISTS `mdp_token_conf`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_token_conf` (
+  `token` varchar(64) NOT NULL DEFAULT '',
+  PRIMARY KEY (`token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_train_rpt_conf`
+--
+
+DROP TABLE IF EXISTS `mdp_train_rpt_conf`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_train_rpt_conf` (
+  `scene_id` varchar(32) NOT NULL COMMENT '情景框架编码',
+  `arith_id` varchar(32) NOT NULL COMMENT '算法编码',
+  `reprt_conf` longtext NOT NULL COMMENT '报表配置',
+  `extra_data` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`scene_id`,`arith_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='模型训练报告配置';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_train_rpt_item_conf`
+--
+
+DROP TABLE IF EXISTS `mdp_train_rpt_item_conf`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_train_rpt_item_conf` (
+  `code` varchar(32) NOT NULL COMMENT '报表项编码',
+  `name` varchar(100) DEFAULT NULL COMMENT '报表项名称',
+  `generate_mode` varchar(10) DEFAULT NULL COMMENT '生成方式',
+  `section_group` varchar(10) DEFAULT NULL COMMENT '报表项分组',
+  `data_header` tinytext COMMENT '数据列标题',
+  `data_sql` longtext COMMENT '数据查询SQL',
+  `generate_conf` longtext COMMENT '数据解析处理JS函数配置',
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型训练片段配置';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `mdp_train_rpt_result`
+--
+
+DROP TABLE IF EXISTS `mdp_train_rpt_result`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mdp_train_rpt_result` (
+  `task_id` varchar(32) NOT NULL COMMENT '任务编码',
+  `arith_id` varchar(32) NOT NULL COMMENT '算法编码',
+  `report_data` longtext COMMENT '报表数据',
+  `generate_time` datetime DEFAULT NULL COMMENT '生成时间',
+  PRIMARY KEY (`arith_id`,`task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模型训练报告生成记录表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `miner`
+--
+
+DROP TABLE IF EXISTS `miner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `miner` (
+  `General0Name` varchar(128) DEFAULT NULL,
+  `General0Version` varchar(32) DEFAULT NULL,
+  `General0User` varchar(64) DEFAULT NULL,
+  `General0CTime` varchar(64) DEFAULT NULL,
+  `General0TID` varchar(128) NOT NULL DEFAULT '',
+  `General0RS` varchar(16) DEFAULT NULL,
+  `General0SE` varchar(128) DEFAULT NULL,
+  `Platform0Type` varchar(32) DEFAULT NULL,
+  `Platform0Resource` varchar(128) DEFAULT NULL,
+  `Special0Code` varchar(64) DEFAULT NULL,
+  `Special0Name` varchar(128) DEFAULT NULL,
+  `Special0Customized` varchar(16) DEFAULT NULL,
+  `Calculation0Types` varchar(16) DEFAULT NULL,
+  `Calculation0AlgName` varchar(128) DEFAULT NULL,
+  `Calculation0WorkMode` varchar(32) DEFAULT NULL,
+  `Calculation0Functional` varchar(32) DEFAULT NULL,
+  `File0RequestDir` varchar(512) DEFAULT NULL,
+  `File1ResponseDir` varchar(512) DEFAULT NULL,
+  `Extern0TaskJson` text,
+  `End` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`General0TID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `model_info`
+--
+
+DROP TABLE IF EXISTS `model_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `model_info` (
+  `MODEL_ID` char(36) COLLATE utf8_unicode_ci NOT NULL,
+  `USER_NAME` char(32) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `TYPE_MENU_ID` char(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `VIEW_MENU_ID` char(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `MODEL_NAME` char(64) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `NOTEBOOK_PATH` char(64) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `UPDATED_TIME` date NOT NULL,
+  `COMMENT` text COLLATE utf8_unicode_ci,
+  `FILE_PATH` text COLLATE utf8_unicode_ci NOT NULL,
+  `MODEL_INFO` text COLLATE utf8_unicode_ci,
+  `APP_ID` char(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `KERNEL` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `STATUS` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `PUBLISH_MODEL_NAME` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `publish_type` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `PUBLISH_FILE_NAME` varchar(2000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ENGINE` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DS_ID` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DS_CYCLE` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`MODEL_ID`),
+  KEY `FK_MAKEFILE_idx` (`MODEL_NAME`),
+  KEY `UNIQUE` (`MODEL_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `oauth_access_token`
+--
+
+DROP TABLE IF EXISTS `oauth_access_token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_access_token` (
+  `token_id` varchar(256) DEFAULT NULL,
+  `token` blob,
+  `authentication_id` varchar(128) NOT NULL,
+  `user_name` varchar(256) DEFAULT NULL,
+  `client_id` varchar(256) DEFAULT NULL,
+  `authentication` blob,
+  `refresh_token` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`authentication_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `oauth_approvals`
+--
+
+DROP TABLE IF EXISTS `oauth_approvals`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_approvals` (
+  `userId` varchar(250) DEFAULT NULL,
+  `clientId` varchar(256) DEFAULT NULL,
+  `scope` varchar(256) DEFAULT NULL,
+  `status` varchar(10) DEFAULT NULL,
+  `expiresAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `lastModifiedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `oauth_client_details`
+--
+
+DROP TABLE IF EXISTS `oauth_client_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_client_details` (
+  `client_id` varchar(250) NOT NULL DEFAULT '',
+  `resource_ids` varchar(256) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `client_secret` varchar(256) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `scope` varchar(256) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `authorized_grant_types` varchar(256) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `web_server_redirect_uri` varchar(256) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `authorities` varchar(256) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `access_token_validity` int(11) DEFAULT NULL,
+  `refresh_token_validity` int(11) DEFAULT NULL,
+  `additional_information` text CHARACTER SET utf8mb4,
+  `autoapprove` varchar(256) CHARACTER SET utf8mb4 DEFAULT NULL,
+  PRIMARY KEY (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `oauth_client_token`
+--
+
+DROP TABLE IF EXISTS `oauth_client_token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_client_token` (
+  `token_id` varchar(128) DEFAULT NULL,
+  `token` blob,
+  `authentication_id` varchar(128) NOT NULL,
+  `user_name` varchar(128) DEFAULT NULL,
+  `client_id` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`authentication_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `oauth_code`
+--
+
+DROP TABLE IF EXISTS `oauth_code`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_code` (
+  `code` varchar(256) DEFAULT NULL,
+  `authentication` blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `oauth_refresh_token`
+--
+
+DROP TABLE IF EXISTS `oauth_refresh_token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_refresh_token` (
+  `token_id` varchar(250) DEFAULT NULL,
+  `token` blob,
+  `authentication` blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `result_pageinfo`
+--
+
+DROP TABLE IF EXISTS `result_pageinfo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `result_pageinfo` (
+  `id` varchar(30) DEFAULT NULL,
+  `pageitem_id` varchar(30) DEFAULT NULL,
+  `pagetype_id` varchar(30) DEFAULT NULL,
+  `pageInfoName` varchar(100) DEFAULT NULL,
+  `sort_index` int(11) DEFAULT NULL,
+  `page_json` longtext,
+  `alg_name` varchar(64) DEFAULT NULL COMMENT '算法名称'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `result_pageitem`
+--
+
+DROP TABLE IF EXISTS `result_pageitem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `result_pageitem` (
+  `id` varchar(30) NOT NULL DEFAULT '',
+  `pageitem_name` varchar(30) DEFAULT NULL,
+  `pageitem_class` longtext,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `result_pagetype`
+--
+
+DROP TABLE IF EXISTS `result_pagetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `result_pagetype` (
+  `id` varchar(30) NOT NULL DEFAULT '',
+  `pagetype_name` varchar(30) DEFAULT NULL,
+  `modeltype_id` varchar(30) DEFAULT NULL,
+  `type` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user_info`
+--
+
+DROP TABLE IF EXISTS `user_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_info` (
+  `USER_ID` varchar(64) NOT NULL,
+  `USER_NAME` varchar(64) NOT NULL DEFAULT '',
+  `PASSWORD` varchar(32) DEFAULT NULL,
+  `NOTEBOOK_SERVER_URL` varchar(64) DEFAULT NULL,
+  `JUPYTER_TOKEN` varchar(64) DEFAULT NULL,
+  `EMAIL` varchar(32) DEFAULT '',
+  PRIMARY KEY (`USER_ID`),
+  UNIQUE KEY `USER_NAME` (`USER_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Temporary table structure for view `v_ai_permission`
+--
+
+DROP TABLE IF EXISTS `v_ai_permission`;
+/*!50001 DROP VIEW IF EXISTS `v_ai_permission`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `v_ai_permission` (
+  `PERMISSION_ID` tinyint NOT NULL,
+  `PERMISSION_NAME` tinyint NOT NULL,
+  `PERMISSION_DESC` tinyint NOT NULL,
+  `PERMISSION_TYPE` tinyint NOT NULL,
+  `MODULE_ID` tinyint NOT NULL,
+  `MODULE_PATH` tinyint NOT NULL,
+  `SORT_IDX` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `v_ai_permission`
+--
+
+/*!50001 DROP TABLE IF EXISTS `v_ai_permission`*/;
+/*!50001 DROP VIEW IF EXISTS `v_ai_permission`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`mlp_mdp`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_ai_permission` AS select concat('M:',`t1`.`MODULE_ID`) AS `PERMISSION_ID`,concat(`t1`.`MODULE_NAME`,'-') AS `PERMISSION_NAME`,concat(`t1`.`MODULE_DESC`,'') AS `PERMISSION_DESC`,-(1) AS `PERMISSION_TYPE`,`t1`.`MODULE_ID` AS `MODULE_ID`,concat(`t1`.`FULL_PATH`) AS `MODULE_PATH`,`t1`.`SORT_IDX` AS `SORT_IDX` from `ai_module` `t1` where (`t1`.`VALID_FLAG` = 1) union all select `t2`.`PERMISSION_ID` AS `PERMISSION_ID`,`t2`.`PERMISSION_NAME` AS `PERMISSION_NAME`,`t2`.`PERMISSION_DESC` AS `PERMISSION_DESC`,`t2`.`PERMISSION_TYPE` AS `PERMISSION_TYPE`,`t2`.`MODULE_ID` AS `MODULE_ID`,concat(`t3`.`FULL_PATH`,':',`t2`.`MODULE_ID`) AS `MODULE_PATH`,`t2`.`SORT_INDEX` AS `SORT_INDEX` from (`ai_permission` `t2` join `ai_module` `t3` on((`t2`.`MODULE_ID` = `t3`.`MODULE_ID`))) where (`t2`.`VALID_FLAG` = 1) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-11-19 18:14:52

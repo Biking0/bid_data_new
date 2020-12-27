@@ -1,0 +1,14 @@
+2020/1/31 14:28:59
+st_rs_fg_o_hn_yyyymmdd
+
+bash -c "source /opt/fi_client/bigdata_env && kinit -kt /home/bdi/user.keytab asiainfouser1 &&  python /home/bdi/hyn/wh/test.py"
+
+beeline -e "use asiainfoh;select * from st_rs_fg_o_hn_yyyymmdd where day_id=20200125" > st_rs_fg_o_hn_yyyymmdd_20200131.txt;
+
+beeline -e "select * from asiainfoh.st_rs_fg_o_hn_yyyymmdd where day_id=20200125" > st_rs_fg_o_hn_yyyymmdd_20200131.txt;
+beeline -e "set hive.exec.compress.output=false;set hive.cli.print.header=false;select * from asiainfoh.st_rs_fg_o_hn_yyyymmdd where day_id=20200125" > st_rs_fg_o_hn_yyyymmdd_20200131.txt;
+
+
+beeline -e "select * from asiainfoh.st_rs_fg_o_hn_yyyymmdd where day_id=20200131 > st_rs_fg_o_hn_yyyymmdd_20200131.txt;"
+
+set beeline.exec.compress.output=false;

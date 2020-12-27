@@ -1,0 +1,107 @@
+2020/1/10 14:19:59
+进度
+119、120获取运行任务数据量
+计算任务数据量
+传到81校验
+发送短信
+传送运行任务数据量数据
+整体测试
+
+循环运行
+
+2020/1/10 17:52:13
+启动命令
+
+120
+nohup python run.py >> nohup.out &
+119
+nohup python run.py >> nohup.out &
+81
+nohup sh run.sh >> nohup.out &
+
+ps -ef | grep run
+
+
+2019/12/29 16:30:05
+hadoop fs -du -h /user/hive/warehouse/asiainfoh.db/dw_user_info_outhn_dt_yyyymmddhh*
+hadoop fs -mkdir /user/hive/warehouse/asiainfoh.db/bdi_monitor/log
+hadoop fs -mkdir /user/hive/warehouse/asiainfoh.db/bdi_monitor/119chk
+hadoop fs -mkdir /user/hive/warehouse/asiainfoh.db/bdi_monitor/120chk
+hadoop fs -du /user/hive/warehouse/asiainfoh.db/bdi_monitor/log
+hadoop fs -test /user/hive/warehouse/asiainfoh.db/bdi_monitor/log/119.chk
+
+hadoop fs -ls /user/hive/warehouse/asiainfoh.db/bdi_monitor/log/119.chk
+hadoop fs -ls /user/hive/warehouse/asiainfoh.db/bdi_monitor/log/120.chk
+hadoop fs -ls /user/hive/warehouse/asiainfoh.db/bdi_monitor/*
+hadoop fs -ls /user/hive/warehouse/asiainfoh.db/bdi_monitor/119chk
+hadoop fs -ls /user/hive/warehouse/asiainfoh.db/bdi_monitor/119chk
+hadoop fs -rm /user/hive/warehouse/asiainfoh.db/bdi_monitor/119chk/*
+hadoop fs -rm /user/hive/warehouse/asiainfoh.db/bdi_monitor/120chk/*
+hadoop fs -ls /user/hive/warehouse/asiainfoh.db/bdi_monitor/119chk
+hadoop fs -ls /user/hive/warehouse/asiainfoh.db/bdi_monitor/120chk
+hadoop fs -ls /user/hive/warehouse/asiainfoh.db/bdi_monitor/119chk > check_upload.txt
+hadoop fs -ls /user/hive/warehouse/asiainfoh.db/bdi_monitor/120chk > check_upload.txt
+
+hadoop fs -test -e /user/hive/warehouse/asiainfoh.db/bdi_monitor/log/120.chk
+
+hadoop fs -put ./119.chk /user/hive/warehouse/asiainfoh.db/bdi_monitor/log
+hadoop fs -put ./119.chk /user/hive/warehouse/asiainfoh.db/bdi_monitor/119chk
+hadoop fs -put ./120.chk /user/hive/warehouse/asiainfoh.db/bdi_monitor/120chk
+
+hdfs建两个文件分别放校验文件
+
+上传hdfs，119chk
+119，如果是空的，放119chk，如果有119chk更新上传，如果有120chk，计算清理chk
+120，如果是空的，放120chk，如果有120chk更新上传，如果有119chk，计算清理chk
+
+
+程序结构：
+1.生成近5天的running文件
+2.获取无后缀文件数量
+3.生成校验文件上传到hdfs
+4.计算hdfs校验文件并删除校验文件
+5.等待10分钟下次检测
+
+# 监控报错任务
+grep Error ./dw_locl_city_stay_yyyymmddhh* | more
+
+grep Error ./*20191227* | more
+grep Error ./*20191228* | more
+grep Error ./*20191229* | more
+grep Error ./*20191230* | more
+grep Error ./*20191231* | more
+
+# 监控正在运行的任务，积压情况，延迟情况
+rm runing.txt
+
+
+#!/bin/bash
+ll /home/bdi/Asiainfo/tas/logs/*20191225* >> runing.txt
+ll /home/bdi/Asiainfo/tas/logs/*20191226* >> runing.txt
+ll /home/bdi/Asiainfo/tas/logs/*20191227* >> runing.txt
+ll /home/bdi/Asiainfo/tas/logs/*20191228* >> runing.txt
+ll /home/bdi/Asiainfo/tas/logs/*20191229* >> runing.txt
+ll /home/bdi/Asiainfo/tas/logs/*20191230* >> runing.txt
+ll /home/bdi/Asiainfo/tas/logs/*20191231* >> runing.txt
+ll /home/bdi/Asiainfo/tas/logs/*20200101* >> runing.txt
+
+python bdi_monitor_task.py
+
+hadoop fs -ls /asiainfo/dependent/119*
+hadoop fs -touchz /asiainfo/dependent/${table_name}_${data_time}.txt
+
+/asiainfo/dependent/119chk_20200109.txt
+
+
+sh trans_data_bdi2sanqi_chk.sh 119chk 20200109 40
+
+sh trans_data_bdi2sanqi.sh 119chk 20200109 119chk
+
+ssh 10.218.146.65 "sh /home/ocdp/hyn/ambari_monitor/send_sms.sh test HYN"
+
+hadoop fs -cat hdfs://10.218.59.8:25000/asiainfo/dependent/119chk_20200109.txt
+hadoop fs -put ./119chk_20200109.txt /asiainfo/dependent/
+119chk_20200109.txt
+
+
+hdfs://10.218.59.8:25000/asiainfo/dependent/119chk_20200109.txt

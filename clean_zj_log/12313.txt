@@ -1,0 +1,5 @@
+docker run -d --name cm5-yx-dpbroker --entrypoint /bin/bash --restart always -p 6101:8080 --env-file /home/ocdp/ocmanager/5.0/service-brokers/yx-dpbroker/env.list -v /home/ocdp/ocmanager/5.0/service-brokers/yx-dpbroker/myprops.properties:/etc/configurations/myprops.properties -v /home/ocdp/ocmanager/5.0/service-brokers/yx-dpbroker/secrets:/etc/secrets 10.174.64.170:5000/ocmanager/servicebrokers/dpbroker:v5.0.0-dp5.0-catalog start.sh
+
+
+
+sudo docker run -d --name cm5-dpbroker --restart always -p 6101:8080 --env-file /data1/cm5/dp_servicebroker/env.list -v /data1/cm5/dp_servicebroker/myprops.properties:/etc/configurations/myprops.properties -v /data1/cm5/dp_servicebroker/secrets:/etc/secrets registry.new.dataos.io/cm_services/dpsb:v5-dp4.2

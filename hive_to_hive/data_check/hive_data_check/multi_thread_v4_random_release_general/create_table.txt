@@ -1,0 +1,197 @@
+CREATE TABLE `chk_result`(
+  `data_source` string COMMENT '数据源',
+  `des_tbl` string COMMENT '目标表名',
+  `cyclical` string COMMENT '周期',
+  `count1` string COMMENT '数据统计',
+  `end_string_sum` string COMMENT 'end_string长度统计',
+  `sum1` string COMMENT '求和',
+  `remark` string COMMENT '备注',
+  `chk_dt` string COMMENT '检核时间')
+PARTITIONED BY (
+  `static_date` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' ;
+
+CREATE TABLE `chk_result_1`(
+  `data_source` string COMMENT '数据源',
+  `des_tbl` string COMMENT '目标表名',
+  `cyclical` string COMMENT '周期',
+  `count1` string COMMENT '数据统计',
+  `end_string_sum` string COMMENT 'end_string长度统计',
+  `sum1` string COMMENT '求和',
+  `remark` string COMMENT '备注',
+  `chk_dt` string COMMENT '检核时间')
+PARTITIONED BY (
+  `static_date` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' ;
+
+CREATE TABLE `chk_result_2`(
+  `data_source` string COMMENT '数据源',
+  `des_tbl` string COMMENT '目标表名',
+  `cyclical` string COMMENT '周期',
+  `count1` string COMMENT '数据统计',
+  `end_string_sum` string COMMENT 'end_string长度统计',
+  `sum1` string COMMENT '求和',
+  `remark` string COMMENT '备注',
+  `chk_dt` string COMMENT '检核时间')
+PARTITIONED BY (
+  `static_date` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' ;
+
+CREATE TABLE `chk_result_3`(
+  `data_source` string COMMENT '数据源',
+  `des_tbl` string COMMENT '目标表名',
+  `cyclical` string COMMENT '周期',
+  `count1` string COMMENT '数据统计',
+  `end_string_sum` string COMMENT 'end_string长度统计',
+  `sum1` string COMMENT '求和',
+  `remark` string COMMENT '备注',
+  `chk_dt` string COMMENT '检核时间')
+PARTITIONED BY (
+  `static_date` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' ;
+
+CREATE TABLE `chk_result_4`(
+  `data_source` string COMMENT '数据源',
+  `des_tbl` string COMMENT '目标表名',
+  `cyclical` string COMMENT '周期',
+  `count1` string COMMENT '数据统计',
+  `end_string_sum` string COMMENT 'end_string长度统计',
+  `sum1` string COMMENT '求和',
+  `remark` string COMMENT '备注',
+  `chk_dt` string COMMENT '检核时间')
+PARTITIONED BY (
+  `static_date` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' ;
+
+CREATE TABLE `chk_result_4`(
+  `data_source` string COMMENT '数据源',
+  `des_tbl` string COMMENT '目标表名',
+  `cyclical` string COMMENT '周期',
+  `count1` string COMMENT '数据统计',
+  `end_string_sum` string COMMENT 'end_string长度统计',
+  `sum1` string COMMENT '求和',
+  `remark` string COMMENT '备注',
+  `chk_dt` string COMMENT '检核时间')
+PARTITIONED BY (
+  `static_date` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' ;
+
+CREATE TABLE `chk_result_6`(
+  `data_source` string COMMENT '数据源',
+  `des_tbl` string COMMENT '目标表名',
+  `cyclical` string COMMENT '周期',
+  `count1` string COMMENT '数据统计',
+  `end_string_sum` string COMMENT 'end_string长度统计',
+  `sum1` string COMMENT '求和',
+  `remark` string COMMENT '备注',
+  `chk_dt` string COMMENT '检核时间')
+PARTITIONED BY (
+  `static_date` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' ;
+
+CREATE TABLE `chk_result_7`(
+  `data_source` string COMMENT '数据源',
+  `des_tbl` string COMMENT '目标表名',
+  `cyclical` string COMMENT '周期',
+  `count1` string COMMENT '数据统计',
+  `end_string_sum` string COMMENT 'end_string长度统计',
+  `sum1` string COMMENT '求和',
+  `remark` string COMMENT '备注',
+  `chk_dt` string COMMENT '检核时间')
+PARTITIONED BY (
+  `static_date` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' ;
+
+CREATE TABLE `chk_result_8`(
+  `data_source` string COMMENT '数据源',
+  `des_tbl` string COMMENT '目标表名',
+  `cyclical` string COMMENT '周期',
+  `count1` string COMMENT '数据统计',
+  `end_string_sum` string COMMENT 'end_string长度统计',
+  `sum1` string COMMENT '求和',
+  `remark` string COMMENT '备注',
+  `chk_dt` string COMMENT '检核时间')
+PARTITIONED BY (
+  `static_date` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' ;
+
+CREATE TABLE `chk_result_9`(
+  `data_source` string COMMENT '数据源',
+  `des_tbl` string COMMENT '目标表名',
+  `cyclical` string COMMENT '周期',
+  `count1` string COMMENT '数据统计',
+  `end_string_sum` string COMMENT 'end_string长度统计',
+  `sum1` string COMMENT '求和',
+  `remark` string COMMENT '备注',
+  `chk_dt` string COMMENT '检核时间')
+PARTITIONED BY (
+  `static_date` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' ;
+
+CREATE TABLE `chk_result_10`(
+  `data_source` string COMMENT '数据源',
+  `des_tbl` string COMMENT '目标表名',
+  `cyclical` string COMMENT '周期',
+  `count1` string COMMENT '数据统计',
+  `end_string_sum` string COMMENT 'end_string长度统计',
+  `sum1` string COMMENT '求和',
+  `remark` string COMMENT '备注',
+  `chk_dt` string COMMENT '检核时间')
+PARTITIONED BY (
+  `static_date` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' ;

@@ -1,0 +1,129 @@
+http://10.218.146.65:8080/#/main/dashboard/metrics
+http://10.218.146.65:8080/#/api/v1/clusters
+
+重要，集群属性
+curl -u admin:admin http://10.218.146.65:8080/api/v1/clusters
+集群地址
+http://10.218.146.65:8080/api/v1/clusters/hbasecluster
+
+kafka集群状态
+curl -u admin:admin http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/KAFKA
+
+flume状态
+curl -u admin:admin http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/FLUME
+
+curl -u admin:admin http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/YARN
+curl -u admin:admin http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/AMBARI_METRICS
+
+
+服务列表
+{
+  "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/",
+  "items" : [
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/AMBARI_INFRA",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "AMBARI_INFRA"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/AMBARI_METRICS",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "AMBARI_METRICS"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/FLUME",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "FLUME"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/HBASE",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "HBASE"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/HDFS",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/HIVE",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "HIVE"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/KAFKA",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "KAFKA"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/MAPREDUCE2",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "MAPREDUCE2"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/PIG",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "PIG"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/RANGER",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "RANGER"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/SLIDER",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "SLIDER"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/SPARK",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "SPARK"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/TEZ",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "TEZ"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/YARN",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "YARN"
+      }
+    },
+    {
+      "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/ZOOKEEPER",
+      "ServiceInfo" : {
+        "cluster_name" : "hbasecluster",
+        "service_name" : "ZOOKEEPER"
+      }
+    }
+  ]
+}

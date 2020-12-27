@@ -1,0 +1,38 @@
+2020/2/1 14:31:25
+清理知讯log
+
+将3天前所有日志移动到/data目录下对应的文件夹
+
+/data下的日志保留6个月
+
+日志路径
+
+/home/ocdp/javaApp/zx_core_tomcat/logs
+/home/ocdp/javaApp/zj_interface_apache-tomcat-7.0.73/logs
+/home/ocdp/javaApp/zj_task2_apache-tomcat-7.0.73/logs
+/home/ocdp/javaApp/zx_web_tomcat/logs
+
+
+/home/ocdp/javaApp/apache-tomcat-8.5.8-yzdsj
+
+
+目标路径
+/data/javaAppLogs/zj_interface
+
+
+mkdir zj_interface
+mkdir zj_web
+mkdir zx_core
+mkdir zx_execute
+mkdir zx_task
+
+日志新路径
+/hdfs/data04/javaAppLogs/zj_interface
+/hdfs/data04/javaAppLogs/zj_web      
+/hdfs/data04/javaAppLogs/zx_core     
+/hdfs/data04/javaAppLogs/zx_execute  
+/hdfs/data04/javaAppLogs/zx_task     
+
+zj_execute
+
+日志路径字典
