@@ -18,6 +18,7 @@
 import os
 import sys
 import time
+import random
 import shutil
 import hashlib
 
@@ -219,12 +220,15 @@ def backup_log():
 
 # 备份文件
 def backup_file(file_name, backup_path):
+    backup_file_name = backup_path + '/%s_%s' % (file_name, hashlib.sha256(str(random.random())).hexdigest()[0:5])
+
     # 备份文件，备份后文件名起别名
-    shutil.move(file_name, backup_path + '/%s_%s' % (file_name, hashlib.sha256(str(time.time())).hexdigest()[0:5]))
+    shutil.move(file_name, backup_file_name)
 
     print time.strftime('%Y-%m-%d %H:%M:%S',
-                        time.localtime()), file_name + " is removed"
+                        time.localtime()), file_name + '-' + backup_file_name + " is removed"
 
 
-clean_log()
+# clean_log()
 # get_ip()
+backup_log()
