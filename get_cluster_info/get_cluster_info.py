@@ -18,13 +18,13 @@ import sys
 import datetime as date_time
 
 # 连接beeline
-beeline = "beeline -u 'jdbc:hive2://172.19.40.241:10000/csap' -n csap -p 1q2w1q@W  --showHeader=false --outputformat=dsv --delimiterForDSV=$'\t' -e'"
+beeline = "beeline -u 'jdbc:hive2://172.19.40.241:10000/csap' -n csap -p 1q2w1q@W  --showHeader=false --outputformat=dsv --delimiterForDSV=$'\t' -e\""
 
 
 # 用beeline获取维表任务
 def get_task():
     get_task_sql = 'select * from tb_dim_cm_size_info'
-    get_task_sh = beeline + get_task_sql + '\''
+    get_task_sh = beeline + get_task_sql + '\"'
 
     print 'get_task_sh', get_task_sh
     task_list = os.popen(get_task_sh).readlines()
@@ -55,8 +55,8 @@ def parse_task(task_list):
             print 'size', size
 
             result_list.append(
-                "insert into table tb_hdfs_size_used partition(statis_date=%s) (id,team,type,size_used) values('%s','%s','%s','%s') " % (
-                    i, now_time, team, type, size))
+                "insert into table tb_hdfs_size_used partition(statis_date=%s) (id,team,type,size_used) values('%s','%s','%s','%s') ;" % (
+                    now_time, i, team, type, size))
 
 
         else:
@@ -72,25 +72,41 @@ def parse_task(task_list):
             print 'get_count_sh', get_count_sh
 
             count = os.popen(get_count_sh).readline().replace('\n', '')
-            print 'size', size
+            print 'count', count
 
             result_list.append(
-                "insert into table tb_hdfs_size_used partition(statis_date=%s) (id,team,type,size_used) values('%s','%s','%s','%s') " % (
-                    i, now_time, team, type, size))
+                "insert into table tb_hdfs_size_used partition(statis_date=%s) (id,team,type,size_used,count_used) values('%s','%s','%s','%s','%s') ;" % (
+                    now_time, i, team, type, size, count))
 
-        break
+        # if i > 10:
+        #     break
 
     print 'result_list', result_list
 
-
-# 获取存储信息
-def get_info():
-    pass
+    put_data(result_list)
 
 
 # 存储信息
-def put_data():
-    pass
+def put_data(result_list):
+    now_time = str(date_time.datetime.now())[0:10].replace('-', '').replace(' ', '').replace(':', '')
+
+    # 清理表
+    truncate_tb_sql = 'alter table tb_hdfs_size_used drop if exists partition (statis_date=%s)' % (now_time)
+
+    truncate_tb_sh = beeline + truncate_tb_sql + '\"'
+    print 'truncate_tb_sh', truncate_tb_sh
+
+    os.popen(truncate_tb_sh)
+
+    # 拼接sql
+    for i in range(len(result_list)):
+        insert_sh = beeline + result_list[i] + '\"'
+
+        print 'insert_sh', insert_sh
+
+        os.popen(insert_sh)
+
+    print '插入数据完成'
 
 
 get_task()
