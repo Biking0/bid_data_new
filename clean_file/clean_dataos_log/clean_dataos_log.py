@@ -23,7 +23,7 @@ import shutil
 import hashlib
 
 # delete 2 day ago file
-day_180 = 180
+day_180 = 170
 
 # 临时测试
 # day_180 = 0
@@ -223,6 +223,9 @@ def backup_log():
                 print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()), e
                 continue
 
+            # 测试一个文件夹
+            # break
+
 
 # 备份文件
 def backup_file(file_name, backup_path):
@@ -233,7 +236,7 @@ def backup_file(file_name, backup_path):
     os.popen('touch ' + backup_file_name)
 
     # 备份文件，备份后文件名起别名
-    shutil.move(file_name, backup_file_name)
+    # shutil.move(file_name, backup_file_name)
 
     print time.strftime('%Y-%m-%d %H:%M:%S',
                         time.localtime()), file_name + '-' + backup_file_name + " is removed"
