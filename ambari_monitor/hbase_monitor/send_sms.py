@@ -13,7 +13,7 @@
 # 程序调用格式：python send_sms.py
 # ***************************************************************************
 
-import config
+
 import datetime as date_time
 import conn_db
 
@@ -23,7 +23,7 @@ def send_sms(sms_info):
     print '当前时间：', now_time
     # user_list = ['15264899856', '15936466867', '13665656104']
     # user_list = ['15936466867', '15264899856', '15939161277']
-    user_list = ['15936466867']
+    user_list = ['15936466867','18838159201']
     sms_info_list = []
     sms_info = sms_info + ' 当前时间：' + now_time
 

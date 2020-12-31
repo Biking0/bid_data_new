@@ -48,7 +48,7 @@ def disk_monitor():
 
             # print disk_size_new
             disk_space = int(disk_size_new[4].replace('%', ''))
-            if disk_space > 80:
+            if disk_space > 70:
                 sms_info = "磁盘空间告警，主机：%s,已用空间%s,挂载分区：%s" % (ip, disk_space, disk_size_new[5])
                 print 'sms_info:', sms_info
                 send_sms.send_sms(sms_info)

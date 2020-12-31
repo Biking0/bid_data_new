@@ -23,7 +23,7 @@ import shutil
 import hashlib
 
 # delete 2 day ago file
-day_180 = 170
+day_180 = 40
 
 # 临时测试
 # day_180 = 0
@@ -33,7 +33,13 @@ day_180 = 170
 #           '主机2':[['源文件路径2','备份路径2'],['源文件路径2','备份路径2']]}
 log_path = {'172.19.168.83': [['/home/dacp/apps', '/data/dacp/apps'], ['/home/dacp/apps', '/data/dacp/apps']],
             '172.19.168.96': [
-                ['/home/dacp/apps/dataflow-broker-3.5.0/logs', '/data/dataos_log/dataflow-broker-3.5.0/logs']],
+                ['/home/dacp/apps/dataflow-broker-3.5.0/logs', '/data/dataos_log/dataflow-broker-3.5.0/logs'],
+                ['/home/dacp/apps/dacp-datastash-broker-3.5.0/datax', '/data/dataos_log/dacp-datastash-broker-3.5.0/datax'],
+                ['/home/dacp/apps/datax/log', '/data/dataos_log/datax/log'],
+                ['/home/dacp/apps/dacp-dp-3.0.0/logs', '/data/dataos_log/dacp-dp-3.0.0/logs'],
+
+            ],
+            '172.19.168.85': [['/home/dacp/apps/dacp-datastash-broker-3.5.0/datax', '/data/dataos_log/dacp-datastash-broker-3.5.0/datax']],
             '172.22.248.18': [['/home/csap/hyn/clean_dataos_log/log', '/home/csap/hyn/clean_dataos_log/tmp']]
             }
 
