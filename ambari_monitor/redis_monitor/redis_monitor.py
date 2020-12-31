@@ -45,7 +45,7 @@ def disk_monitor():
 
 
 
-        if redis_count ==
+        if redis_count ==ip_list[i][1]
             disk_size = disk_list[j].replace('\n', '').split(' ')
             # print disk_size
 
