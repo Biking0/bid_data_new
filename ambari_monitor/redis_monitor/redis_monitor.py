@@ -33,30 +33,31 @@ ip_list = [
 ]
 
 
-def disk_monitor():
+def redis_monitor():
+    error_list = []
+
     # 遍历主机ip
-    for i in range(len(ip_list)):
+    for ip_info in ip_list:
         # os.system("ssh "+ip_list[i]+" df -h" )
-        ip = ip_list[i][0]
+        ip = ip_info[0]
         count_sh = "ssh " + ip + " ps -ef | grep redis | grep -v grep | wc -l"
-        # print 'disk_sh', disk_sh
+
         redis_count = os.popen(count_sh).readline()
-        # print disk_list
 
+        print 'redis_count', redis_count, redis_count
 
+        if not int(redis_count) == ip_info[1]:
+            error_list.append(ip_info[0])
 
-        if redis_count ==ip_list[i][1]
-            disk_size = disk_list[j].replace('\n', '').split(' ')
-            # print disk_size
-
-            disk_size_new = [x.strip() for x in disk_size if x.strip() != '']
-
-            # print disk_size_new
-            disk_space = int(disk_size_new[4].replace('%', ''))
-            if disk_space > 70:
-                sms_info = "磁盘空间告警，主机：%s,已用空间%s,挂载分区：%s" % (ip, disk_space, disk_size_new[5])
-                print 'sms_info:', sms_info
-                send_sms.send_sms(sms_info)
+    if len(error_list) > 0:
+        sms_info = "dataos机器redis进程异常，主机：%s" % (str(error_list)).replace('\'', '')
+        print 'sms_info:', sms_info
+        send_sms.send_sms(sms_info)
+    else:
+        print 'dataos机器redis进程正常'
 
         # 测试
         # break
+
+
+

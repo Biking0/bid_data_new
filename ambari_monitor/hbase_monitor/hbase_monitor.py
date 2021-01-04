@@ -70,4 +70,3 @@ def hbase_monitor():
         print 'Hbase集群regionserver服务正常'
 
 
-hbase_monitor()

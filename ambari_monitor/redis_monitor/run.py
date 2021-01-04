@@ -10,20 +10,20 @@
 # 修改日志：
 # 修改日期：
 # ***************************************************************************
-# 程序调用格式：nohup python /home/ocdp/hyn/disk_monitor/run_disk_monitor.py >> /home/ocdp/hyn/disk_monitor/nuhup.out &
+# 程序调用格式：nohup python /home/ocdp/hyn/redis_monitor/run_redis_monitor.py >> /home/ocdp/hyn/redis_monitor/nuhup.out &
 # ***************************************************************************
 
 import os
 import sys
 import time
-import disk_monitor
+import redis_monitor
 
 # 启动
 if __name__ == '__main__':
 
     while True:
         # 休息10分钟，600
-        disk_monitor.disk_monitor()
-        print 'sleep 600s'
+        redis_monitor.redis_monitor()
+        print 'sleep 1800s'
 
-        time.sleep(60)
+        time.sleep(1800)
