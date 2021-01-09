@@ -116,7 +116,9 @@ class CopyData():
 
         print 'check_sh:', check_sh
         result = os.system(check_sh)
-        f = open('/home/ocdp/hyn/copy_hdfs_data/copy_data_sy_count/table_count/%s_%s.txt' % (table_name, partition_time), 'r')
+        f = open(
+            '/home/ocdp/hyn/copy_hdfs_data/copy_data_sy_count/table_count/%s_%s.txt' % (table_name, partition_time),
+            'r')
         table_info = f.readlines()
         f.close()
         # table_info = open('./table_count/%s_%s.txt' % (table_name, partition_time), 'r').readlines()
@@ -165,7 +167,7 @@ class CopyData():
 
         print '分区已添加：', delete_partition_sql_sh, add_partition_sql_sh
         os.popen(delete_partition_sql_sh)
-        os.popen(add_partition_sql_sh  )
+        os.popen(add_partition_sql_sh)
 
     # 构造迁移语句
     def copy_data(self, table_name, partition_type, partition_date):
@@ -217,7 +219,7 @@ class CopyData():
     def copy_ok(self, table_name, partition_date, st_time, end_time):
         update_status_sql = "update tb_tmp_copy_data_log set copy_status ='" + config.copy_status_2 + "',start_time='" + str(
             st_time)[
-                                                                                                                     0:19] + "',end_time='" + str(
+                                                                                                                         0:19] + "',end_time='" + str(
             end_time)[0:19] + "' where table_name='" + table_name + "' and partition_time='" + partition_date + "\'"
 
         print '更新sql:', update_status_sql
