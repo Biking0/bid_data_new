@@ -13,7 +13,6 @@
 # 程序调用格式：python send_sms.py
 # ***************************************************************************
 
-import config
 import datetime as date_time
 import conn_db
 

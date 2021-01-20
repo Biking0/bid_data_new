@@ -13,8 +13,6 @@
 # 程序调用格式：nohup python /home/ocdp/hyn/redis_monitor/run_redis_monitor.py >> /home/ocdp/hyn/redis_monitor/nuhup.out &
 # ***************************************************************************
 
-import os
-import sys
 import time
 import redis_monitor
 

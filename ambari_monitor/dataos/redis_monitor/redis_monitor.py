@@ -14,14 +14,9 @@
 # ***************************************************************************
 
 import os
-import sys
-import time
-import subprocess
-import datetime as date_time
-import conn_db
 import send_sms
 
-py_path = './'
+py_path = '/'
 
 ip_list = [
     ['172.19.168.83', 1],

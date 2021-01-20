@@ -30,7 +30,8 @@ table_file.close()
 
 # 生成存储信息
 def sy_count(table_name):
-    du_h = "hadoop fs -du -h  /warehouse/tablespace/managed/hive/csap.db/"
+    # 统一存储单位
+    du_h = "hadoop fs -du -h -s  /warehouse/tablespace/managed/hive/csap.db/"
     du_h_sh = du_h + table_name + ' > /home/ocdp/hyn/data_check/tmp_data_check/data_count/multi_data_count_du_h/table_info/' + table_name + '.txt'
 
     print 'du_h_sh:', du_h_sh
@@ -101,7 +102,7 @@ def get_part_list(table_name, size_list_result):
         # 处理多级分区
         if len(part_list[i][0].split('/')) > 1:
 
-            # 取第一个
+            # 取第一个分区名，大小之和
             part_name = part_list[i][0]
 
             multi_size_list_result = multi_part_name(table_name, part_name)
@@ -126,8 +127,7 @@ def get_part_list(table_name, size_list_result):
 
 
 
-
-
+        # 单级分区
         else:
             part_name = part_list[i][0].split('/')[0]
             # print 'part_name:', part_name
@@ -252,7 +252,7 @@ def multi_thread(multi_list):
         data_queque.put(multi_list[i])
 
     # 设置并发数
-    a = 5
+    a = 1
     # list分块，调用多线程
     for i in range(a):
         # list分块，调用多线程
