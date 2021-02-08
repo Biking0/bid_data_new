@@ -1,19 +1,19 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
 #********************************************************************************
-# ÎÄ¼þÃû³Æ£ºrun.py
-# ¹¦ÄÜÃèÊö£ºambari ¼à¿ØÏîÄ¿Æô¶¯ËùÓÐ¼à¿Ø³ÌÐò
-# Êä Èë ±í£º
-# Êä ³ö ±í£º
-# ´´ ½¨ Õß£ºhyn
-# ´´½¨ÈÕÆÚ£º20191020
-# ÐÞ¸ÄÈÕÖ¾£º20191226
-# ÐÞ¸ÄÈÕÆÚ£º
+# ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Æ£ï¿½run_mysql_monitor.py
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ambari ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½Ø³ï¿½ï¿½ï¿½
+# ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
+# ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
+# ï¿½ï¿½ ï¿½ï¿½ ï¿½ß£ï¿½hyn
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½20191020
+# ï¿½Þ¸ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½20191226
+# ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½Ú£ï¿½
 # ****************************************************************************
-# ³ÌÐòµ÷ÓÃ¸ñÊ½£º
-# 1.Ä¬ÈÏ¼à¿ØHBASE¼¯Èº£ºnohup python run.py >> nohup.out &
-# 2.¼à¿ØHBASE¼¯Èº£ºnohup python run.py 1 >> nohup_hbase.out &
-# 2.¼à¿ØÈýÆÚ¼¯Èº£ºnohup python run.py 2 >> nohup_sanqi.out &
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½Ê½ï¿½ï¿½
+# 1.Ä¬ï¿½Ï¼ï¿½ï¿½HBASEï¿½ï¿½Èºï¿½ï¿½nohup python run_mysql_monitor.py >> nohup.out &
+# 2.ï¿½ï¿½ï¿½HBASEï¿½ï¿½Èºï¿½ï¿½nohup python run_mysql_monitor.py 1 >> nohup_hbase.out &
+# 2.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¼ï¿½Èºï¿½ï¿½nohup python run_mysql_monitor.py 2 >> nohup_sanqi.out &
 # *******************************************************************************
 
 import os
@@ -23,14 +23,14 @@ import config
 import service_monitor
 import solr_monitor
 
-# Æô¶¯
+# ï¿½ï¿½ï¿½ï¿½
 if __name__=='__main__':
 	
 	
 	input_length = len(sys.argv)
 	print 'input_str: ',len(sys.argv)
 	
-	# 1.Ä¬ÈÏ¼à¿ØHBASE¼¯Èº:1´ú±íHBASE¼¯Èº£¬2´ú±íÈýÆÚ¼¯Èº
+	# 1.Ä¬ï¿½Ï¼ï¿½ï¿½HBASEï¿½ï¿½Èº:1ï¿½ï¿½ï¿½ï¿½HBASEï¿½ï¿½Èºï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¼ï¿½Èº
 	monitor_server=1
 	if input_length == 2 and sys.argv[1]=='2':
 		
@@ -38,19 +38,19 @@ if __name__=='__main__':
 
 	while True:
 	
-		# 1.¼à¿Ø¸÷Àà·þÎñ
+		# 1.ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		service_monitor_object = service_monitor.ServiceMonitor(monitor_server)
 		service_monitor_object.request_data()
 		
-		# 2.¼à¿Øsolr
-		# ÈýÆÚ¼¯Èº²»¼à¿Øsolr
+		# 2.ï¿½ï¿½ï¿½solr
+		# ï¿½ï¿½ï¿½Ú¼ï¿½Èºï¿½ï¿½ï¿½ï¿½ï¿½solr
 		if monitor_server==1:
 			solr_monitor_object = solr_monitor.SolrMonitor()
 			solr_monitor_object.request_data()
 		
-		# 3.¼à¿ØkafkaÏû·Ñ
+		# 3.ï¿½ï¿½ï¿½kafkaï¿½ï¿½ï¿½ï¿½
 		
-		# 4.¼à¿ØkafkaÈÕÖ¾£¬ÓÐ¼à¿Ø
+		# 4.ï¿½ï¿½ï¿½kafkaï¿½ï¿½Ö¾ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½
 		
 		print('sleep 900s')
 		time.sleep(config.sleep_time)

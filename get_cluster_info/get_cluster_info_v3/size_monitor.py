@@ -74,7 +74,11 @@ def size_monitor():
 
         sms_info_str = ""
         for i in sms_info_list:
-            sms_info_str = sms_info_str + ' ' + str(i)
+            team_str = ""
+            for j in i:
+                team_str = team_str + j
+
+            sms_info_str = sms_info_str + ' ' + team_str
 
         sms_info = "集群资源空间文件数使用警告:" + sms_info_str.replace('\'', '')
 
