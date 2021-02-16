@@ -20,7 +20,7 @@ import send_sms
 import json
 
 # 报错警戒值
-error_value = 0.7
+error_value = 0.8
 
 
 # 查询导出文件，读取控制台消息
@@ -61,7 +61,7 @@ def size_monitor():
 
         # 文件数使用超过警戒值
         if file_str <> 'NULL' and float(file_str) > error_value:
-            file_info = "空间使用警告：%s %s" % (path, file_str)
+            file_info = "文件数使用警告：%s %s" % (path, file_str)
             error_list.append(file_info)
 
         # 触发警告
