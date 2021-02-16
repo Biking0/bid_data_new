@@ -1,28 +1,27 @@
-bdi@HACC-BH02-SERVICE118:/dev/shm> cat /home/bdi/Asiainfo/tas/loc/zhiji/sms/dw_tra_imsi_stay_yyyymm.py
 ##!/usr/bin/env python
 ## -*-coding:utf-8 -*-
 ##******************************************************************************
-## **  ÎÄ¼şÃû³Æ£º dw_tra_region_phone_info_min.py
-## **  ¹¦ÄÜÃèÊö£º
-## **             1:ÓïÒôºô½Ğ»°µ¥
-## **             2:¶ÌĞÅ»°µ¥
-## **             3:Î»ÖÃ¸üĞÂ»°µ¥
-## **             4:Ñ°ºô»°µ¥
-## **             5:¿ª¹Ø»ú»°µ¥
-## **             6:Î»ÖÃ¸üĞÂ»°µ¥
-## **  Êä Èë ±í£º tb_dwd_mid_ci_loc_merge_hour              23g:1-6
-## **  Êä ³ö ±í£º tb_dwd_ci_loc_merge_hour
-## **  ´´ ½¨ Õß£º chengpx
-## **  ´´½¨ÈÕÆÚ£º 2017Äê11ÔÂ10ÈÕ
-## **  ĞŞ¸ÄÈÕÖ¾£º
-## **  ĞŞ¸ÄÈÕÆÚ£º
+## **  æ–‡ä»¶åç§°ï¼š dw_tra_region_phone_info_min.py
+## **  åŠŸèƒ½æè¿°ï¼š
+## **             1:è¯­éŸ³å‘¼å«è¯å•
+## **             2:çŸ­ä¿¡è¯å•
+## **             3:ä½ç½®æ›´æ–°è¯å•
+## **             4:å¯»å‘¼è¯å•
+## **             5:å¼€å…³æœºè¯å•
+## **             6:ä½ç½®æ›´æ–°è¯å•
+## **  è¾“ å…¥ è¡¨ï¼š tb_dwd_mid_ci_loc_merge_hour              23g:1-6
+## **  è¾“ å‡º è¡¨ï¼š tb_dwd_ci_loc_merge_hour
+## **  åˆ› å»º è€…ï¼š chengpx
+## **  åˆ›å»ºæ—¥æœŸï¼š 2017å¹´11æœˆ10æ—¥
+## **  ä¿®æ”¹æ—¥å¿—ï¼š
+## **  ä¿®æ”¹æ—¥æœŸï¼š
 ## *******************************************************************************
-## **  ³ÌĞòµ÷ÓÃ¸ñÊ½£ºpython tb_dwd_ci_loc_merge_mc_hour.py 2015073001
+## **  ç¨‹åºè°ƒç”¨æ ¼å¼ï¼špython tb_dwd_ci_loc_merge_mc_hour.py 2015073001
 ## *******************************************************************************
 
-#µ¼ÈëbaseModuleÄ£¿é£¬È»ºó¶¨Òå×Ó¼¯µÄclass£¬±ØĞë¼Ì³ĞBaseObject£¬
-#È»ºó¶¨ÒåÒ»¸öº¯Êı£¬°ÑÒµÎñÂß¼­Ğ´Èëº¯ÊıÄÚ£¬ÔÚº¯ÊıÍ·ÉÏ¼ÓÉÏ×°ÊÎÆ÷£¬Ôò×Ô¶¯ÊµÏÖÍ¨ÓÃÂß¼­µÄµ÷ÓÃ
-#ÒµÎñÂß¼­Èç¹ûÌ«³¤Ôò¿ÉÒÔ¶¨Òå¶à¸öº¯Êı£¬È»ºóÔÚÖ÷º¯Êı£¨¾ÍÊÇ¼Ó×°ÊÎÆ÷µÄº¯Êı£©ÄÚ°´×Ó¼¯µÄÒµÎñÂß¼­ÒÀ´Îµ÷ÓÃ
+#å¯¼å…¥baseModuleæ¨¡å—ï¼Œç„¶åå®šä¹‰å­é›†çš„classï¼Œå¿…é¡»ç»§æ‰¿BaseObjectï¼Œ
+#ç„¶åå®šä¹‰ä¸€ä¸ªå‡½æ•°ï¼ŒæŠŠä¸šåŠ¡é€»è¾‘å†™å…¥å‡½æ•°å†…ï¼Œåœ¨å‡½æ•°å¤´ä¸ŠåŠ ä¸Šè£…é¥°å™¨ï¼Œåˆ™è‡ªåŠ¨å®ç°é€šç”¨é€»è¾‘çš„è°ƒç”¨
+#ä¸šåŠ¡é€»è¾‘å¦‚æœå¤ªé•¿åˆ™å¯ä»¥å®šä¹‰å¤šä¸ªå‡½æ•°ï¼Œç„¶ååœ¨ä¸»å‡½æ•°ï¼ˆå°±æ˜¯åŠ è£…é¥°å™¨çš„å‡½æ•°ï¼‰å†…æŒ‰å­é›†çš„ä¸šåŠ¡é€»è¾‘ä¾æ¬¡è°ƒç”¨
 from baseModule_min import  *
 
 class VoiceCall(BaseObject):
@@ -31,7 +30,7 @@ class VoiceCall(BaseObject):
         mydict = self.constants
         #=====================================
 
-        #ÕûÀí»î¶¯idºÍÇøÓòidºÍ»ùÕ¾
+        #æ•´ç†æ´»åŠ¨idå’ŒåŒºåŸŸidå’ŒåŸºç«™
         hivesql = []
         hivesql.append('''
         create table if not exists %(target_tab)s
@@ -59,7 +58,7 @@ class VoiceCall(BaseObject):
         ''' % mydict)
         HiveExe(hivesql,self.name,self.dates)
 
-        #==ÓÃ»§³£×¤ĞÅÏ¢(Ê¡ÊĞ)
+        #==ç”¨æˆ·å¸¸é©»ä¿¡æ¯(çœå¸‚)
         hivesql = []
         hivesql.append('''drop table if exists %(tmp_01)s ''' % mydict)
         hivesql.append('''
@@ -99,7 +98,7 @@ class VoiceCall(BaseObject):
         ''' % mydict)
         HiveExe(hivesql,self.name,self.dates)
 
-        #==ÓÃ»§³£×¤ĞÅÏ¢(Ê¡ÊĞÏØ)
+        #==ç”¨æˆ·å¸¸é©»ä¿¡æ¯(çœå¸‚å¿)
         hivesql = []
         hivesql.append('''drop table if exists %(tmp_02)s ''' % mydict)
         hivesql.append('''
@@ -133,7 +132,7 @@ class VoiceCall(BaseObject):
         ''' % mydict)
         HiveExe(hivesql,self.name,self.dates)
 
-        #==ÓÃ»§³£×¤ĞÅÏ¢(Ê¡ÊĞÏØÂß¼­Çø)
+        #==ç”¨æˆ·å¸¸é©»ä¿¡æ¯(çœå¸‚å¿é€»è¾‘åŒº)
         hivesql = []
         hivesql.append('''drop table if exists %(tmp_03)s ''' % mydict)
         hivesql.append('''
@@ -170,7 +169,7 @@ class VoiceCall(BaseObject):
         ''' % mydict)
         HiveExe(hivesql,self.name,self.dates)
 
-        #==ÓÃ»§³£×¤ĞÅÏ¢(Ê¡ÊĞÏØÂß¼­Çø°×Ãûµ¥)
+        #==ç”¨æˆ·å¸¸é©»ä¿¡æ¯(çœå¸‚å¿é€»è¾‘åŒºç™½åå•)
         hivesql = []
         hivesql.append('''drop table if exists %(tmp_04)s ''' % mydict)
         hivesql.append('''
@@ -207,7 +206,7 @@ class VoiceCall(BaseObject):
         ''' % mydict)
         #HiveExe(hivesql,self.name,self.dates)
 
-        #==½á¹û±í
+        #==ç»“æœè¡¨
         hivesql = []
         hivesql.append('''
         insert overwrite table %(target_tab)s partition (month_id='%(ARG_OPTIME_MONTH)s')
@@ -244,7 +243,7 @@ class VoiceCall(BaseObject):
         ''' % mydict)
         HiveExe(hivesql,self.name,self.dates)
 
-        #É¾³ıÁÙÊ±±í
+        #åˆ é™¤ä¸´æ—¶è¡¨
         hivesql = []
         hivesql.append('''drop table if exists %(tmp_01)s ''' % mydict)
         hivesql.append('''drop table if exists %(tmp_02)s ''' % mydict)
@@ -256,24 +255,24 @@ class VoiceCall(BaseObject):
         BaseObject.__init__(self)
         mydict = self.constants
         mydict['dba']                    = "asiainfoh."
-        mydict['source_dim_segment']     = mydict['dba']+"dim_loc_number_segment"                          #Î¬±í£ººÅ¶Î ods_in_rs_boss_number_segment_x
-        mydict['source_dim_country']     = mydict['dba']+"dim_loc_country_id"                              #Î¬±í£º¹ú¼Ò
-        mydict['source_dim_country']     = mydict['dba']+"dim_loc_country_id"                              #Î¬±í£ºÊ¡ÊĞ
-        mydict['source_dim_ci']          = mydict['dba']+"dim_loc_lac_ci"                                  #Î¬±í£º»ùÕ¾Î¬±í
+        mydict['source_dim_segment']     = mydict['dba']+"dim_loc_number_segment"                          #ç»´è¡¨ï¼šå·æ®µ ods_in_rs_boss_number_segment_x
+        mydict['source_dim_country']     = mydict['dba']+"dim_loc_country_id"                              #ç»´è¡¨ï¼šå›½å®¶
+        mydict['source_dim_country']     = mydict['dba']+"dim_loc_country_id"                              #ç»´è¡¨ï¼šçœå¸‚
+        mydict['source_dim_ci']          = mydict['dba']+"dim_loc_lac_ci"                                  #ç»´è¡¨ï¼šåŸºç«™ç»´è¡¨
         #--------------------------------------------------------------------------------------------------
-        mydict['source_tab']             = "dwd_loc_mc_lte_merge_min"                                      #ĞÅÁîÈÚºÏ±í£¬·ÖÖÓµ¥Î»
+        mydict['source_tab']             = "dwd_loc_mc_lte_merge_min"                                      #ä¿¡ä»¤èåˆè¡¨ï¼Œåˆ†é’Ÿå•ä½
         #mydict['dim_region']            = "dim_tra_region_lac_ci"
         mydict['dim_region']             = "dim_region_3_laccell"           #
-        mydict['dim_region_sms']         = "td_sms_rule"                    #¶ÌĞÅ¹æÔò±í
-        mydict['dim_user']               = "dw_target_customer_info"        #¶ÌĞÅ¹æÔòºÍÊÖ»úºÅÂë
+        mydict['dim_region_sms']         = "td_sms_rule"                    #çŸ­ä¿¡è§„åˆ™è¡¨
+        mydict['dim_user']               = "dw_target_customer_info"        #çŸ­ä¿¡è§„åˆ™å’Œæ‰‹æœºå·ç 
         mydict['stay_prov']              = "dw_tra_prov_stay_bh_yyyymm"
         mydict['stay_city']              = "dw_tra_city_stay_bh_yyyymm"
         mydict['stay_cou']               = "dw_tra_county_stay_bh_yyyymm"
         mydict['stay_region']            = "dw_tra_region_stay_bh_yyyymm"
         mydict['stay_white']             = "dwd_tra_white_stay_yyyymm"
-        mydict['target_tab']             = "dw_tra_imsi_stay_yyyymm"         #Ä¿±ê±í_Öª¼£ÓÃ»§³£×¤ĞÅÏ¢
+        mydict['target_tab']             = "dw_tra_imsi_stay_yyyymm"         #ç›®æ ‡è¡¨_çŸ¥è¿¹ç”¨æˆ·å¸¸é©»ä¿¡æ¯
         #--------------------------------------------------------------------------------------------------
-        mydict['dim_xy_sms']             = "dim_sms_xy_loc_ci"              #ĞÅÑôÄÏÍåºşË®¿â»ùÕ¾Î¬¶ÈÃ÷Ï¸
+        mydict['dim_xy_sms']             = "dim_sms_xy_loc_ci"              #ä¿¡é˜³å—æ¹¾æ¹–æ°´åº“åŸºç«™ç»´åº¦æ˜ç»†
 
         mydict['tmp_01']                 = 'tmp_'+mydict['target_tab']+mydict['ARG_OPTIME_MONTH']+"_01"
         mydict['tmp_02']                 = 'tmp_'+mydict['target_tab']+mydict['ARG_OPTIME_MONTH']+"_02"
