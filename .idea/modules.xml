@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/big_data_new.iml" filepath="$PROJECT_DIR$/.idea/big_data_new.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../rss_assistant/.idea/rss_assistant.iml" filepath="$PROJECT_DIR$/../rss_assistant/.idea/rss_assistant.iml" />
     </modules>
   </component>
 </project>
