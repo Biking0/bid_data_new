@@ -1,0 +1,1 @@
+python E:\tassvn_new\¸öÈËÄ¿Â¼\haoyn\project\sanqi_monitor\get_sanqi_picture.py

@@ -1,0 +1,81 @@
+
+
+import requests
+
+url = "http://172.19.168.231:6080/service/public/v2/api/policy"
+
+payload = "{\r\n   \"isEnabled\": true,\r\n    \"version\": 1,\r\n    \"service\": \"csap_hive\",\r\n    \"name\": \"testzhangch09241\",\r\n    \"policyType\": 0,\r\n    \"policyPriority\": 0,\r\n    \"description\": \"Policy for test\",\r\n    \"isAuditEnabled\": true,\r\n    \"resources\": {\r\n        \"database\": {\r\n            \"values\": [\r\n                \"csap\"\r\n            ],\r\n            \"isExcludes\": false,\r\n            \"isRecursive\": false\r\n        },\r\n        \"column\": {\r\n            \"values\": [\r\n                \"*\"\r\n            ],\r\n            \"isExcludes\": false,\r\n            \"isRecursive\": false\r\n        },\r\n        \"table\": {\r\n            \"values\": [\r\n                \"tb_dw_ct_ngcs_oc_svr_u_cntmng_day\"\r\n            ],\r\n            \"isExcludes\": false,\r\n            \"isRecursive\": false\r\n        }\r\n    },\r\n    \"policyItems\": [\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"zls\",\r\n                \"csap991\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false\r\n        }\r\n    ],\r\n    \"denyPolicyItems\": [],\r\n    \"allowExceptions\": [],\r\n    \"denyExceptions\": [],\r\n    \"dataMaskPolicyItems\": [],\r\n    \"rowFilterPolicyItems\": [],\r\n    \"options\": {},\r\n    \"validitySchedules\": [],\r\n    \"policyLabels\": [\r\n        \"\"\r\n    ]\r\n}"
+headers = {
+    'X-XSRF-HEADER': "valid",
+    'Content-Type': "application/json",
+    'Authorization': "Basic YWRtaW46MXEydyFRQFc=",
+    'Cache-Control': "no-cache",
+    'Postman-Token': "4b084ca4-1264-4d21-895e-cbd131ee3bc9"
+    }
+
+response = requests.request("POST", url, data=payload, headers=headers)
+
+print(response.text)
+
+
+
+{
+   "isEnabled": true,
+    "version": 1,
+    "service": "csap_hive",
+    "name": "testzhangch09241",
+    "policyType": 0,
+    "policyPriority": 0,
+    "description": "Policy for test",
+    "isAuditEnabled": true,
+    "resources": {
+        "database": {
+            "values": [
+                "csap"
+            ],
+            "isExcludes": false,
+            "isRecursive": false
+        },
+        "column": {
+            "values": [
+                "*"
+            ],
+            "isExcludes": false,
+            "isRecursive": false
+        },
+        "table": {
+            "values": [
+                "tb_dw_ct_ngcs_oc_svr_u_cntmng_day"
+            ],
+            "isExcludes": false,
+            "isRecursive": false
+        }
+    },
+    "policyItems": [
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "zls",
+                "csap991"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false
+        }
+    ],
+    "denyPolicyItems": [],
+    "allowExceptions": [],
+    "denyExceptions": [],
+    "dataMaskPolicyItems": [],
+    "rowFilterPolicyItems": [],
+    "options": {},
+    "validitySchedules": [],
+    "policyLabels": [
+        ""
+    ]
+}

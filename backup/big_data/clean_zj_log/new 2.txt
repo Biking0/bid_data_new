@@ -1,0 +1,9 @@
+LLJY =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 10.97.186.161)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = LLJY)
+    )
+  )

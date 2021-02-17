@@ -1,0 +1,224 @@
+2019/12/17 17:44:14
+脚本模块
+
+bdi
+校验文件产生脚本
+/home/bdi/Asiainfo/tas/data_trans_chk/
+
+81服务器，
+数据拷贝脚本，beeline加载数据
+${'sh /home/ocdp/script/create_hbase_gprsdayhour_table.sh ' + opt_time.substring(0,6) + '01 ' + opt_time.substring(0,6) + '30'}
+${'sh /home/ocdp/ftp_shell/trans_data_bdi2sanqi.sh ' + opt_time.substring(0,6) + '01 ' + opt_time.substring(0,6) + '30'}
+${'sh /home/ocdp/ftp_shell/trans_data_bdi2sanqi.sh ' +'dw_ay_spots_user_yyyymmdd '+'opt_time.substring(0,6) + ' dw_ay_spots_user_yyyymmdd'}
+${'sh /home/ocdp/ftp_shell/trans_data_bdi2sanqi.sh ' +'dw_ay_spots_user_yyyymmdd '+opt_time.substring(0,6) + ' dw_ay_spots_user_yyyymmdd'}
+${'sh /home/ocdp/ftp_shell/trans_data_bdi2sanqi.sh ' +'dw_ay_spots_user_yyyymmdd '+opt_time.substring(0,6) + ' dw_ay_spots_user_yyyymmdd'}
+
+2019/12/17 9:40:12
+/home/bdi/Asiainfo/tas/ht/cp_82.sh
+
+/home/bdi/Asiainfo/tas/data_trans_chk/trans_mon_day.sh
+
+81与119有互信
+校验文件在82上
+主数据同步脚本在82上
+
+
+hdfs://$DATA_FROM:25000/asiainfo/dependent/${SOURCEDIR}_${DATETIME}.txt | wc -l`
+
+hadoop fs -ls /hwcdm/dependent/TB_DW_SC_USER_CUR_201908*
+
+hadoop fs -ls /hwcdm/dependent/* wc -l
+
+81
+/home/ocdp/ftp_shell/
+/home/ocdp/ftp_shell/trans_data.sh
+
+`hadoop fs -ls  hdfs://$DATA_FROM:25000/asiainfo/dependent/${SOURCEDIR}_${DATETIME}.txt | wc -l`
+
+
+sh trans_data.sh dw_ay_spots_user_yyyymmdd 20191214 dw_ay_spots_user_yyyymmdd
+sh trans_data.sh dw_ay_spots_user_yyyymmdd 20191215 dw_ay_spots_user_yyyymmdd
+sh trans_data.sh dw_ay_spots_user_yyyymmdd 20191216 dw_ay_spots_user_yyyymmdd
+sh trans_data_bdi2sanqi.sh dw_ay_spots_user_yyyymmdd 20191216 dw_ay_spots_user_yyyymmdd
+
+
+产生校验文件
+hadoop fs -touch /asiainfo/dependent/dw_ay_spots_user_yyyymmdd_20191214.txt
+hadoop fs -touchz /asiainfo/dependent/dw_ay_spots_user_yyyymmdd_20191216.txt
+hadoop fs -touchz /asiainfo/dependent/dw_ay_spots_user_yyyymmdd_20191217.txt
+hadoop fs -put ./dw_ay_spots_user_yyyymmdd_20191215.txt /asiainfo/dependent/dw_ay_spots_user_yyyymmdd_20191215.txt
+hadoop fs -du /asiainfo/dependent/dw_ay_spots_user_yyyymmdd*
+
+删除校验文件
+hadoop fs -touch /asiainfo/dependent/dw_ay_spots_user_yyyymmdd_20191214.txt
+
+删除分区
+alter table dw_ay_spots_user_yyyymmdd drop partition(day_id=20191214);
+
+alter table dw_ay_spots_user_yyyymmdd drop partition(day_id=20191214);
+
+三期
+"dw_ay_spots_terminal_yyyymmdd
+dw_ay_spots_arpu_yyyymmdd
+dw_ay_spots_keywords_yyyymmdd
+dw_ay_spots_busi_yyyymmdd
+dw_ay_spots_tra_yyyymmdd"
+
+hadoop fs -du -h /user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=201912/*
+hadoop fs -du -h /user/hive/warehouse/dw_ay_spots_terminal_yyyymmdd/month_id=201912/*
+hadoop fs -du -h /user/hive/warehouse/dw_ay_spots_tra_yyyymmdd/month_id=201912/*
+hadoop fs -du -h /user/hive/warehouse/st_ay_spots_tra_yyyymmdd/month_id=201912/*
+
+
+华为
+hadoop fs -du -h /user/hive/warehouse/asiainfoh.db/dw_ay_spots_user_yyyymmdd/month_id=201912/*
+
+产生校验文件
+hadoop fs -du -h /user/hive/warehouse/asiainfoh.db/dw_ay_spots_user_yyyymmdd/month_id=201912/*
+hadoop fs -du -h /user/hive/warehouse/asiainfoh.db/dw_ay_spots_user_yyyymmdd/month_id=201912/*
+
+beeline -e "load data inpath '/tenant/asiainfo/asiainfouser1/$SHOWTAB/month_id=$SHOWMON/day_id=$SHOWDAY' overwrite into table asiainfoh.$SHOWTAB partition(month_id=$SHOWMON,day_id=$SHOWDAY)"
+
+beeline -e "load data inpath '/user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=201912/day_id=20191214' overwrite into table dw_ay_spots_user_yyyymmdd partition(month_id=201912,day_id=20191214)"
+
+数据加载脚本，81也可以，需要在83上配置加载脚本，
+beeline -u "jdbc:hive2://ocdpdn80:10000/default" -n ocetl -p demo -e "load data inpath '/user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=201912/day_id=20191214' overwrite into table dw_ay_spots_user_yyyymmdd partition(month_id=201912,day_id=20191214)"
+beeline -u "jdbc:hive2://ocdpdn80:10000/default" -n ocetl -p demo -e "load data inpath '/user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=201912/day_id=20191215' overwrite into table dw_ay_spots_user_yyyymmdd partition(month_id=201912,day_id=20191215)"
+beeline -u "jdbc:hive2://ocdpdn80:10000/default" -n ocetl -p demo -e "load data inpath '/user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=201912/day_id=20191216' overwrite into table dw_ay_spots_user_yyyymmdd partition(month_id=201912,day_id=20191216)"
+beeline -u "jdbc:hive2://ocdpdn80:10000/default" -n ocetl -p demo -e "load data inpath '/user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=201912/day_id=20191214' overwrite into table dw_ay_spots_user_yyyymmdd partition(month_id=201912,day_id=20191214)"
+select * from dw_ay_spots_user_yyyymmdd where day_id=20191214 limit 1;
+select * from dw_ay_spots_user_yyyymmdd where day_id=20191215 limit 1;
+select * from dw_ay_spots_user_yyyymmdd where day_id=20191216 limit 1;
+select * from dw_ay_spots_user_yyyymmdd where day_id=20191217 limit 1;
+select count(*) from dw_ay_spots_user_yyyymmdd;
+
+加载数据
+beeline -u "jdbc:hive2://ocdpdn80:10000/default" -n ocetl -p demo -e "load data inpath '/user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=201912/day_id=20191214' overwrite into table  partition(month_id=201912,day_id=20191214)
+
+0200
+
+${"python /home/ocetl/tmj/dw_ay_spots_analysis_yyyymmdd.py "+opt_time}
+${"python /home/ocetl/tmj/st_ay_spots_analysis_yyyymmdd.py "+opt_time}
+/home/ocetl/tmj/st_ay_spots_analysis_yyyymmdd.py
+
+2019/12/23 10:52:07
+三期数据同步
+dw_ay_spots_user_yyyymmdd
+dw_ay_spots_user_yyyymmdd_data_trans
+
+show partitions td_flow_trend_dm_yyyymmdd;
+
+2020/3/25 10:36:58
+hadoop fs -du -h /user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=202003/
+
+三期
+hadoop fs -du -h /user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=201912/
+
+0       /user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=201912/day_id=20191219
+
+alter table dw_ay_spots_user_yyyymmdd drop partition(day_id=20191219);
+
+bdi
+hadoop fs -du -h /user/hive/warehouse/asiainfoh.db/dw_ay_spots_user_yyyymmdd/month_id=201912/
+
+48.6 K  /user/hive/warehouse/asiainfoh.db/dw_ay_spots_user_yyyymmdd/month_id=201912/day_id=20191219
+
+show partitions dw_ay_spots_user_yyyymmdd;
+
+select count(*) from dw_ay_spots_user_yyyymmdd where day_id=20191219;
+
+执行脚本
+sh trans_data_bdi2sanqi.sh dw_ay_spots_user_yyyymmdd 20191219 dw_ay_spots_user_yyyymmdd
+
+hadoop fs -mkdir -p hdfs://10.93.171.100:8020/user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=201912 >> /hdfs/data01/trans/trans_data_bdi2sanqi_dw_ay_spots_user_yyyymmdd_TO_dw_ay_spots_user_yyyymmdd_20191219.log
+
+hadoop fs -chmod 777 hdfs://10.93.171.100:8020/user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=201912 >> /hdfs/data01/trans/trans_data_bdi2sanqi_dw_ay_spots_user_yyyymmdd_TO_dw_ay_spots_user_yyyymmdd_20191219.log
+
+hadoop distcp -i hdfs://10.218.59.7:25000/user/hive/warehouse/asiainfoh.db/dw_ay_spots_user_yyyymmdd/month_id=201912/day_id=20191219  hdfs://10.93.171.100:8020/user/hive/warehouse/dw_ay_spots_user_yyyymmdd/month_id=201912 >> /hdfs/data01/trans/trans_data_bdi2sanqi_dw_ay_spots_user_yyyymmdd_TO_dw_ay_spots_user_yyyymmdd_20191219.log
+
+
+2020/4/26 10:30:43
+bdi同步到三期
+
+# 执行环境以及用户认证
+source /opt/fi_client/bigdata_env
+kinit -kt /home/ocdp/user.keytab asiainfouser1
+
+source_dir: dw_tra_city_stay_day_bh_yyyymm/month_id=202003
+target_dir: dw_tra_city_stay_day_bh_yyyymm
+to_dir: dw_tra_city_stay_day_bh_yyyymm
+partition_dir:month_id=202003
+
+2020-04-26 10:41:23 hadoop fs -mkdir -p hdfs://10.93.171.97:8020/user/hive/warehouse/dw_tra_city_stay_day_bh_yyyymm >> /hdfs/data01/trans/test_dw_tra_city_stay_day_bh_yyyymm_TO_dw_tra_city_stay_day_bh_yyyymm_202003.log
+
+2020-04-26 10:41:26 hadoop fs -chmod 777 hdfs://10.93.171.97:8020/user/hive/warehouse/dw_tra_city_stay_day_bh_yyyymm/month_id=202003 >> /hdfs/data01/trans/test_dw_tra_city_stay_day_bh_yyyymm_TO_dw_tra_city_stay_day_bh_yyyymm_202003.log
+
+chmod: `hdfs://10.93.171.97:8020/user/hive/warehouse/dw_tra_city_stay_day_bh_yyyymm/month_id=202003': No such file or directory
+2020-04-26 10:41:28 hadoop fs -chown ocetl:ocdp hdfs://10.93.171.97:8020/user/hive/warehouse/dw_tra_city_stay_day_bh_yyyymm/month_id=202003 >> /hdfs/data01/trans/test_dw_tra_city_stay_day_bh_yyyymm_TO_dw_tra_city_stay_day_bh_yyyymm_202003.log
+
+chown: `hdfs://10.93.171.97:8020/user/hive/warehouse/dw_tra_city_stay_day_bh_yyyymm/month_id=202003': No such file or directory
+2020-04-26 10:41:31 hadoop distcp -i hdfs://10.218.59.7:25000/user/hive/warehouse/asiainfoh.db/dw_tra_city_stay_day_bh_yyyymm/month_id=202003  hdfs://10.93.171.97:8020/user/hive/warehouse/dw_tra_city_stay_day_bh_yyyymm >> /hdfs/data01/trans/test_dw_tra_city_stay_day_bh_yyyymm_TO_dw_tra_city_stay_day_bh_yyyymm_202003.log
+
+20/04/26 10:41:33 INFO tools.DistCp: Input Options: DistCpOptions{atomicCommit=false, syncFolder=false, deleteMissing=false, ignoreFailures=true, maxMaps=20, sslConfigurationFile='null', copyStrategy='uniformsize', sourceFileListing=null, sourcePaths=[hdfs://10.218.59.7:25000/user/hive/warehouse/asiainfoh.db/dw_tra_city_stay_day_bh_yyyymm/month_id=202003], targetPath=hdfs://10.93.171.97:8020/user/hive/warehouse/dw_tra_city_stay_day_bh_yyyymm, targetPathExists=true, preserveRawXattrs=false, filtersFile='null'}
+
+
+
+# 执行环境以及用户认证
+source /opt/fi_client/bigdata_env
+kinit -kt /home/ocdp/user.keytab asiainfouser1
+
+# 退出bdi认证，之后才能修改权限
+kdestroy
+
+# 脚本里使用绝对路径
+
+2020/4/26 14:34:52
+1.认证
+source /opt/fi_client/bigdata_env
+kinit -kt /home/ocdp/user.keytab asiainfouser1
+
+2.拷贝数据
+hadoop distcp -i hdfs://10.218.59.7:25000/user/hive/warehouse/asiainfoh.db/dw_tra_city_stay_day_bh_yyyymm/month_id=202003  hdfs://10.93.171.97:8020/user/hive/warehouse/dw_tra_city_stay_day_bh_yyyymm
+
+3.退出认证
+kdestroy
+
+4.添加分区，不需要加载数据
+alter table dw_tra_city_stay_day_bh_yyyymm add partition(month_id='202003');
+
+beeline -u "jdbc:hive2://ocdpdn80:10000/default" -n ocetl -p demo -e "load data inpath 'hdfs://10.93.171.97:8020/user/hive/warehouse/dw_tra_city_stay_day_bh_yyyymm/month_id=202003' overwrite into table dw_tra_city_stay_day_bh_yyyymm partition(month_id=202003)"
+
+
+
+添加分区
+
+
+alter table dw_tra_city_stay_day_bh_yyyymm add partition(month_id='202003');
+
+beeline -u " "
+
+hadoop fs -ls hdfs://10.93.171.97:8020/user/hive/warehouse/dw_tra_city_stay_day_bh_yyyymm
+
+beeline -u "jdbc:hive2://ocdpdn80:10000/default" -n ocetl -p demo -e "alter table dw_tra_city_stay_day_bh_yyyymm add partition(month_id=202004)"
+
+select * from dw_tra_city_stay_day_bh_yyyymm limit 1;
+
+select distinct(month_id) from dw_tra_city_stay_day_bh_yyyymm;
+
+select distinct(day_id) from dw_user_info_hn_yyyymmdd;
+
+sh test.sh dw_tra_city_stay_night_bh_yyyymm 202002 dw_tra_city_stay_night_bh_yyyymm
+
+sh test.sh dw_user_info_hn_yyyymmdd 20200425 dw_user_info_hn_yyyymmdd
+
+
+dw_tra_city_stay_night_bh_yyyymm
+三期
+hadoop fs -ls /user/hive/warehouse/dw_tra_city_stay_night_bh_yyyymm
+hadoop fs -du -h /user/hive/warehouse/dw_tra_city_stay_day_bh_yyyymm
+
+bdi
+hadoop fs -du -h  /user/hive/warehouse/asiainfoh.db/dw_tra_city_stay_day_bh_yyyymm
+hadoop fs -ls  /user/hive/warehouse/asiainfoh.db/dw_tra_city_stay_day_bh_yyyymm
+
+

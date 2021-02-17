@@ -1,0 +1,180 @@
+2020/3/31 15:43:03
+短信发送模块
+
+81机器运行1个短信发送脚本
+丰富短信内容，不需要拼接字符串
+81机器可以和bdi、65、82、56（kafka）
+
+处理流程：
+1.将短信内容写入文件
+2.短信发送文件，扫描目录
+3.发送短信后将文件移到已送文件夹
+4.下载bdi信息
+
+注意：
+短信内容空格问题，让shell脚本读取短信内容
+发送用户过滤，给不同用户发短信
+监控bdi信息，每5分钟从bdi集群目录下载到本地，清空bdi集群目录信息
+bdi待发送文件目录
+
+hadoop fs -touchz 
+hadoop fs -mkdir /asiainfo/dependent/sms_info
+
+
+目录结构：
+
+短信发送
+	sms_run.py             (扫描文件夹)
+	send_sms.sh            (发送短信)
+	download_bdi_info.sh   (下载bdi信息)
+	send_sms               (待发送文件夹)
+	bak                    (已发送文件夹)
+
+
+2020/4/7 14:18:24
+sh send_sms.sh ./send_sms/test1.txt
+sh send_sms.sh ./send_sms/test2.txt
+
+
+# 创建校验文件
+# hadoop fs -touchz /asiainfo/dependent/${table_name}_${data_time}.txt
+
+
+# hadoop fs -put /asiainfo/dependent/${table_name}_${data_time}.txt
+
+hadoop fs -put ./${table_name}_${data_time}.txt /asiainfo/dependent/
+hadoop fs -put ./${table_name}_${data_time}.txt /asiainfo/dependent/sms_info
+
+hadoop fs -put ./test.txt /asiainfo/dependent/sms_info
+
+
+hadoop fs -ls /asiainfo/dependent/sms_info/ | wc -l
+hadoop fs -ls /asiainfo/dependent/sms_info/*
+
+
+10.218.59.8
+
+hadoop fs -ls  hdfs://$DATA_FROM:25000/asiainfo/dependent/${SOURCEDIR}.txt
+
+
+hadoop fs -ls  hdfs://10.218.59.8:25000/asiainfo/dependent/sms_info/*
+hadoop fs -ls  hdfs://10.218.59.7:25000/asiainfo/dependent/sms_info/*
+
+
+hadoop fs -chmod 777 /asiainfo/dependent/sms_info/
+hadoop fs -chmod 777 /asiainfo/dependent/sms_info/*
+hadoop fs -chmod 777 -R /asiainfo/dependent/sms_info/
+hadoop fs -chmod 777 -R /asiainfo/dependent/sms_info/
+
+
+test=`hadoop fs -ls  hdfs://10.218.59.8:25000/asiainfo/dependent/sms_info/* | wc -l`
+download_bdi_info.sh
+
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{print $1,$2,$3,$7,$8,$9,$10}' > top.txt
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{print $1,$2,$3,$7,$8,$9,$10}' | more 
+
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{print $1,$2,$3,$7,$8,$9,$10}' > top.txt
+
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"|" '{print $1,$2,$3,$7,$8,$9,$10}' | more
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"*" '{print $1,$2,$3,$7,$8,$9,$10}' | more
+
+
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{print $1,$2,$3,$7,$8,$9,$10}' | more
+
+bdi监控流程
+
+循环监控
+将信息输出到文件
+解析文件
+上传短信文件
+
+2020/4/9 10:18:08
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{ if( $8>200 ) print $1,$2,$3,$7,$8,$9,$10}'
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{ if( $8>200 ) print $2}'
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{ if( $8>10 ) print $2,$8}'
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F" " '{ if( $8>1 ) print $2"|"$8}'
+
+
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{ if( $8>500 ) print $1 $2}'
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{ if( $8>100 ) print $2}'
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{ if( $8>1000 ) print $2}'
+
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{ if( $8>200 ) print $2}'
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F" " '{ if( $8>100 ) print $2}'
+
+hadoop fs -rm /asiainfo/dependent/sms_info/test.txt
+
+hadoop fs -ls /asiainfo/dependent/sms_info/ | wc -l
+hadoop fs -ls /asiainfo/dependent/sms_info/*
+hadoop fs -cat /asiainfo/dependent/sms_info/job_list_20200413181434.txt
+hadoop fs -cat /asiainfo/dependent/sms_info/job_list_20200414170219.txt
+
+python /home/bdi/hyn/cpu_monitor/cpu_monitor.py
+
+python /home/bdi/hyn/cpu_monitor/cpu_monitor.py >> /home/bdi/hyn/cpu_monitor/nohup.out
+
+*/2 * * * * python /home/ocdp/hyn/send_sms/run_sms.py >> /home/ocdp/hyn/send_sms/nohup.out
+
+2020/4/19 16:26:45
+优化大任务占用多长时间
+yarn application -status
+yarn application -status application_1584927873153_94707667
+yarn application -status application_1584927873153_94716648
+yarn application -status application_1584927873153_94724058
+
+
+
+yarn top
+
+hadoop job -list
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{print $1,$2,$3,$7,$8,$9,$10}'
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{ if( $8>500 ) print $1,$2}'
+hadoop job -list | grep -E "RUNNING|PREP"|awk -F"\t" '{ if( $8>1 ) print $1,$2}'
+
+
+1584927873153_94716648
+
+1584927873153_94716648
+
+
+Application Report : 
+        Application-Id : application_1584927873153_94724058
+        Application-Name : dwd_loc_stay_lacci_bh_yyyymmddhh.py
+        Application-Type : MAPREDUCE
+        User : asiainfouser1
+        Queue User : asiainfouser1
+        Queue : asiainfouser1
+        Start-Time : 1587286098379
+        Finish-Time : 0
+        Progress : 38.38%
+        State : RUNNING
+        Final-State : UNDEFINED
+        Tracking-URL : http://HB4F-H02-22U-R5300G4:27108
+        RPC Port : 27102
+        AM Host : HB4F-H02-22U-R5300G4
+        Aggregate Resource Allocation : 70717629 MB-seconds, 17129 vcore-seconds
+        Log Aggregation Status : NOT_START
+        Diagnostics : 
+        Application Node Label Expression : <Not set>
+        AM container Node Label Expression : asiainfo
+
+Application Report : 
+        Application-Id : application_1584927873153_94716648
+        Application-Name : dwd_loc_stay_lacci_bh_yyyymmddhh.py
+        Application-Type : MAPREDUCE
+        User : asiainfouser1
+        Queue User : asiainfouser1
+        Queue : asiainfouser1
+        Start-Time : 1587285879740
+        Finish-Time : 1587286090910
+        Progress : 100%
+        State : FINISHED
+        Final-State : SUCCEEDED
+        Tracking-URL : https://hb4-a05-6u-rh2288-37:26014/jobhistory/job/job_1584927873153_94716648
+        RPC Port : 27101
+        AM Host : HB4F-H02-22U-R5300G4
+        Aggregate Resource Allocation : 375500261 MB-seconds, 91080 vcore-seconds
+        Log Aggregation Status : SUCCEEDED
+        Diagnostics : 
+        Application Node Label Expression : <Not set>
+        AM container Node Label Expression : asiainfo

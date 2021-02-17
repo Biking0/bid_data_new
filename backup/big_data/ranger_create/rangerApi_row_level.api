@@ -1,0 +1,589 @@
+# 行级权限控制
+
+import requests
+
+url = "http://172.19.168.231:6080/service/public/v2/api/policy"
+
+payload = "{\r\n   \"isEnabled\": true,\r\n    \"version\": 1,\r\n    \"service\": \"csap_hive\",\r\n    \"name\": \"testzh0924\",\r\n    \"policyType\": 2,\r\n    \"policyPriority\": 0,\r\n    \"description\": \"\",\r\n    \"isAuditEnabled\": true,\r\n    \"resources\": {\r\n        \"database\": {\r\n            \"values\": [\r\n                \"csap\"\r\n            ],\r\n            \"isExcludes\": false,\r\n            \"isRecursive\": false\r\n        },\r\n        \"table\": {\r\n            \"values\": [\r\n                \"tb_dw_ct_cti_contact_event_day\"\r\n            ],\r\n            \"isExcludes\": false,\r\n            \"isRecursive\": false\r\n        }\r\n    },\r\n     \"policyItems\": [],\r\n    \"denyPolicyItems\": [],\r\n    \"allowExceptions\": [],\r\n    \"denyExceptions\": [],\r\n    \"dataMaskPolicyItems\": [],\r\n    \"rowFilterPolicyItems\": [\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap100\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='100'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap200\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='200'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap210\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='210'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap220\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='220'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap230\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='230'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap240\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='240'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap250\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='250'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap270\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='270'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap280\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='280'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap290\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='290'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap351\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='351'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap311\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='311'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap371\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='371'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap431\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='431'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap451\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='451'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap471\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='471'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap531\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='531'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap551\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='551'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap571\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='571'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap591\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='591'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap731\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='731'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap771\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='771'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap791\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='791'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap851\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='851'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap871\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='871'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap891\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='891'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap898\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='898'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap931\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='931'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap951\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='951'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap971\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='971'\"\r\n            }\r\n        },\r\n        {\r\n            \"accesses\": [\r\n                {\r\n                    \"type\": \"select\",\r\n                    \"isAllowed\": true\r\n                }\r\n            ],\r\n            \"users\": [\r\n                \"csap991\"\r\n            ],\r\n            \"groups\": [],\r\n            \"conditions\": [],\r\n            \"delegateAdmin\": false,\r\n            \"rowFilterInfo\": {\r\n                \"filterExpr\": \"prov_code='991'\"\r\n            }\r\n        }\r\n    ],\r\n    \"options\": {},\r\n    \"validitySchedules\": [],\r\n    \"policyLabels\": [\r\n        \"\"\r\n    ]\r\n}"
+headers = {
+    'X-XSRF-HEADER': "valid",
+    'Content-Type': "application/json",
+    'Authorization': "Basic YWRtaW46MXEydyFRQFc=",
+    'Cache-Control': "no-cache",
+    'Postman-Token': "569270c0-c554-424a-9260-7cb22b3dfdd6"
+    }
+
+response = requests.request("POST", url, data=payload, headers=headers)
+
+print(response.text)
+
+
+
+
+
+
+{
+   "isEnabled": true,
+    "version": 1,
+    "service": "csap_hive",
+    "name": "testzh0924",
+    "policyType": 2,
+    "policyPriority": 0,
+    "description": "",
+    "isAuditEnabled": true,
+    "resources": {
+        "database": {
+            "values": [
+                "csap"
+            ],
+            "isExcludes": false,
+            "isRecursive": false
+        },
+        "table": {
+            "values": [
+                "tb_dw_ct_cti_contact_event_day"
+            ],
+            "isExcludes": false,
+            "isRecursive": false
+        }
+    },
+     "policyItems": [],
+    "denyPolicyItems": [],
+    "allowExceptions": [],
+    "denyExceptions": [],
+    "dataMaskPolicyItems": [],
+    "rowFilterPolicyItems": [
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap100"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='100'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap200"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='200'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap210"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='210'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap220"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='220'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap230"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='230'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap240"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='240'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap250"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='250'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap270"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='270'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap280"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='280'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap290"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='290'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap351"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='351'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap311"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='311'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap371"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='371'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap431"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='431'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap451"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='451'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap471"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='471'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap531"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='531'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap551"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='551'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap571"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='571'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap591"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='591'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap731"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='731'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap771"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='771'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap791"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='791'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap851"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='851'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap871"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='871'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap891"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='891'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap898"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='898'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap931"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='931'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap951"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='951'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap971"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='971'"
+            }
+        },
+        {
+            "accesses": [
+                {
+                    "type": "select",
+                    "isAllowed": true
+                }
+            ],
+            "users": [
+                "csap991"
+            ],
+            "groups": [],
+            "conditions": [],
+            "delegateAdmin": false,
+            "rowFilterInfo": {
+                "filterExpr": "prov_code='991'"
+            }
+        }
+    ],
+    "options": {},
+    "validitySchedules": [],
+    "policyLabels": [
+        ""
+    ]
+}
