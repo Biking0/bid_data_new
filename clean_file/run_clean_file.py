@@ -24,7 +24,7 @@ if __name__=='__main__':
 
 	while True:	
 		
-		run_sh='sh scp_file_server.sh >> nohup.out'
+		run_sh='python /home/ocdp/hyn/backup_file.py >> backup_file.out'
 		
 		os.popen(run_sh).readlines()
 		

@@ -20,7 +20,7 @@ import time
 import yarn_monitor
 import datetime as date_time
 
-# 启动   1
+# 启动
 if __name__ == '__main__':
 
     while True:
