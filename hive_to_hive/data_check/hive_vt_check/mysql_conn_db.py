@@ -24,7 +24,9 @@ mysql_sh = "mysql -h 172.19.168.22 -P 3308 -u zhao -pzhao zhao -e ' "
 
 # 连接
 def conn_db():
-    conn = pymysql.connect(host="172.19.168.22", port=3308, user="zhao", passwd="zhao", db="zhao", charset="utf8")
+    # conn = pymysql.connect(host="172.19.168.22", port=3308, user="zhao", passwd="zhao", db="zhao", charset="utf8")
+    conn = pymysql.connect(host="172.19.167.13", port=3306, user="ocdp", passwd="1q2w1q@W", db="data_check",
+                           charset="utf8")
 
     return conn
 
@@ -63,6 +65,25 @@ def insert(sql):
     return result
 
 
+# 批量插入及更新数据
+def insert_batch(sql_list):
+    conn = conn_db()
+    cursor = conn.cursor()
+
+    for sql in sql_list:
+        cursor.execute(sql)
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    # result = cursor.fetchall()
+    # print type(result)
+    # print result
+
+    return
+
+
 # select("show tables;")
 
-insert("insert into test (id) values ('123')")
+#insert("insert into test (id) values ('123')")

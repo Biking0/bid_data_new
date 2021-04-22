@@ -17,11 +17,11 @@
 excute_sy_sh = "hive -e ' use csap;"
 
 # 表结构存放路径
-new_path='/home/ocdp/hyn/hive_vt_check/'
+new_path='/home/ocdp/hyn/hive_vt_check/table_info/'
 
 # 生产环境
 # excute_desc_sh = "beeline -u 'jdbc:hive2://192.168.190.88:10000/csap' -n hive -p %Usbr7mx -e "
-excute_ocdp_sh = "beeline -u 'jdbc:hive2://172.19.40.241:10000/csap' -n ocdp -p 1q2w1q@W -e "
+excute_ocdp_sh = "beeline -u 'jdbc:hive2://172.19.40.241:10000/csap' -n ocdp -p 1q2w1q@W -e \' "
 
 # 测试环境
 # excute_ocdp_test_sh = "beeline -u 'jdbc:hive2://172.22.248.19:10000/default' -n csap -p @WSX2wsx -e "

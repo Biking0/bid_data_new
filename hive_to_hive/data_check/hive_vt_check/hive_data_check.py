@@ -23,12 +23,13 @@ import random
 import time
 import datetime
 import config
-import pubUtil
+# import pubUtil
 import threading
 from Queue import Queue
+import mysql_conn_db
 
 
-class Hive_data_check(object):
+class Hive_data_check():
 
     def __init__(self):
         pass
@@ -36,33 +37,86 @@ class Hive_data_check(object):
     # mysql读取表名
     def read_table_name(self):
 
-        # 获取稽核目标表列表
-        get_table_sql = "select schema,table_name from hive_vt_check_list where check_flag=1 "
+        # 获取稽核目标表列表sql
+        get_table_sql = "select table_name from tb_check_table_list where check_flag=1 "
 
-        f = open(config.new_path + 'test_table_name.txt', 'r')
-        i = 1
+        # 查询mysql获取稽核列表
+        get_table_list = mysql_conn_db.select(get_table_sql)
 
-        multi_list = []
+        print get_table_list
+        print len(get_table_list)
+        print len(get_table_list[0])
 
-        for line in f.readlines():
-            line = line.strip('\n').replace(' ', '').replace('\t', '')
+        # 是否有稽核任务
+        if len(get_table_list) == 0:
+            print '无稽核任务'
+        else:
 
-            print 1, ' #########################'
-            print line
-            multi_list.append(line)
+            # 遍历稽核表清单，清理无效字符
+            multi_list = []
+            for line in get_table_list:
+                line = line[0].strip('\n').replace(' ', '').replace('\t', '')
 
-            # 开始解析
-            # create_desc(line)
+                print 1, ' #########################'
+                print line
+                multi_list.append(line)
 
-            # 连续读取目标表
-            # break
+                # 开始解析
+                # self.create_desc(line)
 
-        self.multi_thread(multi_list)
+                # 连续读取目标表
+                # break
+
+            self.multi_thread(multi_list)
+
+    # 开启多线程
+    def multi_thread(self, multi_list):
+        # print 'multi_list', multi_list
+
+        data_queque = Queue()
+        result_queque = Queue()
+
+        # 数据放入队列
+        for i in range(len(multi_list)):
+            data_queque.put(multi_list[i])
+
+        # 设置并发数
+        a = 1
+        # list分块，调用多线程
+        for i in range(a):
+            # list分块，调用多线程
+            multi1 = threading.Thread(target=self.read_list, args=(5, data_queque, result_queque))
+
+            multi1.start()
+
+    # 遍历列表
+    def read_list(self, num, data_queque, result_queque):
+        for i in range(data_queque.qsize()):
+            try:
+                if not data_queque.empty():
+                    # 出队列
+                    table_name = data_queque.get()
+
+                    # print 'table_name', table_name
+                    self.create_desc(table_name)
+
+            except Exception as e:
+
+                print e
+
+                # 记录稽核异常日志
+                f = open('./error_info.log', 'a+')
+                f.write(str(e) + '\n')
+                f.write(str(datetime.datetime.now()) + '\n')
+                f.close()
+                continue
 
     # 生成desc表结构文件
     def create_desc(self, table_name):
         # 生产环境
         desc_sh = config.excute_ocdp_sh + " desc  " + table_name + ' \' > ' + config.new_path + table_name + '.txt'
+
+        print '# desc_sh', desc_sh
 
         os.popen(desc_sh).readlines()
         self.desc_parser(table_name)
@@ -260,8 +314,9 @@ class Hive_data_check(object):
 
             # 其他分区，先不检测，记录到文件
             else:
-                chk_error = open(config.new_path + 'chk_error.txt', 'a+')
-                chk_error.write(str(partition_list))
+                chk_error = open('./chk_error.txt', 'a+')
+                chk_error.write(str(partition_list) + '\n')
+                chk_error.write(str(datetime.datetime.now()) + '\n')
                 chk_error.close()
 
         # 创建查询sql
@@ -307,7 +362,7 @@ class Hive_data_check(object):
         select_sql_sh = config.excute_ocdp_sh + ' \" ' + sql + ' \"'
         # print select_sql_sh
 
-        self.insert_table(table_name, sql)
+        # self.insert_table(table_name, sql)
 
         # 删除表结构文本文件
         delete_sh = 'rm ' + table_name + '.txt'
@@ -342,53 +397,17 @@ class Hive_data_check(object):
 
         os.popen(export_sh).readlines()
 
-    # 遍历列表
-    def read_list(self, num, data_queque, result_queque):
-        for i in range(data_queque.qsize()):
-            try:
-                if not data_queque.empty():
-                    # 出队列
-                    table_name = data_queque.get()
+    # # 运行之前清理结果表分区，添加重跑功能
+    # def clear_ocdp_partition(self):
+    #     # 清理ocdp集群分区
+    #     sql = "alter table chk_result drop if exists partition(static_date=" + pubUtil.get_today() + ");"
+    #
+    #     clear_sql_sh = config.excute_ocdp_sh + sql + '\''
+    #
+    #     print clear_sql_sh
+    #
+    #     # os.popen(clear_sql_sh)
 
-                    # print 'table_name', table_name
-                    self.create_desc(table_name)
 
-            except Exception as e:
-                print e
-                f = open('./error_info.log', 'a+')
-                f.write(str(e))
-                f.close()
-                continue
-
-    # 多线程
-    def multi_thread(self, multi_list):
-        # print 'multi_list', multi_list
-
-        data_queque = Queue()
-        result_queque = Queue()
-
-        # 数据放入队列
-        for i in range(len(multi_list)):
-            data_queque.put(multi_list[i])
-
-        # 设置并发数
-        a = 1
-        # list分块，调用多线程
-        for i in range(a):
-            # list分块，调用多线程
-            multi1 = threading.Thread(target=self.read_list, args=(5, data_queque, result_queque))
-
-            multi1.start()
-
-    # 运行之前清理结果表分区，添加重跑功能
-    def clear_ocdp_partition(self):
-        # 清理ocdp集群分区
-        sql = "alter table chk_result drop if exists partition(static_date=" + pubUtil.get_today() + ");"
-
-        clear_sql_sh = config.excute_ocdp_sh + sql + '\''
-
-        print clear_sql_sh
-
-        # os.popen(clear_sql_sh)
-
-    read_table_name()
+test = Hive_data_check()
+test.read_table_name()
