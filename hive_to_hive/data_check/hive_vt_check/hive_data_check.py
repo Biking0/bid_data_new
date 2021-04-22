@@ -254,7 +254,7 @@ class Hive_data_check():
                         # print partition_key
                         partition_list.append(partition_key)
 
-                    if len(partition_list) >  1:
+                    if len(partition_list) > 1:
                         print '### 多个分区', line, partition_list
                         # check_result = open('/home/hive/hyn/hive_to_hive/check_result.txt', 'a+')
                         # check_result.write(line + ' ' + str(partition_list) + '\n')
@@ -276,7 +276,7 @@ class Hive_data_check():
                 break
 
         # 分区处理
-        # print '# partition_list', partition_list
+        print '# partition_list', partition_list
 
         partition = ''
 
@@ -285,7 +285,7 @@ class Hive_data_check():
             pass
 
         else:
-            # 月分区，取上个月，前一个周期
+            # 月分区，取上个月，前一个周期，以第一个分区为准
             if partition_list[0] == 'partition_month':
                 today = datetime.date.today()
                 first = today.replace(day=1)
@@ -368,7 +368,7 @@ class Hive_data_check():
         delete_sh = 'rm ' + table_name + '.txt'
         # os.popen(delete_sh).readlines()
 
-    # 构造出sql，将查询结果插入稽核结果表中
+    # 构造出sql，将查询结果插入mysql稽核结果表中
     def insert_table(self, table_name, sql):
         # 随机插入1-10稽核结果表
         table_num = str(random.randint(1, 10))
