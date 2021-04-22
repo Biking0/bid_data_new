@@ -254,7 +254,7 @@ class Hive_data_check():
                         # print partition_key
                         partition_list.append(partition_key)
 
-                    if len(partition_list) > 1:
+                    if len(partition_list) >  1:
                         print '### 多个分区', line, partition_list
                         # check_result = open('/home/hive/hyn/hive_to_hive/check_result.txt', 'a+')
                         # check_result.write(line + ' ' + str(partition_list) + '\n')
