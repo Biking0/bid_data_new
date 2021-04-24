@@ -394,6 +394,7 @@ class Hive_data_check():
         print "select_sql_sh", select_sql_sh
 
         select_result = os.popen(select_sql_sh).readlines()[0].replace('\n', '').split('\t')
+
         print select_result
 
 
