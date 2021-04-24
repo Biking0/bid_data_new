@@ -32,7 +32,8 @@ import mysql_conn_db
 class Hive_data_check():
 
     def __init__(self):
-        pass
+        # chk_table_name = 'chk_result_' + table_num
+        self.chk_table_name = 'tb_hive_check_result'
 
     # mysql读取表名
     def read_table_name(self):
@@ -373,11 +374,10 @@ class Hive_data_check():
         # 随机插入1-10稽核结果表
         table_num = str(random.randint(1, 10))
 
-        chk_table_name = 'chk_result_' + table_num
-        insert_sql = " use csap; insert into table " + chk_table_name + " partition (static_date=" + time.strftime(
-            "%Y%m%d",
-            time.localtime(
-                time.time())) + ") " + sql
+        # insert_sql = " use csap; insert into table " + chk_table_name + " partition (static_date=" + time.strftime(
+        #     "%Y%m%d",
+        #     time.localtime(
+        #         time.time())) + ") " + sql
         # print insert_sql
 
         # 执行插入语句
@@ -397,7 +397,11 @@ class Hive_data_check():
 
         print select_result
 
+        insert_sql = "insert into  " + self.chk_table_name + "  (data_source,table_name,partition,count_num,end_string_sum,int_sum,remark,update_time) values ('%s','%s','%s','%s','%s','%s','%s','%s')  " % (
+        select_result[0], select_result[1], select_result[2], select_result[3], select_result[4], select_result[5],
+        select_result[6], select_result[7])
 
+        mysql_conn_db.insert(insert_sql)
 
         # export_chk_result(table_name)
 
