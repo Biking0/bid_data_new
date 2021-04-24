@@ -362,7 +362,7 @@ class Hive_data_check():
         select_sql_sh = config.excute_ocdp_sh + ' \" ' + sql + ' \"'
         # print select_sql_sh
 
-        # self.insert_table(table_name, sql)
+        self.insert_table(table_name, sql)
 
         # 删除表结构文本文件
         delete_sh = 'rm ' + table_name + '.txt'
@@ -381,9 +381,21 @@ class Hive_data_check():
         # print insert_sql
 
         # 执行插入语句
-        insert_sql_sh = config.excute_ocdp_sh + ' \" ' + insert_sql + ' \" '
-        print insert_sql_sh
-        os.popen(insert_sql_sh).readlines()
+        # insert_sql_sh = config.excute_ocdp_sh + ' \" ' + insert_sql + ' \" '
+
+        # print insert_sql_sh
+        # os.popen(insert_sql_sh).readlines()
+
+        # 查询sql
+        select_sql = sql
+        select_sql_sh = config.result_ocdp_sh + ' \" ' + select_sql + ' \" '
+
+        print "select_sql_sh", select_sql_sh
+
+        select_result = os.popen(select_sql_sh).readlines()[0].replace('\n', '').split('\t')
+        print select_result
+
+
 
         # export_chk_result(table_name)
 
