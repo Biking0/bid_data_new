@@ -17,7 +17,7 @@
 excute_sy_sh = "hive -e ' use csap;"
 
 # 表结构存放路径
-new_path='/home/ocdp/hyn/hive_vt_check/table_info/'
+new_path = '/home/ocdp/hyn/hive_vt_check/table_info/'
 
 # 生产环境
 # excute_desc_sh = "beeline -u 'jdbc:hive2://192.168.190.88:10000/csap' -n hive -p %Usbr7mx -e "
@@ -29,6 +29,16 @@ result_ocdp_sh = "beeline -u 'jdbc:hive2://172.19.40.241:10000/csap' -n ocdp -p 
 
 # sy程序执行路径
 sy_path = "/home/hive/hyn/data_check/"
+
+vt_schama = {'dwd': 'csapdwd',
+             'dws': 'csapdws',
+             'dwv': 'csapdwv',
+             'dw': 'csapdw',
+             'dm': 'csapdm',
+             'rp': 'csaprp',
+             'si': 'csapsi',
+             'dim': 'csapdim',
+             'etl': 'csapetl'}
 
 # vt
 test_database = {'csapdwd': ['csapdwd''qaQA#3e4r1'],
@@ -55,7 +65,7 @@ test_database = {'csapdwd': ['csapdwd''qaQA#3e4r1'],
 #                  'CSAPETL': ['csap', 'I8hjH$Sw'],
 #                  }
 
-check_table_name = 'tb_vt_data_check_test'
+check_table_name = 'tb_vt_check_result'
 # check_table_name = 'tb_vt_data_check'
 
 vt_ip = '172.19.74.63'
