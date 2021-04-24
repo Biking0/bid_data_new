@@ -387,6 +387,7 @@ class Hive_data_check():
         # os.popen(insert_sql_sh).readlines()
 
         # 查询sql
+
         select_sql = sql
         select_sql_sh = config.result_ocdp_sh + ' \" ' + select_sql + ' \" '
 
