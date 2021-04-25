@@ -218,7 +218,7 @@ class Vt_data_check():
             sql_part4 = ",sum(length(" + end_string + "))"
 
         # 无分区
-        if partition == '':
+        if partition == '' :
             partition = 'no_partition'
             sql_part1 = "select 'DATA_SOURCE' as data_source,'" + database + '.' + table_name + "' as table_name,'" + partition + "', count(*)" + sql_part4
             sql_part3 = ",'REMARK',to_char(current_timestamp,'YYYY-MM-DD HH24:MI:SS') " + " from " + table_name + " ;"
