@@ -427,5 +427,5 @@ class Hive_data_check():
     #     # os.popen(clear_sql_sh)
 
 
-test = Hive_data_check()
-test.read_table_name()
+# test = Hive_data_check()
+# test.read_table_name()

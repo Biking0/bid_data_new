@@ -302,5 +302,5 @@ class Vt_data_check():
 # main("tb_dwd_ct_ngcs_teamworkcall_staffs_day")
 # main("tb_dwd_ct_85ct_call_list_hour")
 
-test = Vt_data_check()
-test.read_table_name()
+# test = Vt_data_check()
+# test.read_table_name()
