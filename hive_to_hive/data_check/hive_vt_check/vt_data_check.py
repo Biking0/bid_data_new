@@ -180,6 +180,7 @@ class Vt_data_check():
         # 有分区
         else:
             return partition_str + '=\'' + partition_date + '\''
+            # return '\''+partition_date + '\''
 
     # 获取最后一个字符串
     def get_end_string(self, table_name, database):
@@ -281,7 +282,6 @@ class Vt_data_check():
         print 'insert_sql', insert_sql
 
         mysql_conn_db.insert(insert_sql)
-
 
 # # 启动
 # if __name__ == '__main__':

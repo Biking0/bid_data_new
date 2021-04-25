@@ -37,17 +37,25 @@ class Main():
         hive_chk = hive_chk_data_check.Hive_data_check()
         vt = vt_data_check.Vt_data_check()
 
-        # 多线程初始化
-        hive_thread = threading.Thread(target=hive.read_table_name())
-        hive_chk_thread = threading.Thread(target=hive_chk.read_table_name())
-        vt_thread = threading.Thread(target=vt.read_table_name())
+        # # 多线程初始化
+        # hive_thread = threading.Thread(target=hive.read_table_name)
+        # hive_chk_thread = threading.Thread(target=hive_chk.read_table_name)
+        # # vt_thread = threading.Thread(target=vt.read_table_name())
 
         # 启动线程
-        hive_thread.start()
-        hive_chk_thread.start()
-        vt_thread.start()
+        # hive_thread.start()
+        # hive_chk_thread.start()
+        # # vt_thread.start()
+
+        # hive.read_table_name()
+        # hive_chk.read_table_name()
+        vt.read_table_name()
 
         print '####################'
+
+    # 汇总
+
+
 
 
 test = Main()
