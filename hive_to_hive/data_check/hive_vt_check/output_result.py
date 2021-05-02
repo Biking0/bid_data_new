@@ -133,24 +133,22 @@ class Output_result():
         check_flag_result = mysql_conn_db.select(check_flag_sql)
 
         print 'check_flag_result', check_flag_result
-
-        # check_flag，Vt与hive稽核表稽核结果标记
         check_flag = 0
         if len(check_flag_result) > 0: check_flag = 1
 
         # check_flag，Vt与hive同名表稽核结果标记
-        check_chk_flag_sql = "select * from tb_hive_chk_check_result a left join tb_vt_check_result b on a.table_name=b.table_name  where a.table_name ='%s' and a.partition='%s' and a.count_num=b.count_num and a.end_string_sum=b.end_string_sum and a.int_sum=b.int_sum " % (
+        check_flag_chk_sql = "select * from tb_hive_chk_check_result a left join tb_vt_check_result b on a.table_name=b.table_name  where a.table_name ='%s' and a.partition='%s' and a.count_num=b.count_num and a.end_string_sum=b.end_string_sum and a.int_sum=b.int_sum " % (
             table_name, data_time)
 
-        print 'check_chk_flag_sql', check_chk_flag_sql
+        print 'check_flag_chk_sql', check_flag_chk_sql
 
-        check_chk_flag_result = mysql_conn_db.select(check_chk_flag_sql)
+        check_flag_chk_result = mysql_conn_db.select(check_flag_chk_sql)
 
-        print 'check_chk_flag_result', check_chk_flag_result
+        print 'check_flag_chk_result', check_flag_chk_result
 
         # check_flag，Vt与hive同名表稽核结果标记
-        check_chk_flag = 0
-        if len(check_chk_flag_result) > 0: check_chk_flag = 1
+        check_flag_chk = 0
+        if len(check_flag_chk_result) > 0: check_flag_chk = 1
 
         # vt
         count_vt_sql = "select count_num from tb_vt_check_result where table_name='%s' and partition='%s' " % (
@@ -181,18 +179,27 @@ class Output_result():
         # hive_chk
         count_chk_sql = "select count_num from tb_hive_chk_check_result where table_name='%s' and partition='%s' " % (
             table_name, data_time)
-        count_chk = mysql_conn_db.select(count_chk_sql)[0][0]
+        print 'count_chk_sql', count_chk_sql
+        count_chk = mysql_conn_db.select(count_chk_sql)
+        if len(count_chk) == 0: count_chk = ''
+        print count_chk
 
         sum_int_chk_sql = "select int_sum from tb_hive_chk_check_result where table_name='%s' and partition='%s' " % (
             table_name, data_time)
-        sum_int_chk = mysql_conn_db.select(sum_int_chk_sql)[0][0]
+        sum_int_chk = mysql_conn_db.select(sum_int_chk_sql)
+        if len(sum_int_chk) == 0: sum_int_chk = ''
 
         sum_strint_chk_sql = "select end_string_sum from tb_hive_chk_check_result where table_name='%s' and partition='%s' " % (
             table_name, data_time)
-        sum_strint_chk = mysql_conn_db.select(sum_strint_chk_sql)[0][0]
+        sum_strint_chk = mysql_conn_db.select(sum_strint_chk_sql)
+        if len(sum_strint_chk) == 0: sum_strint_chk = ''
 
         # 更新mysql
-        update_sql="insert into tb_check_result () "
+        update_sql = "insert into tb_check_result (table_name,data_time,check_flag,check_flag_chk,count_vt,sum_int_vt,sum_strint_vt,count_hive,sum_int_hive,sum_strint_hive,count_chk,sum_int_chk,sum_strint_chk) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')  " % (
+            table_name, data_time, check_flag, check_flag_chk, count_vt, sum_int_vt, sum_strint_vt, count_hive,
+            sum_int_hive, sum_strint_hive, count_chk, sum_int_chk, sum_strint_chk)
+        mysql_conn_db.insert(update_sql)
+
 
 test = Output_result()
 test.read_table_name()
