@@ -297,8 +297,6 @@ class Vt_data_check():
 
 
 
-
-
 # # 启动
 # if __name__ == '__main__':
 #
