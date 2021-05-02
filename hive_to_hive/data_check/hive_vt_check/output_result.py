@@ -201,5 +201,6 @@ class Output_result():
         mysql_conn_db.insert(update_sql)
 
 
+
 test = Output_result()
 test.read_table_name()
