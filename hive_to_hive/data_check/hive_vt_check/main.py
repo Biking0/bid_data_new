@@ -47,8 +47,8 @@ class Main():
         # hive_chk_thread.start()
         # # vt_thread.start()
 
-        # hive.read_table_name()
-        # hive_chk.read_table_name()
+        hive.read_table_name()
+        hive_chk.read_table_name()
         vt.read_table_name()
 
         print '####################'
