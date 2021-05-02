@@ -42,6 +42,7 @@ class Main():
         # hive_chk_thread = threading.Thread(target=hive_chk.read_table_name)
         # # vt_thread = threading.Thread(target=vt.read_table_name())
 
+
         # 启动线程
         # hive_thread.start()
         # hive_chk_thread.start()
