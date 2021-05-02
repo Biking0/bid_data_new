@@ -283,7 +283,7 @@ class Vt_data_check():
             result[0][0], result[0][1].split('.')[1], result[0][2], result[0][3], result[0][4], result[0][5], result[0][6],
             result[0][7])
 
-        print 'insert_sql', insert_sql
+        print 'insert_sql',  insert_sql
 
         mysql_conn_db.insert(insert_sql)
 
@@ -292,6 +292,8 @@ class Vt_data_check():
 
         # NUll
         sql_null="update tb_vt_check_result set end_string_sum = NULL where  end_string_sum='None' "
+
+        # int
 
 
 # # 启动
