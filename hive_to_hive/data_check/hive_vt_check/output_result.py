@@ -166,31 +166,33 @@ class Output_result():
         sum_strint_vt = mysql_conn_db.select(sum_strint_vt_sql)[0][0]
 
         # hive
-        count_vt_sql = "select count_num from tb_vt_check_result where table_name='%s' and partition='%s' " % (
+        count_hive_sql = "select count_num from tb_hive_check_result where table_name='%s' and partition='%s' " % (
             table_name, data_time)
-        count_vt = mysql_conn_db.select(count_vt_sql)[0][0]
+        count_hive = mysql_conn_db.select(count_hive_sql)[0][0]
 
-        sum_int_vt_sql = "select int_sum from tb_vt_check_result where table_name='%s' and partition='%s' " % (
+        sum_int_hive_sql = "select int_sum from tb_hive_check_result where table_name='%s' and partition='%s' " % (
             table_name, data_time)
-        sum_int_vt = mysql_conn_db.select(sum_int_vt_sql)[0][0]
+        sum_int_hive = mysql_conn_db.select(sum_int_hive_sql)[0][0]
 
-        sum_strint_vt_sql = "select end_string_sum from tb_vt_check_result where table_name='%s' and partition='%s' " % (
+        sum_strint_hive_sql = "select end_string_sum from tb_hive_check_result where table_name='%s' and partition='%s' " % (
             table_name, data_time)
-        sum_strint_vt = mysql_conn_db.select(sum_strint_vt_sql)[0][0]
+        sum_strint_hive = mysql_conn_db.select(sum_strint_hive_sql)[0][0]
 
         # hive_chk
-        count_vt_sql = "select count_num from tb_vt_check_result where table_name='%s' and partition='%s' " % (
+        count_chk_sql = "select count_num from tb_hive_chk_check_result where table_name='%s' and partition='%s' " % (
             table_name, data_time)
-        count_vt = mysql_conn_db.select(count_vt_sql)[0][0]
+        count_chk = mysql_conn_db.select(count_chk_sql)[0][0]
 
-        sum_int_vt_sql = "select int_sum from tb_vt_check_result where table_name='%s' and partition='%s' " % (
+        sum_int_chk_sql = "select int_sum from tb_hive_chk_check_result where table_name='%s' and partition='%s' " % (
             table_name, data_time)
-        sum_int_vt = mysql_conn_db.select(sum_int_vt_sql)[0][0]
+        sum_int_chk = mysql_conn_db.select(sum_int_chk_sql)[0][0]
 
-        sum_strint_vt_sql = "select end_string_sum from tb_vt_check_result where table_name='%s' and partition='%s' " % (
+        sum_strint_chk_sql = "select end_string_sum from tb_hive_chk_check_result where table_name='%s' and partition='%s' " % (
             table_name, data_time)
-        sum_strint_vt = mysql_conn_db.select(sum_strint_vt_sql)[0][0]
+        sum_strint_chk = mysql_conn_db.select(sum_strint_chk_sql)[0][0]
 
+        # 更新mysql
+        
 
 test = Output_result()
 test.read_table_name()
