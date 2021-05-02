@@ -192,7 +192,7 @@ class Output_result():
         sum_strint_chk = mysql_conn_db.select(sum_strint_chk_sql)[0][0]
 
         # 更新mysql
-        
+        update_sql="insert into
 
 test = Output_result()
 test.read_table_name()
