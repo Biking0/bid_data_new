@@ -134,6 +134,8 @@ class Vt_data_check():
 
             table_name_list = table_name.split('_')
 
+            print 'table_name_list', table_name_list
+            print 'table_name_list[1]', table_name_list[1]
             database = config.vt_schama.get(table_name_list[1])
 
             # 表不存在
@@ -144,6 +146,7 @@ class Vt_data_check():
             table_int_list = self.get_int(table_name, database)
 
             partition = self.check_partition(table_name, self.partition_date, database)
+            partition = partition.split('=')[1] + '=' + partition.split('=')[2]
             self.create_sql(table_name, table_int_list, partition, end_string, database)
         except Exception as e:
             print e
@@ -220,7 +223,7 @@ class Vt_data_check():
             sql_part4 = ",sum(length(" + end_string + "))"
 
         # 无分区
-        if partition == '' :
+        if partition == '':
             partition = 'no_partition'
             sql_part1 = "select 'DATA_SOURCE' as data_source,'" + database + '.' + table_name + "' as table_name,'" + partition + "', count(*)" + sql_part4
             sql_part3 = ",'REMARK',to_char(current_timestamp,'YYYY-MM-DD HH24:MI:SS') " + " from " + table_name + " ;"
@@ -231,7 +234,10 @@ class Vt_data_check():
                 '\'', '') + "', count(*)" + sql_part4
 
             # todo 无分区表，增量数据无法稽核，全表可稽核
-            sql_part3 = ",'REMARK',to_char(current_timestamp,'YYYY-MM-DD HH24:MI:SS') " + " from " + table_name + " where " + partition + ";"
+            sql_part3 = ",'REMARK',to_char(current_timestamp,'YYYY-MM-DD HH24:MI:SS') " + " from " + table_name + " where " + \
+                        partition.replace('\'', '').split('=')[0] + '=\'' + partition.split('=')[1] + ";"
+
+            print 'sql_part3', sql_part3, partition
 
         table_int_str = ''
         sql_part2 = ''
@@ -273,6 +279,7 @@ class Vt_data_check():
 
         # chk_table_name = 'chk_result_' + table_num
 
+        print 'insert_table',sql,database
         result = vt_conn_db.select(sql, database)
         print 'vt_result', result
 
@@ -280,22 +287,28 @@ class Vt_data_check():
 
         # 表名不带schama
         insert_sql = "insert into " + check_table_name + " (data_source,table_name,partition,count_num,end_string_sum,int_sum,remark,update_time) values('%s','%s','%s','%s','%s','%s','%s','%s')" % (
-            result[0][0], result[0][1].split('.')[1], result[0][2], result[0][3], result[0][4], result[0][5], result[0][6],
+            result[0][0], result[0][1].split('.')[1], result[0][2],
+            result[0][3], result[0][4], result[0][5],
+            result[0][6],
             result[0][7])
 
-        print 'insert_sql',  insert_sql
+        print 'insert_sql', insert_sql
 
         mysql_conn_db.insert(insert_sql)
+
+        self.modify_result()
 
     # 修改稽核空数据，与hive稽核结果数据保持一致
     def modify_result(self):
 
         # NUll
-        sql_null="update tb_vt_check_result set end_string_sum = NULL where  end_string_sum='None' "
+        sql_null = "update tb_vt_check_result set end_string_sum = 'NULL' where  end_string_sum='None' "
 
         # int
+        sql_int = "update tb_vt_check_result set int_sum = '' where  int_sum='no_int'"
 
-
+        mysql_conn_db.insert(sql_null)
+        mysql_conn_db.insert(sql_int)
 
 # # 启动
 # if __name__ == '__main__':
