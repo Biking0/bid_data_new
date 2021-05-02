@@ -27,6 +27,7 @@ import threading
 from Queue import Queue
 import vt_conn_db
 import mysql_conn_db
+import traceback
 
 excute_desc_sh = "hive -e"
 
@@ -147,6 +148,7 @@ class Vt_data_check():
         except Exception as e:
             print e
             print '异常'
+            print traceback.print_exc()
 
     # 检测表是否存在
     def check_table(self, table_name, database):
@@ -275,13 +277,22 @@ class Vt_data_check():
         print 'vt_result', result
 
         check_table_name = config.check_table_name
+
+        # 表名不带schama
         insert_sql = "insert into " + check_table_name + " (data_source,table_name,partition,count_num,end_string_sum,int_sum,remark,update_time) values('%s','%s','%s','%s','%s','%s','%s','%s')" % (
-            result[0][0], result[0][1], result[0][2], result[0][3], result[0][4], result[0][5], result[0][6],
+            result[0][0], result[0][1].split('.')[1], result[0][2], result[0][3], result[0][4], result[0][5], result[0][6],
             result[0][7])
 
         print 'insert_sql', insert_sql
 
         mysql_conn_db.insert(insert_sql)
+
+    # 修改稽核空数据，与hive稽核结果数据保持一致
+    def modify_result(self):
+
+        # NUll
+        sql_null="update tb_vt_check_result set end_string_sum = NULL where  end_string_sum='None' "
+
 
 # # 启动
 # if __name__ == '__main__':
