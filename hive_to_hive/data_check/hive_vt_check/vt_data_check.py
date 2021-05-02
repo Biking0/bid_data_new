@@ -278,7 +278,7 @@ class Vt_data_check():
 
         check_table_name = config.check_table_name
 
-        #  表名不带schama
+        # 表名不带schama
         insert_sql = "insert into " + check_table_name + " (data_source,table_name,partition,count_num,end_string_sum,int_sum,remark,update_time) values('%s','%s','%s','%s','%s','%s','%s','%s')" % (
             result[0][0], result[0][1].split('.')[1], result[0][2], result[0][3], result[0][4], result[0][5], result[0][6],
             result[0][7])
