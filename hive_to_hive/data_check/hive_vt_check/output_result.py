@@ -178,6 +178,19 @@ class Output_result():
             table_name, data_time)
         sum_strint_vt = mysql_conn_db.select(sum_strint_vt_sql)[0][0]
 
+        # hive_chk
+        count_vt_sql = "select count_num from tb_vt_check_result where table_name='%s' and partition='%s' " % (
+            table_name, data_time)
+        count_vt = mysql_conn_db.select(count_vt_sql)[0][0]
+
+        sum_int_vt_sql = "select int_sum from tb_vt_check_result where table_name='%s' and partition='%s' " % (
+            table_name, data_time)
+        sum_int_vt = mysql_conn_db.select(sum_int_vt_sql)[0][0]
+
+        sum_strint_vt_sql = "select end_string_sum from tb_vt_check_result where table_name='%s' and partition='%s' " % (
+            table_name, data_time)
+        sum_strint_vt = mysql_conn_db.select(sum_strint_vt_sql)[0][0]
+
 
 test = Output_result()
 test.read_table_name()
