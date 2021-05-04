@@ -21,6 +21,7 @@ import vt_data_check
 from datetime import datetime
 import datetime as date_time
 import threading
+import output_result
 
 
 # 主入口方法
@@ -36,6 +37,7 @@ class Main():
         hive = hive_data_check.Hive_data_check()
         hive_chk = hive_chk_data_check.Hive_data_check()
         vt = vt_data_check.Vt_data_check()
+        output = output_result.Output_result()
 
         # # 多线程初始化
         # hive_thread = threading.Thread(target=hive.read_table_name)
@@ -53,12 +55,8 @@ class Main():
 
         print '####################'
 
-    # 汇总结果
-    def out_result(self):
-
-        
-
-
+        # 汇总结果
+        # output.read_table_name()
 
 
 test = Main()

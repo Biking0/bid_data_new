@@ -35,6 +35,25 @@ class Hive_data_check():
         # chk_table_name = 'chk_result_' + table_num
         self.chk_table_name = 'tb_hive_check_result'
 
+        # 清理当天数据，支持重跑
+        today = datetime.date.today()
+
+        yestoday = today + datetime.timedelta(days=-1)
+
+        first = today.replace(day=1)
+        last_month = first - datetime.timedelta(days=1)
+
+        # print '# yestoday', yestoday
+
+        day_partition = 'statis_date=' + str(yestoday).replace('-', '')
+        month_partition = 'statis_month=' + str(last_month).replace('-', '')[:6]
+
+        delete_sql = " delete from %s where partition = '%s' or partition = '%s' " % (
+            self.chk_table_name, day_partition, month_partition)
+
+        print 'delete_sql', delete_sql
+        mysql_conn_db.insert(delete_sql)
+
     # mysql读取表名
     def read_table_name(self):
 
@@ -398,8 +417,8 @@ class Hive_data_check():
         print select_result
 
         insert_sql = "insert into  " + self.chk_table_name + "  (data_source,table_name,partition,count_num,end_string_sum,int_sum,remark,update_time) values ('%s','%s','%s','%s','%s','%s','%s','%s')  " % (
-        select_result[0], select_result[1], select_result[2], select_result[3], select_result[4], select_result[5],
-        select_result[6], select_result[7])
+            select_result[0], select_result[1], select_result[2], select_result[3], select_result[4], select_result[5],
+            select_result[6], select_result[7])
 
         mysql_conn_db.insert(insert_sql)
 
@@ -425,7 +444,6 @@ class Hive_data_check():
     #     print clear_sql_sh
     #
     #     # os.popen(clear_sql_sh)
-
 
 # test = Hive_data_check()
 # test.read_table_name()

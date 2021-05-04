@@ -32,7 +32,26 @@ class Output_result():
 
     def __init__(self):
         # chk_table_name = 'chk_result_' + table_num
-        self.chk_table_name = 'tb_hive_check_result'
+        self.chk_table_name = 'tb_check_result'
+
+        # 清理当天数据，支持重跑
+        today = datetime.date.today()
+
+        yestoday = today + datetime.timedelta(days=-1)
+
+        first = today.replace(day=1)
+        last_month = first - datetime.timedelta(days=1)
+
+        # print '# yestoday', yestoday
+
+        day_partition = 'statis_date=' + str(yestoday).replace('-', '')
+        month_partition = 'statis_month=' + str(last_month).replace('-', '')[:6]
+
+        delete_sql = " delete from %s where data_time = '%s' or data_time = '%s' " % (
+            self.chk_table_name, day_partition, month_partition)
+
+        print 'delete_sql', delete_sql
+        mysql_conn_db.insert(delete_sql)
 
     # mysql读取表名
     def read_table_name(self):
@@ -199,8 +218,6 @@ class Output_result():
             table_name, data_time, check_flag, check_flag_chk, count_vt, sum_int_vt, sum_strint_vt, count_hive,
             sum_int_hive, sum_strint_hive, count_chk, sum_int_chk, sum_strint_chk)
         mysql_conn_db.insert(update_sql)
-
-
 
 test = Output_result()
 test.read_table_name()
