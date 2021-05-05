@@ -172,6 +172,7 @@ class Vt_data_check():
     # 判断是否为分区表，
     def check_partition(self, table_name, partition_date, database):
         partition_str = "statis_date"
+        partition_month = "statis_month"
 
         get_partition_sql = "select  column_name from columns where column_name='" + partition_str + "'   and table_name=\'" + table_name + '\''
 
@@ -180,7 +181,21 @@ class Vt_data_check():
 
         # 无分区
         if len(result) == 0:
-            return ''
+            #return ''
+
+            # 没有检测到日分区，进行月分区检测
+            get_partition_sql = "select  column_name from columns where column_name='" + partition_month + "'   and table_name=\'" + table_name + '\''
+
+            print 'get_end_string_sql:', get_partition_sql
+            result = vt_conn_db.select(get_partition_sql, database)
+
+            # 确认无分区
+            if len(result) == 0:
+                return ''
+            # 有月分区
+            else:
+                return partition_str + '=\'' + partition_date + '\''
+                # return '\''+partition_date + '\''
 
         # 有分区
         else:
