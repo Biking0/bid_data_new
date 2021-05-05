@@ -155,7 +155,7 @@ class Output_result():
         check_flag = 0
         if len(check_flag_result) > 0: check_flag = 1
 
-        # check_flag，Vt与hive同名表稽核结果标记
+        # check_flag，Vt与hive稽核表稽核结果标记
         check_flag_chk_sql = "select * from tb_hive_chk_check_result a left join tb_vt_check_result b on a.table_name=b.table_name  where a.table_name ='%s' and a.partition='%s' and a.count_num=b.count_num and a.end_string_sum=b.end_string_sum and a.int_sum=b.int_sum " % (
             table_name, data_time)
 
@@ -217,7 +217,11 @@ class Output_result():
         update_sql = "insert into tb_check_result (table_name,data_time,check_flag,check_flag_chk,count_vt,sum_int_vt,sum_strint_vt,count_hive,sum_int_hive,sum_strint_hive,count_chk,sum_int_chk,sum_strint_chk) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')  " % (
             table_name, data_time, check_flag, check_flag_chk, count_vt, sum_int_vt, sum_strint_vt, count_hive,
             sum_int_hive, sum_strint_hive, count_chk, sum_int_chk, sum_strint_chk)
+
+        print '## update_sql', update_sql
+
         mysql_conn_db.insert(update_sql)
+
 
 test = Output_result()
 test.read_table_name()
