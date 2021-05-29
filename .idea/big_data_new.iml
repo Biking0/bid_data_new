@@ -5,6 +5,9 @@
     <orderEntry type="jdk" jdkName="Python 2.7" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="rss_assistant" />
+    <orderEntry type="module" module-name="extr_dispatch" />
+    <orderEntry type="module" module-name="extr_dispatch入hdfs" />
+    <orderEntry type="module" module-name="test" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />

@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/big_data_new.iml" filepath="$PROJECT_DIR$/.idea/big_data_new.iml" />
+      <module fileurl="file://$USER_HOME$/Desktop/杭州/extr_dispatch/.idea/extr_dispatch.iml" filepath="$USER_HOME$/Desktop/杭州/extr_dispatch/.idea/extr_dispatch.iml" />
+      <module fileurl="file://$USER_HOME$/Desktop/杭州/extr_dispatch入hdfs/.idea/extr_dispatch入hdfs.iml" filepath="$USER_HOME$/Desktop/杭州/extr_dispatch入hdfs/.idea/extr_dispatch入hdfs.iml" />
       <module fileurl="file://$PROJECT_DIR$/../rss_assistant/.idea/rss_assistant.iml" filepath="$PROJECT_DIR$/../rss_assistant/.idea/rss_assistant.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../github/test/.idea/test.iml" filepath="$PROJECT_DIR$/../../github/test/.idea/test.iml" />
     </modules>
   </component>
 </project>
