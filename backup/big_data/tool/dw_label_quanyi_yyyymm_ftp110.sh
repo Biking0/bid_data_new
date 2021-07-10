@@ -1,29 +1,29 @@
 #!/bin/bash
 # ***************************************************************************
-# ÎÄ¼þÃû³Æ£ºdw_label_quanyi_yyyymm_ftp110.sh
-# ¹¦ÄÜÃèÊö£º´«Êý¾Ýµ½½Ó¿Ú»ú110
-# Êä Èë ±í£º10.93.171.83£¬ocetl
-# Êä Èë     dw_label_quanyi_yyyymm_ftp110
-# Êä ³ö ±í£º
-# ´´ ½¨ Õß£ºhyn
-# ´´½¨ÈÕÆÚ£º20200228
-# ÐÞ¸ÄÈÕÖ¾£º
-# ÐÞ¸ÄÈÕÆÚ£º
+# ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Æ£ï¿½dw_label_quanyi_yyyymm_ftp110.sh
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½Ó¿Ú»ï¿½110
+# ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½10.93.171.83ï¿½ï¿½ocetl
+# ï¿½ï¿½ ï¿½ï¿½     dw_label_quanyi_yyyymm_ftp110
+# ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
+# ï¿½ï¿½ ï¿½ï¿½ ï¿½ß£ï¿½hyn
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½20200228
+# ï¿½Þ¸ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½
+# ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½Ú£ï¿½
 # ***************************************************************************
-# ³ÌÐòµ÷ÓÃ¸ñÊ½£ºsh test.sh test 20191231
-# ³ÌÐòµ÷ÓÃ¸ñÊ½£ºsh dw_label_quanyi_yyyymm_ftp110.sh dw_label_quanyi_yyyymm 202002
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½Ê½ï¿½ï¿½sh test.sh test 20191231
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½Ê½ï¿½ï¿½sh dw_label_quanyi_yyyymm_ftp110.sh dw_label_quanyi_yyyymm 202002
 # ***************************************************************************
 
-# ºóÌ¨ÔËÐÐ
+# ï¿½ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½
 #set -x
 
-# ÊäÈë²ÎÊý´¦Àí
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 table_name=$1
 month_id=$(echo $2|cut -c1-6 )
 #day_id=$2
 
 
-# Êý¾Ý±¾µØ´æ·ÅÂ·¾¶£¬´ÓhdfsÏÂÔØÊý¾Ý´æ·Åµ½±¾µØ
+# ï¿½ï¿½ï¿½Ý±ï¿½ï¿½Ø´ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hdfsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½
 local_data_path="/hdfs/data9/port_files/"
 
 data_path=${local_data_path}dw_label_quanyi_${month_id}
@@ -35,10 +35,10 @@ mkdir $data_path
 #echo ${table_name}_$month_id
 #echo ${local_data_path}${table_name}_$month_id.txt
 
-# ´´½¨Êý¾Ý´æ·ÅÎÄ¼þ
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½Ä¼ï¿½
 echo ${local_data_path}dw_label_quanyi_${month_id}/dw_label_quanyi_${month_id}.txt
 
-# hive±íµ¼³öµ½ÎÄ¼þ
+# hiveï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 hive -e "set hive.exec.compress.output=false;set hive.cli.print.header=false;
 select concat(
 trim(statis_month),'|',
@@ -47,7 +47,8 @@ city_id,'|',
 trim(phone_no),'|',
 trim(label_id)) from dw_label_quanyi_yyyymm where month_id=${month_id} ;" >${local_data_path}dw_label_quanyi_${month_id}/dw_label_quanyi_${month_id}.txt;
 
-# sftpÐ­Òé´«ÎÄ¼þµ½110
+# sftpÐ­ï¿½é´«ï¿½Ä¼ï¿½ï¿½ï¿½110
+
 sftp ftpintf@10.93.171.110 <<EOF
 
 mkdir /export/home/out_file/quanyi

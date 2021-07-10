@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/ambari_monitor/demo/demo.py" charset="GBK" />
     <file url="file://$PROJECT_DIR$/ambari_monitor/habse_api_help.txt" charset="GBK" />
     <file url="file://$PROJECT_DIR$/tool/check_flume_log.sh" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/tool/dw_label_quanyi_yyyymm_ftp110.sh" charset="GBK" />
   </component>
 </project>
