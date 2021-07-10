@@ -8,6 +8,7 @@
     <orderEntry type="module" module-name="extr_dispatch" />
     <orderEntry type="module" module-name="extr_dispatch入hdfs" />
     <orderEntry type="module" module-name="test" />
+    <orderEntry type="module" module-name="stock_monitor" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />
